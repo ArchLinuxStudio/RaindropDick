@@ -799,10 +799,12 @@ accept	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0
 accept	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/net/tcp/listener.rs	/^    pub async fn accept(&self) -> io::Result<(TcpStream, SocketAddr)> {$/;"	P	implementation:TcpListener
 accept	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/os/unix/net/listener.rs	/^    accept: Option<$/;"	m	struct:Incoming
 accept	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/os/unix/net/listener.rs	/^    pub async fn accept(&self) -> io::Result<(UnixStream, SocketAddr)> {$/;"	P	implementation:UnixListener
+add	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub add: String,$/;"	m	struct:MyButton
 add_fn	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/curses/n.rs	/^fn add_fn<F>(start: i32, with_key: F, map: &mut HashMap<i32, Event>)$/;"	f
 add_name	/home/cht/Rust/tv2ray/widgets/src/mainwindow.rs	/^fn add_name(s: &mut Cursive) {$/;"	f
 addr	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/net/mod.rs	/^mod addr;$/;"	n
 after	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/utils.rs	/^        pub(crate) fn after(dur: std::time::Duration) -> Self {$/;"	P	implementation:timer::Timer
+aid	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub aid: String,$/;"	m	struct:MyButton
 all	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/stream/stream/mod.rs	/^mod all;$/;"	n
 ancestors	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/path/mod.rs	/^mod ancestors;$/;"	n
 ancestors	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/path/path.rs	/^    pub fn ancestors(&self) -> Ancestors<'_> {$/;"	P	implementation:Path
@@ -907,7 +909,6 @@ cloned	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0
 cmp	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/stream/stream/mod.rs	/^mod cmp;$/;"	n
 colors	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/puppet/observed.rs	/^    pub colors: ColorPair,$/;"	m	struct:ObservedStyle
 colour_to_blt_colour	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/blt.rs	/^fn colour_to_blt_colour(clr: Color, role: ColorRole) -> BltColor {$/;"	f
-company	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub company:String,$/;"	m	struct:MyButton
 components	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/path/mod.rs	/^mod components;$/;"	n
 components	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/path/path.rs	/^    pub fn components(&self) -> Components<'_> {$/;"	P	implementation:Path
 cond	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/sync/condvar.rs	/^    cond: &'a Condvar,$/;"	m	struct:AwaitNotify
@@ -1196,9 +1197,11 @@ has_colors	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursi
 has_root	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/path/path.rs	/^    pub fn has_root(&self) -> bool {$/;"	P	implementation:Path
 hash_map	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/collections/mod.rs	/^pub mod hash_map;$/;"	n
 hash_set	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/collections/mod.rs	/^pub mod hash_set;$/;"	n
+host	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub host: String,$/;"	m	struct:MyButton
 id	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/task/task.rs	/^    id: TaskId,$/;"	m	struct:Task
 id	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/task/task.rs	/^    pub fn id(&self) -> TaskId {$/;"	P	implementation:Task
 id	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/task/task_locals_wrapper.rs	/^    pub fn id(&self) -> TaskId {$/;"	P	implementation:TaskLocalsWrapper
+id	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub id: String,$/;"	m	struct:MyButton
 impl_cmp	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/path/path.rs	/^macro_rules! impl_cmp {$/;"	M
 impl_cmp_os_str	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/path/path.rs	/^macro_rules! impl_cmp_os_str {$/;"	M
 incoming	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/net/tcp/listener.rs	/^    pub fn incoming(&self) -> Incoming<'_> {$/;"	P	implementation:TcpListener
@@ -1365,10 +1368,10 @@ name	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src
 name	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/task/builder.rs	/^    pub fn name(mut self, name: String) -> Builder {$/;"	P	implementation:Builder
 name	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/task/task.rs	/^    name: Option<Arc<String>>,$/;"	m	struct:Task
 name	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/task/task.rs	/^    pub fn name(&self) -> Option<&str> {$/;"	P	implementation:Task
-name	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub name : String,$/;"	m	struct:MyButton
 ncurses	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/cursive_runnable.rs	/^    pub fn ncurses() -> Self {$/;"	P	implementation:CursiveRunnable
 ncurses	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/lib.rs	/^pub fn ncurses() -> CursiveRunnable {$/;"	f
 ne	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/stream/stream/mod.rs	/^mod ne;$/;"	n
+net	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub net: String,$/;"	m	struct:MyButton
 new	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/puppet/observed.rs	/^    fn new($/;"	P	implementation:ObservedLine
 new	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/puppet/observed.rs	/^    fn new(parent: &'a ObservedScreen, min: Vec2, max: Vec2) -> Self {$/;"	P	implementation:ObservedPiece
 new	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/puppet/observed.rs	/^    pub fn new($/;"	P	implementation:ObservedCell
@@ -1514,6 +1517,7 @@ parse_next	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursi
 partial_cmp	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/stream/stream/mod.rs	/^mod partial_cmp;$/;"	n
 path	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/fs/dir_entry.rs	/^    pub fn path(&self) -> PathBuf {$/;"	P	implementation:DirEntry
 path	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/path/mod.rs	/^mod path;$/;"	n
+path	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub path: String,$/;"	m	struct:MyButton
 pathbuf	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/path/mod.rs	/^mod pathbuf;$/;"	n
 peek	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/net/tcp/stream.rs	/^    pub async fn peek(&self, buf: &mut [u8]) -> io::Result<usize> {$/;"	P	implementation:TcpStream
 peek	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/net/udp/mod.rs	/^    pub async fn peek(&self, buf: &mut [u8]) -> io::Result<usize> {$/;"	P	implementation:UdpSocket
@@ -1700,7 +1704,7 @@ poll_write	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1
 poll_write_vectored	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/io/cursor.rs	/^    fn poll_write_vectored($/;"	P	implementation:Cursor
 poll_write_vectored	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/net/tcp/stream.rs	/^    fn poll_write_vectored($/;"	P	implementation:TcpStream
 pop	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/path/pathbuf.rs	/^    pub fn pop(&mut self) -> bool {$/;"	P	implementation:PathBuf
-port	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub port :String,$/;"	m	struct:MyButton
+port	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub port: String,$/;"	m	struct:MyButton
 pos	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/puppet/observed.rs	/^    pub pos: Vec2,$/;"	m	struct:ObservedCell
 position	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/io/cursor.rs	/^    pub fn position(&self) -> u64 {$/;"	P	implementation:Cursor
 position	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/stream/stream/mod.rs	/^mod position;$/;"	n
@@ -1723,8 +1727,10 @@ println	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.
 product	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/option/product.rs	/^    fn product<'a, S>(stream: S) -> Pin<Box<dyn Future<Output = Option<T>> + 'a>>$/;"	f
 product	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/result/product.rs	/^    fn product<'a, S>(stream: S) -> Pin<Box<dyn Future<Output = Result<T, E>> + 'a>>$/;"	f
 product	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/stream/product.rs	/^    fn product<'a, S>(stream: S) -> Pin<Box<dyn Future<Output = Self> + 'a>>$/;"	P	interface:Product
+ps	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub ps: String,$/;"	m	struct:MyButton
 puppet	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/mod.rs	/^pub mod puppet;$/;"	n
 push	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/path/pathbuf.rs	/^    pub fn push<P: AsRef<Path>>(&mut self, path: P) {$/;"	P	implementation:PathBuf
+quit	/home/cht/Rust/tv2ray/widgets/src/mainwindow.rs	/^fn quit(s: &mut Cursive){$/;"	f
 random	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/utils.rs	/^pub fn random(n: u32) -> u32 {$/;"	f
 read	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/fs/mod.rs	/^mod read;$/;"	n
 read	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/fs/open_options.rs	/^    pub fn read(&mut self, read: bool) -> &mut OpenOptions {$/;"	P	implementation:OpenOptions
@@ -1946,6 +1952,7 @@ timeout	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.
 timeout	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/io/timeout.rs	/^pub async fn timeout<F, T>(dur: Duration, f: F) -> io::Result<T>$/;"	f
 timer	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/utils.rs	/^mod timer {$/;"	n
 timer_after	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/utils.rs	/^pub(crate) fn timer_after(dur: std::time::Duration) -> timer::Timer {$/;"	f
+tls	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub tls: String,$/;"	m	struct:MyButton
 to_owned	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/path/path.rs	/^    fn to_owned(&self) -> PathBuf {$/;"	P	implementation:Path
 to_path_buf	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/path/path.rs	/^    pub fn to_path_buf(&self) -> PathBuf {$/;"	P	implementation:Path
 to_socket_addrs	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/net/addr.rs	/^    fn to_socket_addrs($/;"	P	implementation:SocketAddr
@@ -1974,6 +1981,7 @@ try_runner	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursi
 try_with	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/task/task_local.rs	/^    pub fn try_with<F, R>(&'static self, f: F) -> Result<R, AccessError>$/;"	P	implementation:LocalKey
 ttl	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/net/tcp/stream.rs	/^    pub fn ttl(&self) -> io::Result<u32> {$/;"	P	implementation:TcpStream
 ttl	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/net/udp/mod.rs	/^    pub fn ttl(&self) -> io::Result<u32> {$/;"	P	implementation:UdpSocket
+typpe	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub typpe: String$/;"	m	struct:MyButton
 u16	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/net/addr.rs	/^impl ToSocketAddrs for (&str, u16) {$/;"	c
 u16	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/net/addr.rs	/^impl ToSocketAddrs for (IpAddr, u16) {$/;"	c
 u16	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/net/addr.rs	/^impl ToSocketAddrs for (Ipv4Addr, u16) {$/;"	c
@@ -1990,7 +1998,7 @@ unset_effect	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cur
 unwrap	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/puppet/observed.rs	/^    pub fn unwrap(&self) -> String {$/;"	P	implementation:GraphemePart
 url_buttons	/home/cht/Rust/tv2ray/widgets/src/mainwindow.rs	/^pub fn url_buttons() -> Dialog {$/;"	f
 url_select	/home/cht/Rust/tv2ray/widgets/src/mainwindow.rs	/^fn url_select() -> ResizedView<ScrollView<NamedView<SelectView<MyButton>>>> {$/;"	f
-urls	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub urls : String,$/;"	m	struct:MyButton
+urls	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub urls: String,$/;"	m	struct:MyButton
 utf8	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/lib.rs	/^mod utf8;$/;"	n
 utils	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/lib.rs	/^mod utils;$/;"	n
 value	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/fs/file.rs	/^    value: UnsafeCell<T>,$/;"	m	struct:LockState

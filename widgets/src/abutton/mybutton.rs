@@ -17,18 +17,29 @@ fn ascii_to_string(code:Vec<u8>) -> String{
 }
 #[derive(Clone)]
 pub struct MyButton {
-    pub urls : String,
-    pub name : String,
-    pub port :String,
+    //pub urls : String,
+    //pub name : String,
+    //pub port :String,
     pub func :String,
-    pub company:String,
+    //pub company:String,
+    pub urls: String,
+    pub add: String,
+    pub aid: String,
+    pub host: String,
+    pub id: String,
+    pub net: String,
+    pub path: String,
+    pub port: String,
+    pub ps: String,
+    pub tls: String,
+    pub typpe: String
 
 }
 
 impl MyButton{
     pub fn output(&self) -> Dialog {
-        Dialog::text(format!("Name:{}\nUrl:{}\nport:{}\nfunction:{}\ncompany:{}", self.name,self.urls,self.port,self.func,self.company))
-                .title(format!("{}", self.company))
+        Dialog::text(format!("Name:{}\nUrl:{}\nport:{}\nfunction:{}\ncompany:{}", self.ps,self.urls,self.port,self.func,self.add))
+                .title(format!("{}", self.add))
                 //.button("Quit", Cursive::quit)
                 .button("quit", |s|{
                     s.pop_layer();
@@ -51,10 +62,18 @@ impl MyButton{
             Tcp::Ss => {
                 return MyButton{
                     urls : url,
-                    name : "unknown".to_string(),
-                    port : "unknown".to_string(),
                     func : "ss".to_string(),
-                    company : "unknown".to_string(),
+                    add : "unknown".to_string(),
+                    aid : "unknown".to_string(),
+                    host : "unknown".to_string(),
+                    id : "unknown".to_string(),
+                    net: "unknown".to_string(),
+                    path: "unknown".to_string(),
+                    port : "unknown".to_string(),
+                    ps : "unknown".to_string(),
+                    tls : "unknown".to_string(),
+                    typpe : "unknown".to_string()
+
                 }
             },
             Tcp::V2 => {
@@ -63,22 +82,38 @@ impl MyButton{
                 let v : Result<Value> = serde_json::from_str(json.as_str());
                 match v {
                     Ok(input)=>{
-                    return MyButton{
-                        name : input["ps"].to_string(),
-                        urls: url,
-                        port : input["port"].to_string(),
-                        func : "v2".to_string(),
-                        company : input["add"].to_string(),
-                
-                    }}
+                        return MyButton{
+                            //company : input["add"].to_string(),
+                            urls : url,
+                            func : "v2".to_string(),
+                            add : input["add"].to_string(),
+                            aid : input["aid"].to_string(),
+                            host : input["host"].to_string(),
+                            id : input["id"].to_string(),
+                            net : input["net"].to_string(),
+                            path : input["path"].to_string(),
+                            port : input["port"].to_string(),
+                            ps : input["ps"].to_string(),
+                            tls : input["tls"].to_string(),
+                            typpe : input["type"].to_string()
+                        }}
                     Err(_)=>{
                         return MyButton{
-                            name : "ps".to_string(),
-                            urls: url,
-                            port : "port".to_string(),
+                            urls : url,
                             func : "v2".to_string(),
-                            company :"add".to_string(),
+                            add : "unknown".to_string(),
+                            aid : "unknown".to_string(),
+                            host : "unknown".to_string(),
+                            id : "unknown".to_string(),
+                            net: "unknown".to_string(),
+                            path: "unknown".to_string(),
+                            port : "unknown".to_string(),
+                            ps : "unknown".to_string(),
+                            tls : "unknown".to_string(),
+                            typpe : "unknown".to_string()
+
                         }
+
                     }
                 }
 

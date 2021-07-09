@@ -672,11 +672,13 @@ WriterFormatter	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_
 abutton	/home/cht/Rust/tv2ray/widgets/src/lib.rs	/^pub mod abutton;$/;"	n
 add	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/math.rs	/^    pub fn add(x: &[Limb], y: &[Limb]) -> Vec<Limb> {$/;"	f	module:large
 add	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/math.rs	/^    pub fn add(x: Limb, y: Limb) -> (Limb, bool) {$/;"	f	module:scalar
+add	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub add: String,$/;"	m	struct:MyButton
 add_digit	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/digit.rs	/^pub(crate) fn add_digit(value: u64, digit: u32) -> Option<u64> {$/;"	f
 add_fn	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/curses/n.rs	/^fn add_fn<F>(start: i32, with_key: F, map: &mut HashMap<i32, Event>)$/;"	f
 add_name	/home/cht/Rust/tv2ray/widgets/src/mainwindow.rs	/^fn add_name(s: &mut Cursive) {$/;"	f
 add_padding	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.13.0/src/encode.rs	/^pub fn add_padding(input_len: usize, output: &mut [u8]) -> usize {$/;"	f
 add_padding_random_valid_utf8	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.13.0/src/encode.rs	/^    fn add_padding_random_valid_utf8() {$/;"	f	module:tests
+aid	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub aid: String,$/;"	m	struct:MyButton
 algorithm	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/mod.rs	/^pub(crate) mod algorithm;$/;"	n
 and_modify	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/map.rs	/^    pub fn and_modify<F>(self, f: F) -> Self$/;"	P	implementation:Entry
 append	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/map.rs	/^    pub fn append(&mut self, other: &mut Self) {$/;"	P	implementation:Map
@@ -791,7 +793,6 @@ colour_to_blt_colour	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3eb
 column	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/error.rs	/^    column: usize,$/;"	m	struct:ErrorImpl
 column	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/error.rs	/^    pub fn column(&self) -> usize {$/;"	P	implementation:Error
 column	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/read.rs	/^    pub column: usize,$/;"	m	struct:Position
-company	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub company:String,$/;"	m	struct:MyButton
 compare	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/math.rs	/^    fn compare(&self, y: &Self) -> cmp::Ordering {$/;"	P	interface:Math
 compare	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/math.rs	/^    pub fn compare(x: &[Limb], y: &[Limb]) -> cmp::Ordering {$/;"	f	module:large
 config	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.13.0/src/chunked_encoder.rs	/^    config: Config,$/;"	m	struct:ChunkedEncoder
@@ -1213,12 +1214,14 @@ hi64_3	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.
 hi64_3	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/math.rs	/^    fn hi64_3(&self) -> (u64, bool) {$/;"	P	implementation:u64
 hi64_3	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/math.rs	/^    fn hi64_3(&self) -> (u64, bool);$/;"	P	interface:Hi64
 hide_from_rustfmt	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/features_check/mod.rs	/^macro_rules! hide_from_rustfmt {$/;"	M
+host	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub host: String,$/;"	m	struct:MyButton
 iadd	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/math.rs	/^    pub fn iadd(x: &mut Limb, y: Limb) -> bool {$/;"	f	module:scalar
 iadd	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/math.rs	/^    pub fn iadd(x: &mut Vec<Limb>, y: &[Limb]) {$/;"	f	module:large
 iadd	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/math.rs	/^    pub fn iadd(x: &mut Vec<Limb>, y: Limb) {$/;"	f	module:small
 iadd_impl	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/math.rs	/^    pub fn iadd_impl(x: &mut Vec<Limb>, y: &[Limb], xstart: usize) {$/;"	f	module:large
 iadd_impl	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/math.rs	/^    pub fn iadd_impl(x: &mut Vec<Limb>, y: Limb, xstart: usize) {$/;"	f	module:small
 iadd_small	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/math.rs	/^    fn iadd_small(&mut self, y: Limb) {$/;"	P	interface:Math
+id	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub id: String,$/;"	m	struct:MyButton
 if_checking_recursion_limit	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/de.rs	/^macro_rules! if_checking_recursion_limit {$/;"	M
 ignore_decimal	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/de.rs	/^    fn ignore_decimal(&mut self) -> Result<()> {$/;"	P	implementation:Deserializer
 ignore_escape	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/read.rs	/^fn ignore_escape<'de, R>(read: &mut R) -> Result<()>$/;"	f
@@ -1458,10 +1461,10 @@ name	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src
 name	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/termion.rs	/^    fn name(&self) -> &str {$/;"	P	implementation:Backend
 name	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/value/ser.rs	/^    name: String,$/;"	m	struct:SerializeStructVariant
 name	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/value/ser.rs	/^    name: String,$/;"	m	struct:SerializeTupleVariant
-name	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub name : String,$/;"	m	struct:MyButton
 ncurses	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/cursive_runnable.rs	/^    pub fn ncurses() -> Self {$/;"	P	implementation:CursiveRunnable
 ncurses	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/lib.rs	/^pub fn ncurses() -> CursiveRunnable {$/;"	f
 nearest_error_is_accurate	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/errors.rs	/^fn nearest_error_is_accurate(errors: u64, fp: &ExtendedFloat, extrabits: u64) -> bool {$/;"	f
+net	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub net: String,$/;"	m	struct:MyButton
 new	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/puppet/observed.rs	/^    fn new($/;"	P	implementation:ObservedLine
 new	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/puppet/observed.rs	/^    fn new(parent: &'a ObservedScreen, min: Vec2, max: Vec2) -> Self {$/;"	P	implementation:ObservedPiece
 new	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/puppet/observed.rs	/^    pub fn new($/;"	P	implementation:ObservedCell
@@ -1603,6 +1606,7 @@ parse_truncated_float	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/
 parse_whitespace	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/de.rs	/^    fn parse_whitespace(&mut self) -> Result<Option<u8>> {$/;"	P	implementation:Deserializer
 partial_eq	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/value/mod.rs	/^mod partial_eq;$/;"	n
 partialeq_numeric	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/value/partial_eq.rs	/^macro_rules! partialeq_numeric {$/;"	M
+path	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub path: String,$/;"	m	struct:MyButton
 peek	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/de.rs	/^    fn peek(&mut self) -> Result<Option<u8>> {$/;"	P	implementation:Deserializer
 peek	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/read.rs	/^    fn peek(&mut self) -> Result<Option<u8>> {$/;"	P	implementation:SliceRead
 peek	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/read.rs	/^    fn peek(&mut self) -> Result<Option<u8>> {$/;"	P	implementation:StrRead
@@ -1625,7 +1629,7 @@ poll_event	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursi
 poll_event	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/curses/pan.rs	/^    fn poll_event(&mut self) -> Option<Event> {$/;"	P	implementation:Backend
 poll_event	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/puppet/mod.rs	/^    fn poll_event(&mut self) -> Option<Event> {$/;"	P	implementation:Backend
 poll_event	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/termion.rs	/^    fn poll_event(&mut self) -> Option<Event> {$/;"	P	implementation:Backend
-port	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub port :String,$/;"	m	struct:MyButton
+port	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub port: String,$/;"	m	struct:MyButton
 pos	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/puppet/observed.rs	/^    pub pos: Vec2,$/;"	m	struct:ObservedCell
 position	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/read.rs	/^    fn position(&self) -> Position {$/;"	P	implementation:SliceRead
 position	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/read.rs	/^    fn position(&self) -> Position {$/;"	P	implementation:StrRead
@@ -1651,7 +1655,9 @@ print_at_rep	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cur
 print_stdout	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/puppet/observed.rs	/^    pub fn print_stdout(&self) {$/;"	P	implementation:ObservedScreen
 private	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/read.rs	/^mod private {$/;"	n
 private	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/value/index.rs	/^mod private {$/;"	n
+ps	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub ps: String,$/;"	m	struct:MyButton
 puppet	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/mod.rs	/^pub mod puppet;$/;"	n
+quit	/home/cht/Rust/tv2ray/widgets/src/mainwindow.rs	/^fn quit(s: &mut Cursive){$/;"	f
 r	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.13.0/src/read/decoder.rs	/^    r: &'a mut R,$/;"	m	struct:DecoderReader
 random_config	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.13.0/src/tests.rs	/^pub fn random_config<R: Rng>(rng: &mut R) -> Config {$/;"	f
 raw	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lib.rs	/^mod raw;$/;"	n
@@ -2049,6 +2055,7 @@ tests	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.13.0/sr
 tests	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.13.0/src/lib.rs	/^mod tests;$/;"	n
 tests	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.13.0/src/write/encoder_string_writer.rs	/^mod tests {$/;"	n
 tie_even	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/rounding.rs	/^pub(crate) fn tie_even(fp: &mut ExtendedFloat, is_above: bool, is_halfway: bool) {$/;"	f
+tls	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub tls: String,$/;"	m	struct:MyButton
 to_bits	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/num.rs	/^    fn to_bits(self) -> Self::Unsigned;$/;"	P	interface:Float
 to_bits	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/num.rs	/^    fn to_bits(self) -> u32 {$/;"	P	implementation:f32
 to_bits	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/num.rs	/^    fn to_bits(self) -> u64 {$/;"	P	implementation:f64
@@ -2078,6 +2085,7 @@ tuple_variant	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_js
 tuple_variant	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/value/de.rs	/^    fn tuple_variant<V>(self, _len: usize, _visitor: V) -> Result<V::Value, Error>$/;"	P	implementation:UnitOnly
 tuple_variant	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/value/de.rs	/^    fn tuple_variant<V>(self, _len: usize, visitor: V) -> Result<V::Value, Error>$/;"	P	implementation:VariantDeserializer
 tuple_variant	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/value/de.rs	/^    fn tuple_variant<V>(self, _len: usize, visitor: V) -> Result<V::Value, Error>$/;"	P	implementation:VariantRefDeserializer
+typpe	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub typpe: String$/;"	m	struct:MyButton
 u32	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/math.rs	/^impl Hi64<u32> for [u32] {$/;"	c
 u64	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/errors.rs	/^impl FloatErrors for u64 {$/;"	c
 u64	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/math.rs	/^impl Hi64<u64> for [u64] {$/;"	c
@@ -2101,7 +2109,7 @@ unset_effect	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cur
 unwrap	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/puppet/observed.rs	/^    pub fn unwrap(&self) -> String {$/;"	P	implementation:GraphemePart
 url_buttons	/home/cht/Rust/tv2ray/widgets/src/mainwindow.rs	/^pub fn url_buttons() -> Dialog {$/;"	f
 url_select	/home/cht/Rust/tv2ray/widgets/src/mainwindow.rs	/^fn url_select() -> ResizedView<ScrollView<NamedView<SelectView<MyButton>>>> {$/;"	f
-urls	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub urls : String,$/;"	m	struct:MyButton
+urls	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub urls: String,$/;"	m	struct:MyButton
 usize	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/value/index.rs	/^    impl Sealed for usize {}$/;"	c	module:private
 usize	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/value/index.rs	/^impl Index for usize {$/;"	c
 utf8	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/lib.rs	/^mod utf8;$/;"	n

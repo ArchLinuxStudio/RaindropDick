@@ -43,7 +43,7 @@ pub fn url_buttons() -> Dialog {
         .child(Button::new("Add new", add_name))
         .child(Button::new("Delete", delete_name))
         .child(DummyView)
-        .child(Button::new("Quit", Cursive::quit));
+        .child(Button::new("Quit", quit));
     let dialog = Dialog::around(LinearLayout::horizontal()
                 .child(select)
                 .child(DummyView)
@@ -93,7 +93,7 @@ fn add_name(s: &mut Cursive) {
             for urls in output.into_iter(){
                 for url in urls.into_iter(){
                     let temp2 = MyButton::new(url);
-                    let names = temp2.clone().name;
+                    let names = temp2.clone().ps;
                     view.add_item(names, temp2);
                 }
             }
@@ -117,4 +117,6 @@ fn add_name(s: &mut Cursive) {
             s.pop_layer();
         }));
 }
-
+fn quit(s: &mut Cursive){
+    Cursive::quit(s);
+}
