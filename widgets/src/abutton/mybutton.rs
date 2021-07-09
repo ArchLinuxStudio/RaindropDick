@@ -61,18 +61,18 @@ impl MyButton{
         match test {
             Tcp::Ss => {
                 return MyButton{
-                    urls : url,
-                    func : "ss".to_string(),
-                    add : "unknown".to_string(),
-                    aid : "unknown".to_string(),
-                    host : "unknown".to_string(),
-                    id : "unknown".to_string(),
-                    net: "unknown".to_string(),
-                    path: "unknown".to_string(),
-                    port : "unknown".to_string(),
-                    ps : "unknown".to_string(),
-                    tls : "unknown".to_string(),
-                    typpe : "unknown".to_string()
+                    urls  : url,
+                    func  : "\"ss\"".to_string(),
+                    add   : "\"unknown\"".to_string(),
+                    aid   : "\"unknown\"".to_string(),
+                    host  : "\"unknown\"".to_string(),
+                    id    : "\"unknown\"".to_string(),
+                    net   : "\"unknown\"".to_string(),
+                    path  : "\"unknown\"".to_string(),
+                    port  : "\"unknown\"".to_string(),
+                    ps    : "\"unknown\"".to_string(),
+                    tls   : "\"unknown\"".to_string(),
+                    typpe : "\"unknown\"".to_string()
 
                 }
             },
@@ -85,7 +85,7 @@ impl MyButton{
                         return MyButton{
                             //company : input["add"].to_string(),
                             urls : url,
-                            func : "v2".to_string(),
+                            func : "\"v2\"".to_string(),
                             add : input["add"].to_string(),
                             aid : input["aid"].to_string(),
                             host : input["host"].to_string(),
@@ -99,18 +99,18 @@ impl MyButton{
                         }}
                     Err(_)=>{
                         return MyButton{
-                            urls : url,
-                            func : "v2".to_string(),
-                            add : "unknown".to_string(),
-                            aid : "unknown".to_string(),
-                            host : "unknown".to_string(),
-                            id : "unknown".to_string(),
-                            net: "unknown".to_string(),
-                            path: "unknown".to_string(),
-                            port : "unknown".to_string(),
-                            ps : "unknown".to_string(),
-                            tls : "unknown".to_string(),
-                            typpe : "unknown".to_string()
+                            urls  : url,
+                            func  : "\"v2\"".to_string(),
+                            add   : "\"unknown\"".to_string(),
+                            aid   : "\"unknown\"".to_string(),
+                            host  : "\"unknown\"".to_string(),
+                            id    : "\"unknown\"".to_string(),
+                            net   : "\"unknown\"".to_string(),
+                            path  : "\"unknown\"".to_string(),
+                            port  : "\"unknown\"".to_string(),
+                            ps    : "\"unknown\"".to_string(),
+                            tls   : "\"unknown\"".to_string(),
+                            typpe : "\"unknown\"".to_string()
 
                         }
 
