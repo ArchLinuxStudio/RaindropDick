@@ -32,6 +32,7 @@ pub fn ascii_to_char(code:u8) -> char {
     match code {
         10 => return '\n',
         13 => return ' ',
+        32 => return ' ',
         34 => return '\"',
         37 => return '%',
         35 => return '#',
@@ -114,7 +115,7 @@ pub fn ascii_to_char(code:u8) -> char {
         125 => return '}',
         _ => {
             println!("{}",code);
-            return '\n'
+            return '_'
         },
     }
 }

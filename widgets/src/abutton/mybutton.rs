@@ -1,6 +1,7 @@
 use cursive::views::Dialog;
 use spider::ascii_to_char;
 use serde_json::Value;
+use serde_json::Result;
 extern crate base64;
 
 enum Tcp {
@@ -59,18 +60,32 @@ impl MyButton{
             Tcp::V2 => {
                 let newurl=&url[8..];
                 let json = ascii_to_string(base64::decode(newurl.to_string().as_bytes()).unwrap());
-                let v : Value = serde_json::from_str(json.as_str()).unwrap();
-                return MyButton{
-                    name : v["ps"].to_string(),
-                    urls: url,
-                    port : v["port"].to_string(),
-                    func : "v2".to_string(),
-                    company : v["add"].to_string(),
+                let v : Result<Value> = serde_json::from_str(json.as_str());
+                match v {
+                    Ok(input)=>{
+                    return MyButton{
+                        name : input["ps"].to_string(),
+                        urls: url,
+                        port : input["port"].to_string(),
+                        func : "v2".to_string(),
+                        company : input["add"].to_string(),
+                
+                    }}
+                    Err(_)=>{
+                        return MyButton{
+                            name : "ps".to_string(),
+                            urls: url,
+                            port : "port".to_string(),
+                            func : "v2".to_string(),
+                            company :"add".to_string(),
+                        }
+                    }
                 }
 
-            },
+                
+            }
         }
     }
+} 
 
-}
 
