@@ -256,30 +256,31 @@ fn onload(s: &mut Cursive){
             s.add_layer(Dialog::info(why.to_string()));
         },
         Ok(_)=>{
-        s.call_on_name("select", |view: &mut SelectView<MyButton>| {
-            view.clear();
-            let v:Value = serde_json::from_str(ss.as_str()).unwrap();
-            let mut index = 0;
-            while v[index]!=Value::Null{
-                let url = MyButton{
-                    urls :v[index]["url"].to_string(),
-                    func :v[index]["func"].to_string(),
-                    add  :v[index]["add"].to_string(),
-                    aid  :v[index]["aid"].to_string(),
-                    host :v[index]["host"].to_string(),
-                    id   :v[index]["id"].to_string(),
-                    net  :v[index]["net"].to_string(),
-                    path :v[index]["path"].to_string(),
-                    port :v[index]["path"].to_string(),
-                    ps   :v[index]["ps"].to_string(),
-                    tls  :v[index]["tls"].to_string(),
-                    typpe:v[index]["type"].to_string()
-                };
-                let names = v[index]["ps"].to_string();
-                view.add_item(names, url);
-                index=index+1;
+            s.call_on_name("select", |view: &mut SelectView<MyButton>| {
+                view.clear();
+                let v:Value = serde_json::from_str(ss.as_str()).unwrap();
+                let mut index = 0;
+                while v[index]!=Value::Null{
+                    let url = MyButton{
+                        urls :v[index]["url"].to_string(),
+                        func :v[index]["func"].to_string(),
+                        add  :v[index]["add"].to_string(),
+                        aid  :v[index]["aid"].to_string(),
+                        host :v[index]["host"].to_string(),
+                        id   :v[index]["id"].to_string(),
+                        net  :v[index]["net"].to_string(),
+                        path :v[index]["path"].to_string(),
+                        port :v[index]["path"].to_string(),
+                        ps   :v[index]["ps"].to_string(),
+                        tls  :v[index]["tls"].to_string(),
+                        typpe:v[index]["type"].to_string()
+                    };
+                    let names = v[index]["ps"].to_string();
+                    view.add_item(names, url);
+                    index=index+1;
+                }
             }
-        });
+            );
         }
     }
 }
