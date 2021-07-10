@@ -806,6 +806,7 @@ consume_with_short_reads_and_validate	/home/cht/.cargo/registry/src/github.com-1
 contains_key	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/map.rs	/^    pub fn contains_key<Q>(&self, key: &Q) -> bool$/;"	P	implementation:Map
 contents	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/puppet/observed.rs	/^    contents: Vec<Option<ObservedCell>>,$/;"	m	struct:ObservedScreen
 core	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lib.rs	/^    mod core {$/;"	n	module:lib
+create_storage_before	/home/cht/Rust/tv2ray/widgets/src/mainwindow.rs	/^fn create_storage_before(){$/;"	f
 crossterm	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/mod.rs	/^pub mod crossterm;$/;"	n
 crossterm	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/cursive_runnable.rs	/^    pub fn crossterm() -> Self {$/;"	P	implementation:CursiveRunnable
 crossterm	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/lib.rs	/^pub fn crossterm() -> CursiveRunnable {$/;"	f

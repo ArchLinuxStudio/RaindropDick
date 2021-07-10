@@ -938,6 +938,7 @@ create_dir	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1
 create_dir_all	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/fs/create_dir_all.rs	/^pub async fn create_dir_all<P: AsRef<Path>>(path: P) -> io::Result<()> {$/;"	f
 create_dir_all	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/fs/mod.rs	/^mod create_dir_all;$/;"	n
 create_new	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/fs/open_options.rs	/^    pub fn create_new(&mut self, create_new: bool) -> &mut OpenOptions {$/;"	P	implementation:OpenOptions
+create_storage_before	/home/cht/Rust/tv2ray/widgets/src/mainwindow.rs	/^fn create_storage_before(){$/;"	f
 crossterm	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/mod.rs	/^pub mod crossterm;$/;"	n
 crossterm	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/cursive_runnable.rs	/^    pub fn crossterm() -> Self {$/;"	P	implementation:CursiveRunnable
 crossterm	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/lib.rs	/^pub fn crossterm() -> CursiveRunnable {$/;"	f

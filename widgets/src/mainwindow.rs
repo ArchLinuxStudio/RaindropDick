@@ -6,6 +6,7 @@ use futures::executor::block_on;
 use std::io::prelude::*;
 use std::fs::File;
 use std::path::Path;
+use std::{fs,env};
 use serde_json::Value;
 use crate::abutton::mybutton::MyButton;
 //#[derive(Clone)]
@@ -30,15 +31,22 @@ use crate::abutton::mybutton::MyButton;
 //        println!("sss");
 //    }
 //}
+fn create_storage_before(){
+    let home = env::var("HOME").unwrap();
+    fs::create_dir_all(home+"/.config/tv2ray").unwrap();
+}
 fn url_select() -> ResizedView<ScrollView<NamedView<SelectView<MyButton>>>> {
     let mut start = SelectView::<MyButton>::new()
         .on_submit(on_submit);
-    let path = Path::new("storage.json");
+    create_storage_before();
+    let home = env::var("HOME").unwrap();
+    let location = home+"/.config/tv2ray/storage.json";
+    let path = Path::new(location.as_str());
     //let display = path.display();
     let mut file = match File::open(&path) {
         // `io::Error` 的 `description` 方法返回一个描述错误的字符串。
         Err(_) => {
-            let path2 = Path::new("storage.json");
+            let path2 = Path::new(location.as_str());
             let display2 = path2.display();
             let mut file2 = match File::create(&path2) {
                 Err(why) => panic!("couldn't create {}: {}",
@@ -57,7 +65,7 @@ fn url_select() -> ResizedView<ScrollView<NamedView<SelectView<MyButton>>>> {
                 Ok(_) => {
                 },
             }
-            let path3 = Path::new("storage.json");
+            let path3 = Path::new(location.as_str());
             File::open(&path3).unwrap()
 
         }
@@ -198,7 +206,12 @@ format!("{{
                 storge.push('\n');
                 storge.push(']');
             }
-            let path2 = Path::new("storage.json");
+            //Get the Home
+            let home = env::var("HOME").unwrap();
+            let location = home+"/.config/tv2ray/storage.json";
+            let path2 = Path::new(location.as_str());
+            //let display = path.display();
+            //let path2 = Path::new("storage.json");
             let display2 = path2.display();
             let mut file2 = match File::create(&path2) {
                 Err(why) => panic!("couldn't create {}: {}",
