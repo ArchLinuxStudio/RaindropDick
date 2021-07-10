@@ -1725,6 +1725,7 @@ run_termion	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/curs
 run_termion	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/cursive_ext.rs	/^    fn run_termion(&mut self) -> std::io::Result<()>;$/;"	P	interface:CursiveExt
 runner	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/cursive_runnable.rs	/^    pub fn runner(&mut self) -> CursiveRunner<&mut Cursive> {$/;"	P	implementation:CursiveRunnable
 running	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/termion.rs	/^    running: Arc<AtomicBool>,$/;"	m	struct:Backend
+running_json	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^        fn running_json(s: &mut Cursive,name: &MyButton){$/;"	f	method:MyButton::output
 scalar	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lexical/math.rs	/^mod scalar {$/;"	n
 scan_decimal	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/de.rs	/^    fn scan_decimal(&mut self, buf: &mut String) -> Result<()> {$/;"	P	implementation:Deserializer
 scan_exponent	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/de.rs	/^    fn scan_exponent(&mut self, buf: &mut String) -> Result<()> {$/;"	P	implementation:Deserializer

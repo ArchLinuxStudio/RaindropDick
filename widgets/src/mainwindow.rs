@@ -90,7 +90,7 @@ fn url_select() -> ResizedView<ScrollView<NamedView<SelectView<MyButton>>>> {
                     id   :v[index]["id"].to_string(),
                     net  :v[index]["net"].to_string(),
                     path :v[index]["path"].to_string(),
-                    port :v[index]["path"].to_string(),
+                    port :v[index]["port"].to_string(),
                     ps   :v[index]["ps"].to_string(),
                     tls  :v[index]["tls"].to_string(),
                     typpe:v[index]["type"].to_string()
