@@ -1487,6 +1487,7 @@ on_mouse_event	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/c
 on_submit	/home/cht/Rust/tv2ray/widgets/src/mainwindow.rs	/^fn on_submit(s: &mut Cursive, name: &MyButton) {$/;"	f
 once	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/stream/mod.rs	/^mod once;$/;"	n
 once	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/stream/once.rs	/^pub fn once<T>(t: T) -> Once<T> {$/;"	f
+onload	/home/cht/Rust/tv2ray/widgets/src/mainwindow.rs	/^fn onload(s: &mut Cursive){$/;"	f
 open	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/fs/file.rs	/^    pub async fn open<P: AsRef<Path>>(path: P) -> io::Result<File> {$/;"	P	implementation:File
 open	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/fs/open_options.rs	/^    pub fn open<P: AsRef<Path>>(&self, path: P) -> impl Future<Output = io::Result<File>> {$/;"	P	implementation:OpenOptions
 open_options	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/fs/mod.rs	/^mod open_options;$/;"	n

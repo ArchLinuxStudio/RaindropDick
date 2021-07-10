@@ -1544,6 +1544,7 @@ ok	/home/cht/Rust/tv2ray/widgets/src/mainwindow.rs	/^    fn ok(s: &mut Cursive, 
 on_mouse_event	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/curses/n.rs	/^fn on_mouse_event<F>(bare_event: i32, mut f: F)$/;"	f
 on_mouse_event	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/curses/pan.rs	/^fn on_mouse_event<F>(bare_event: mmask_t, mut f: F)$/;"	f
 on_submit	/home/cht/Rust/tv2ray/widgets/src/mainwindow.rs	/^fn on_submit(s: &mut Cursive, name: &MyButton) {$/;"	f
+onload	/home/cht/Rust/tv2ray/widgets/src/mainwindow.rs	/^fn onload(s: &mut Cursive){$/;"	f
 or_insert	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/map.rs	/^    pub fn or_insert(self, default: Value) -> &'a mut Value {$/;"	P	implementation:Entry
 or_insert_with	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/map.rs	/^    pub fn or_insert_with<F>(self, default: F) -> &'a mut Value$/;"	P	implementation:Entry
 output	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.13.0/src/write/encoder.rs	/^    output: [u8; BUF_SIZE],$/;"	m	struct:EncoderWriter

@@ -6,6 +6,7 @@ use futures::executor::block_on;
 use std::io::prelude::*;
 use std::fs::File;
 use std::path::Path;
+use serde_json::Value;
 use crate::abutton::mybutton::MyButton;
 //#[derive(Clone)]
 //pub struct MyButton {
@@ -30,8 +31,70 @@ use crate::abutton::mybutton::MyButton;
 //    }
 //}
 fn url_select() -> ResizedView<ScrollView<NamedView<SelectView<MyButton>>>> {
-    let select = SelectView::<MyButton>::new()
-        .on_submit(on_submit)
+    let mut start = SelectView::<MyButton>::new()
+        .on_submit(on_submit);
+    let path = Path::new("storage.json");
+    //let display = path.display();
+    let mut file = match File::open(&path) {
+        // `io::Error` 的 `description` 方法返回一个描述错误的字符串。
+        Err(_) => {
+            let path2 = Path::new("storage.json");
+            let display2 = path2.display();
+            let mut file2 = match File::create(&path2) {
+                Err(why) => panic!("couldn't create {}: {}",
+                                   display2,
+                                   why.to_string()),
+                Ok(file2) => file2,
+            };
+            let mut storge2:String = String::new();
+            storge2.push_str("[]");
+            // 将 `LOREM_IPSUM` 字符串写进 `file`，返回 `io::Result<()>`
+            match file2.write_all(storge2.as_bytes()) {
+                Err(why) => {
+                    panic!("couldn't write to {}: {}", display2,
+                                                       why.to_string())
+                },
+                Ok(_) => {
+                },
+            }
+            let path3 = Path::new("storage.json");
+            File::open(&path3).unwrap()
+
+        }
+        Ok(file) => file,
+    };
+    let mut ss = String::new();
+    match file.read_to_string(&mut ss){
+        Err(_) => {},
+        Ok(_)=>{
+            let v:Value = serde_json::from_str(ss.as_str()).unwrap();
+            let mut index = 0;
+            while v[index]!=Value::Null{
+                let the_url = v[index]["url"].to_string();
+                let lenghth = the_url.len();
+                let instore = &the_url[1..lenghth-1];
+                let url = MyButton{
+                    urls :instore.to_string(),
+                    func :v[index]["func"].to_string(),
+                    add  :v[index]["add"].to_string(),
+                    aid  :v[index]["aid"].to_string(),
+                    host :v[index]["host"].to_string(),
+                    id   :v[index]["id"].to_string(),
+                    net  :v[index]["net"].to_string(),
+                    path :v[index]["path"].to_string(),
+                    port :v[index]["path"].to_string(),
+                    ps   :v[index]["ps"].to_string(),
+                    tls  :v[index]["tls"].to_string(),
+                    typpe:v[index]["type"].to_string()
+                };
+                let names = v[index]["ps"].to_string();
+                start.add_item(names, url);
+                index=index+1;
+            }
+
+        }
+    }
+    let select =start
         .with_name("select")
         .scrollable()
         .scroll_y(true)
@@ -44,6 +107,7 @@ pub fn url_buttons() -> Dialog {
     let buttons = LinearLayout::vertical()
         .child(Button::new("Add new", add_name))
         .child(Button::new("Delete", delete_name))
+        .child(Button::new("Load", onload))
         .child(DummyView)
         .child(Button::new("Quit", quit));
     let dialog = Dialog::around(LinearLayout::horizontal()
@@ -176,4 +240,46 @@ format!("{{
 }
 fn quit(s: &mut Cursive){
     Cursive::quit(s);
+}
+fn onload(s: &mut Cursive){
+    let path = Path::new("storage.json");
+    let display = path.display();
+    let mut file = match File::open(&path) {
+        // `io::Error` 的 `description` 方法返回一个描述错误的字符串。
+        Err(why) => panic!("couldn't open {}: {}", display,
+                                                   why.to_string()),
+        Ok(file) => file,
+    };
+    let mut ss = String::new();
+    match file.read_to_string(&mut ss){
+        Err(why) => {
+            s.add_layer(Dialog::info(why.to_string()));
+        },
+        Ok(_)=>{
+        s.call_on_name("select", |view: &mut SelectView<MyButton>| {
+            view.clear();
+            let v:Value = serde_json::from_str(ss.as_str()).unwrap();
+            let mut index = 0;
+            while v[index]!=Value::Null{
+                let url = MyButton{
+                    urls :v[index]["url"].to_string(),
+                    func :v[index]["func"].to_string(),
+                    add  :v[index]["add"].to_string(),
+                    aid  :v[index]["aid"].to_string(),
+                    host :v[index]["host"].to_string(),
+                    id   :v[index]["id"].to_string(),
+                    net  :v[index]["net"].to_string(),
+                    path :v[index]["path"].to_string(),
+                    port :v[index]["path"].to_string(),
+                    ps   :v[index]["ps"].to_string(),
+                    tls  :v[index]["tls"].to_string(),
+                    typpe:v[index]["type"].to_string()
+                };
+                let names = v[index]["ps"].to_string();
+                view.add_item(names, url);
+                index=index+1;
+            }
+        });
+        }
+    }
 }
