@@ -8,6 +8,7 @@ use spider::ascii_to_char;
 use serde_json::Value;
 use std::{fs::File,env,path::Path,io::prelude::*};
 use serde_json::Result;
+use std::process::Command;
 extern crate base64;
 
 enum Tcp {
@@ -191,6 +192,25 @@ let output = format!(
                 Ok(_) => {
                 },
             }
+            Command::new("pkill")
+                .arg("v2ray")
+                .output().unwrap_or_else(|e| {
+                    panic!("failed to execute process: {}", e)
+            });
+
+            
+            let home2 = env::var("HOME").unwrap();
+            Command::new("nohup")
+                    .arg(home2.clone()+"/.config/qv2ray/vcore/v2ray")
+                    .arg("-config")
+                    .arg(home2.clone()+"/.config/tv2ray/running.json")
+                    .arg(">")
+                    .arg(home2+"/.config/tv2ray/test.log")
+                    .arg("2>&1")
+                    .arg("&")
+                    .spawn()
+                    .expect("failed");
+
             s.pop_layer();
         }
         let mut select = SelectView::<MyButton>::new()

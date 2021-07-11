@@ -8,6 +8,7 @@ use std::fs::File;
 use std::path::Path;
 use std::{fs,env};
 use serde_json::Value;
+use std::process::Command;
 use crate::abutton::mybutton::MyButton;
 //#[derive(Clone)]
 //pub struct MyButton {
@@ -116,6 +117,13 @@ pub fn url_buttons() -> Dialog {
         .child(Button::new("Add new", add_name))
         .child(Button::new("Delete", delete_name))
         .child(Button::new("Load", onload))
+        .child(Button::new("Stop", |_|{
+            Command::new("pkill")
+                .arg("v2ray")
+                .output().unwrap_or_else(|e| {
+                    panic!("failed to execute process: {}", e)
+            });
+        }))
         .child(DummyView)
         .child(Button::new("Quit", quit));
     let dialog = Dialog::around(LinearLayout::horizontal()
