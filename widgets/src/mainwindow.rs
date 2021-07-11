@@ -146,6 +146,7 @@ fn on_submit(s: &mut Cursive, name: &MyButton) {
 fn add_name(s: &mut Cursive) {
     fn ok(s: &mut Cursive, name: &str) {
         s.call_on_name("select", |view: &mut SelectView<MyButton>| {
+            view.clear();
             let mut temp : Vec<String> = vec![];
             temp.push(name.to_string());
             let future = get_the_key(temp);
@@ -224,7 +225,8 @@ format!("{{
     s.add_layer(Dialog::around(EditView::new()
             .on_submit(ok)
             .with_name("name")
-            .fixed_width(10))
+            .fixed_width(70)
+            .scrollable())
         .title("Enter a new name")
         .button("Ok", |s| {
             let name =
