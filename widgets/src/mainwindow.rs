@@ -214,7 +214,7 @@ fn add_name(s: &mut Cursive) {
         Dialog::around(
             EditView::new()
                 .on_submit(ok)
-                .with_name("name")
+                .with_name("input the urls")
                 .fixed_width(70)
                 .scrollable(),
         )
