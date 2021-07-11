@@ -1,4 +1,4 @@
-use widgets::mainwindow;
+use widgets::mainwindow::{self, v2core};
 use cursive::{event::Key, menu, traits::*, views::Dialog};
 use std::sync::atomic::{AtomicUsize, Ordering};
 fn main() {
@@ -73,6 +73,9 @@ fn main() {
                 )
                 .leaf("About", |s| {
                     s.add_layer(Dialog::info("Fuck the GFW 1.0.0"))
+                })
+                .leaf("Core", |s| {
+                    s.add_layer(v2core())
                 }),
         )
         .add_delimiter()

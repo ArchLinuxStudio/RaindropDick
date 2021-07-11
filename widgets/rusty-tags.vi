@@ -1541,6 +1541,7 @@ observed	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive
 observed_screen_view	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/puppet/mod.rs	/^pub mod observed_screen_view;$/;"	n
 occupied	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/map.rs	/^    occupied: OccupiedEntryImpl<'a>,$/;"	m	struct:OccupiedEntry
 offset	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/de.rs	/^    offset: usize,$/;"	m	struct:StreamDeserializer
+ok	/home/cht/Rust/tv2ray/widgets/src/mainwindow.rs	/^    fn ok(_s: &mut Cursive,name: &str){$/;"	f	function:v2core
 ok	/home/cht/Rust/tv2ray/widgets/src/mainwindow.rs	/^    fn ok(s: &mut Cursive, name: &str) {$/;"	f	function:add_name
 on_mouse_event	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/curses/n.rs	/^fn on_mouse_event<F>(bare_event: i32, mut f: F)$/;"	f
 on_mouse_event	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/backends/curses/pan.rs	/^fn on_mouse_event<F>(bare_event: mmask_t, mut f: F)$/;"	f
@@ -2116,6 +2117,7 @@ urls	/home/cht/Rust/tv2ray/widgets/src/abutton/mybutton.rs	/^    pub urls: Strin
 usize	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/value/index.rs	/^    impl Sealed for usize {}$/;"	c	module:private
 usize	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/value/index.rs	/^impl Index for usize {$/;"	c
 utf8	/home/cht/.cargo/git/checkouts/cursive-fa9a0f4802024d18/3ebecd2/cursive/src/lib.rs	/^mod utf8;$/;"	n
+v2core	/home/cht/Rust/tv2ray/widgets/src/mainwindow.rs	/^pub fn v2core() ->Dialog{$/;"	f
 vacant	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/map.rs	/^    vacant: VacantEntryImpl<'a>,$/;"	m	struct:VacantEntry
 value	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/lib.rs	/^pub mod value;$/;"	n
 value	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_json-1.0.64/src/number.rs	/^    pub value: Number,$/;"	m	struct:NumberFromString

@@ -10,28 +10,6 @@ use std::{fs,env};
 use serde_json::Value;
 use std::process::Command;
 use crate::abutton::mybutton::MyButton;
-//#[derive(Clone)]
-//pub struct MyButton {
-//    pub name : String,
-//}
-//impl MyButton{
-//    #[allow(dead_code)]
-//    pub fn new () -> MyButton{
-//        MyButton{
-//            name: String::from("ssss"),
-//        }
-//    }
-//    pub fn output(&self) -> Dialog {
-//        Dialog::around(TextView::new("Hello Dialog!"))
-//                .title("Cursive")
-//                .button(self.name.clone(), |s| s.quit())
-//    }
-//}
-//impl Drop for MyButton {
-//    fn drop(&mut self) {
-//        println!("sss");
-//    }
-//}
 fn create_storage_before(){
     let home = env::var("HOME").unwrap();
     fs::create_dir_all(home+"/.config/tv2ray").unwrap();
@@ -262,8 +240,106 @@ format!("{{
 fn quit(s: &mut Cursive){
     Cursive::quit(s);
 }
+pub fn v2core() ->Dialog{
+    fn ok(_s: &mut Cursive,name: &str){
+        let output:String = format!(
+"{{
+    \"v2core\":\"{}\"
+}}",name
+);          
+        let home = env::var("HOME").unwrap();
+        let location = home+"/.config/tv2ray/v2core.json";
+        let path2 = Path::new(location.as_str());
+        //let display = path.display();
+        //let path2 = Path::new("storage.json");
+        let display2 = path2.display();
+        let mut file2 = match File::create(&path2) {
+            Err(why) => panic!("couldn't create {}: {}",
+                               display2,
+                               why.to_string()),
+            Ok(file2) => file2,
+        };
+
+        // 将 `LOREM_IPSUM` 字符串写进 `file`，返回 `io::Result<()>`
+        match file2.write_all(output.as_bytes()) {
+            Err(why) => {
+                panic!("couldn't write to {}: {}", display2,
+                                                   why.to_string())
+            },
+            Ok(_) => {
+            },
+        }
+
+    }
+    create_storage_before();
+    let home = env::var("HOME").unwrap();
+    let location = home+"/.config/tv2ray/v2core.json";
+    let path = Path::new(location.as_str());
+    //let display = path.display();
+    let mut file = match File::open(&path) {
+        // `io::Error` 的 `description` 方法返回一个描述错误的字符串。
+        Err(_) => {
+            let path2 = Path::new(location.as_str());
+            let display2 = path2.display();
+            let mut file2 = match File::create(&path2) {
+                Err(why) => panic!("couldn't create {}: {}",
+                                   display2,
+                                   why.to_string()),
+                Ok(file2) => file2,
+            };
+            let mut storge2:String = String::new();
+            storge2.push_str("{\n\"v2core\":\"/usr/v2ray\"\n}");
+            // 将 `LOREM_IPSUM` 字符串写进 `file`，返回 `io::Result<()>`
+            match file2.write_all(storge2.as_bytes()) {
+                Err(why) => {
+                    panic!("couldn't write to {}: {}", display2,
+                                                       why.to_string())
+                },
+                Ok(_) => {
+                },
+            }
+            let path3 = Path::new(location.as_str());
+            File::open(&path3).unwrap()
+
+        }
+        Ok(file) => file,
+    };
+    let mut ss = String::new();
+    let mut content: String = String::new();
+    match file.read_to_string(&mut ss){
+        Err(_) => {},
+        Ok(_)=>{
+            let v:Value = serde_json::from_str(ss.as_str()).unwrap();
+            let temp = v["v2core"].to_string();
+            let length = temp.len();
+            content = (&temp[1..length-1]).to_string();
+        }
+    }
+
+    Dialog::around(EditView::new()
+            .content(content)
+            .on_submit(ok)
+            .with_name("name")
+            .fixed_width(30)
+            )
+        .title("Enter a new name")
+        .button("Ok", |s| {
+            let name =
+                s.call_on_name("name", |view: &mut EditView| {
+                    view.get_content()
+                }).unwrap();
+            ok(s, &name);
+            s.pop_layer();
+        })
+        .button("Cancel", |s| {
+            s.pop_layer();
+        })
+    
+}
 fn onload(s: &mut Cursive){
-    let path = Path::new("storage.json");
+    let home = env::var("HOME").unwrap();
+    let location = home+"/.config/tv2ray/storage.json";
+    let path = Path::new(location.as_str());
     let display = path.display();
     let mut file = match File::open(&path) {
         // `io::Error` 的 `description` 方法返回一个描述错误的字符串。

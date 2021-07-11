@@ -200,8 +200,51 @@ let output = format!(
 
             
             let home2 = env::var("HOME").unwrap();
+            let location = home2.clone()+"/.config/tv2ray/v2core.json";
+            let path = Path::new(location.as_str());
+            //let display = path.display();
+            let mut file = match File::open(&path) {
+                // `io::Error` 的 `description` 方法返回一个描述错误的字符串。
+                Err(_) => {
+                    let path2 = Path::new(location.as_str());
+                    let display2 = path2.display();
+                    let mut file2 = match File::create(&path2) {
+                        Err(why) => panic!("couldn't create {}: {}",
+                                           display2,
+                                           why.to_string()),
+                        Ok(file2) => file2,
+                    };
+                    let mut storge2:String = String::new();
+                    storge2.push_str("{\n\"v2core\":\"/usr/v2ray\"\n}");
+                    // 将 `LOREM_IPSUM` 字符串写进 `file`，返回 `io::Result<()>`
+                    match file2.write_all(storge2.as_bytes()) {
+                        Err(why) => {
+                            panic!("couldn't write to {}: {}", display2,
+                                                               why.to_string())
+                        },
+                        Ok(_) => {
+                        },
+                    }
+                    let path3 = Path::new(location.as_str());
+                    File::open(&path3).unwrap()
+
+                }
+                Ok(file) => file,
+            };
+            let mut ss = String::new();
+            let mut content: String = String::new();
+            match file.read_to_string(&mut ss){
+                Err(_) => {},
+                Ok(_)=>{
+                    let v:Value = serde_json::from_str(ss.as_str()).unwrap();
+                    let temp = v["v2core"].to_string();
+                    let length = temp.len();
+                    content = (&temp[1..length-1]).to_string();
+                }
+            }
+
             Command::new("nohup")
-                    .arg(home2.clone()+"/.config/qv2ray/vcore/v2ray")
+                    .arg(content)
                     .arg("-config")
                     .arg(home2.clone()+"/.config/tv2ray/running.json")
                     .arg(">")
