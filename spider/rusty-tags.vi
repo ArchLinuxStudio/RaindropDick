@@ -902,8 +902,8 @@ as_ref	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/surf-2.2.0/src/
 as_ref	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/surf-2.2.0/src/request.rs	/^    fn as_ref(&self) -> &http::Request {$/;"	P	implementation:Request
 as_ref	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/surf-2.2.0/src/response.rs	/^    fn as_ref(&self) -> &http::Headers {$/;"	P	implementation:Response
 as_ref	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/surf-2.2.0/src/response.rs	/^    fn as_ref(&self) -> &http::Response {$/;"	P	implementation:Response
-ascii_to_char	/home/cht/Rust/tv2ray/spider/src/lib.rs	/^pub fn ascii_to_char(code:u8) -> char {$/;"	f
-ascii_to_string	/home/cht/Rust/tv2ray/spider/src/lib.rs	/^fn ascii_to_string(code:Vec<u8>) -> Vec<String>{$/;"	f
+ascii_to_char	/home/cht/Rust/tv2ray/spider/src/lib.rs	/^pub fn ascii_to_char(code: u8) -> char {$/;"	f
+ascii_to_string	/home/cht/Rust/tv2ray/spider/src/lib.rs	/^fn ascii_to_string(code: Vec<u8>) -> Vec<String> {$/;"	f
 assert_encode_sanity	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.13.0/src/tests.rs	/^pub fn assert_encode_sanity(encoded: &str, config: Config, input_len: usize) {$/;"	f
 assert_encoded_length	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.13.0/src/encode.rs	/^    fn assert_encoded_length(input_len: usize, encoded_len: usize, config: Config) {$/;"	f	module:tests
 async_file_drop	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/fs/file.rs	/^    fn async_file_drop() {$/;"	f	module:tests
@@ -1186,7 +1186,7 @@ f	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/
 f	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/stream/stream/try_fold.rs	/^    f: F,$/;"	m	struct:TryFoldFuture
 f	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/stream/stream/try_for_each.rs	/^    f: F,$/;"	m	struct:TryForEachFuture
 f	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.13.0/src/display.rs	/^    f: &'a mut Formatter<'b>,$/;"	m	struct:FormatterSink
-fetch_path	/home/cht/Rust/tv2ray/spider/src/lib.rs	/^async fn fetch_path(path:String) -> surf::Result<String>{$/;"	f
+fetch_path	/home/cht/Rust/tv2ray/spider/src/lib.rs	/^async fn fetch_path(path: String) -> surf::Result<String> {$/;"	f
 file	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/fs/file.rs	/^    file: Arc<std::fs::File>,$/;"	m	struct:File
 file	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/fs/file.rs	/^    file: Arc<std::fs::File>,$/;"	m	struct:State
 file	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/fs/mod.rs	/^mod file;$/;"	n
@@ -1339,7 +1339,7 @@ get_ref	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.
 get_ref	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/io/cursor.rs	/^    pub fn get_ref(&self) -> &T {$/;"	P	implementation:Cursor
 get_ref	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/io/read/chain.rs	/^    pub fn get_ref(&self) -> (&T, &U) {$/;"	P	implementation:Chain
 get_ref	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/io/read/take.rs	/^    pub fn get_ref(&self) -> &T {$/;"	P	implementation:Take
-get_the_key	/home/cht/Rust/tv2ray/spider/src/lib.rs	/^pub async fn get_the_key(paths:Vec<String>) -> surf::Result<Vec<Vec<String>>>{$/;"	f
+get_the_key	/home/cht/Rust/tv2ray/spider/src/lib.rs	/^pub async fn get_the_key(paths: Vec<String>) -> surf::Result<Vec<Vec<String>>> {$/;"	f
 gt	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/stream/stream/mod.rs	/^mod gt;$/;"	n
 guard	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/sync/condvar.rs	/^    guard: Option<MutexGuard<'b, T>>,$/;"	m	struct:AwaitNotify
 handle	/home/cht/.cargo/registry/src/github.com-1ecc6299db9ec823/async-std-1.9.0/src/task/join_handle.rs	/^    handle: Option<InnerHandle<T>>,$/;"	m	struct:JoinHandle

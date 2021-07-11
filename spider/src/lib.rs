@@ -1,17 +1,15 @@
 use futures::future::join_all;
 extern crate base64;
 
-async fn fetch_path(path:String) -> surf::Result<String>{
+async fn fetch_path(path: String) -> surf::Result<String> {
     let mut back_string = String::new();
     let url = surf::http::Url::parse(&path);
-    match url{
-        Ok(_)=>
-        { match surf::get(&path).await {
+    match url {
+        Ok(_) => {
+            match surf::get(&path).await {
                 Ok(mut response) => {
-                    match response.body_string().await{
-                        Ok(text) =>{
-                            back_string = text
-                        }
+                    match response.body_string().await {
+                        Ok(text) => back_string = text,
                         Err(_) => {
                             println!("Read response text Error!")
                         }
@@ -23,12 +21,12 @@ async fn fetch_path(path:String) -> surf::Result<String>{
             }
             return Ok(back_string);
         }
-        Err(_)=>{
+        Err(_) => {
             return Ok(String::new());
         }
     }
 }
-pub fn ascii_to_char(code:u8) -> char {
+pub fn ascii_to_char(code: u8) -> char {
     match code {
         10 => return '\n',
         13 => return ' ',
@@ -114,53 +112,51 @@ pub fn ascii_to_char(code:u8) -> char {
         123 => return '{',
         125 => return '}',
         _ => {
-            println!("{}",code);
-            return '_'
-        },
+            println!("{}", code);
+            return '_';
+        }
     }
 }
-fn ascii_to_string(code:Vec<u8>) -> Vec<String>{
-    let mut test:Vec<String> = vec![];
+fn ascii_to_string(code: Vec<u8>) -> Vec<String> {
+    let mut test: Vec<String> = vec![];
     let num = code.len();
     let mut count = 0;
-    while count<num {
+    while count < num {
         let mut url = String::new();
-        while code[count] !=13 && code[count] !=10 {
+        while code[count] != 13 && code[count] != 10 {
             url.push(ascii_to_char(code[count]));
-            count=count+1;
+            count = count + 1;
         }
         test.push(url);
         if code[count] == 10 {
-            count=count+1;
+            count = count + 1;
         } else {
-            count = count+2;
+            count = count + 2;
         }
     }
     test
 }
 
-pub async fn get_the_key(paths:Vec<String>) -> surf::Result<Vec<Vec<String>>>{
-    let result_list = join_all(paths.into_iter().map(|path|{
-        fetch_path(path)
-    })).await;
+pub async fn get_the_key(paths: Vec<String>) -> surf::Result<Vec<Vec<String>>> {
+    let result_list = join_all(paths.into_iter().map(|path| fetch_path(path))).await;
 
-    let mut list_string:Vec<String> = vec![];
-    for ele in result_list.into_iter(){
-        if ele.is_ok(){
+    let mut list_string: Vec<String> = vec![];
+    for ele in result_list.into_iter() {
+        if ele.is_ok() {
             list_string.push(ele.unwrap())
-        }else {
-            return Err(ele.unwrap_err())
+        } else {
+            return Err(ele.unwrap_err());
         }
     }
-    let url_string_none:Vec<Vec<String>> = vec![];
-    let mut url_string:Vec<Vec<String>> = vec![];
-    for pair in list_string.into_iter(){
+    let url_string_none: Vec<Vec<String>> = vec![];
+    let mut url_string: Vec<Vec<String>> = vec![];
+    for pair in list_string.into_iter() {
         let code = base64::decode(pair.as_bytes());
         match code {
-            Ok(input)=>{
+            Ok(input) => {
                 url_string.push(ascii_to_string(input));
             }
-            Err(_)=>{
+            Err(_) => {
                 return Ok(url_string_none);
             }
         }
@@ -168,4 +164,3 @@ pub async fn get_the_key(paths:Vec<String>) -> surf::Result<Vec<Vec<String>>>{
     }
     Ok(url_string)
 }
-

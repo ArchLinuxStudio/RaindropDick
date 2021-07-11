@@ -1,6 +1,6 @@
-use widgets::mainwindow::{self, v2core};
 use cursive::{event::Key, menu, traits::*, views::Dialog};
 use std::sync::atomic::{AtomicUsize, Ordering};
+use widgets::mainwindow::{self, v2core};
 fn main() {
     let mut siv = cursive::default();
 
@@ -37,13 +37,16 @@ fn main() {
                         for i in 1..100 {
                             // We don't actually do anything here,
                             // but you could!
-                            tree.add_item(menu::Item::leaf(format!("Item {}", i), 
-                                    |s| {
-                                        s.add_layer(Dialog::info("test"))
+                            tree.add_item(
+                                menu::Item::leaf(format!("Item {}", i), |s| {
+                                    s.add_layer(Dialog::info("test"))
+                                })
+                                .with(|s| {
+                                    if i % 5 == 0 {
+                                        s.disable();
                                     }
-                                ).with(|s| {
-                                if i % 5 == 0 { s.disable(); }
-                            }))
+                                }),
+                            )
                         }
                     }),
                 )
@@ -62,21 +65,15 @@ fn main() {
                 .subtree(
                     "Help",
                     menu::Tree::new()
-                        .leaf("General", |s| {
-                            s.add_layer(Dialog::info("Help message!"))
-                        })
+                        .leaf("General", |s| s.add_layer(Dialog::info("Help message!")))
                         .leaf("Online", |s| {
                             let text = "Google it yourself!\n\
                                         Kids, these days...";
                             s.add_layer(Dialog::info(text))
                         }),
                 )
-                .leaf("About", |s| {
-                    s.add_layer(Dialog::info("Fuck the GFW 1.0.0"))
-                })
-                .leaf("Core", |s| {
-                    s.add_layer(v2core())
-                }),
+                .leaf("About", |s| s.add_layer(Dialog::info("Fuck the GFW 1.0.0")))
+                .leaf("Core", |s| s.add_layer(v2core())),
         )
         .add_delimiter()
         .add_leaf("Quit", |s| s.quit());
@@ -89,10 +86,7 @@ fn main() {
 
     siv.add_global_callback(Key::Esc, |s| s.select_menubar());
 
-
     siv.add_layer(mainwindow::url_buttons());
-    
+
     siv.run();
 }
-
-

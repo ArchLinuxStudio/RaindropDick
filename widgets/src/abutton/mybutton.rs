@@ -1,23 +1,23 @@
-use cursive::Cursive;
 use cursive::views::Button;
 use cursive::views::Dialog;
 use cursive::views::LinearLayout;
 use cursive::views::SelectView;
 use cursive::views::TextView;
-use spider::ascii_to_char;
-use serde_json::Value;
-use std::{fs::File,env,path::Path,io::prelude::*};
+use cursive::Cursive;
 use serde_json::Result;
+use serde_json::Value;
+use spider::ascii_to_char;
 use std::process::Command;
+use std::{env, fs::File, io::prelude::*, path::Path};
 extern crate base64;
 
 enum Tcp {
     Ss,
     V2,
 }
-fn ascii_to_string(code:Vec<u8>) -> String{
-    let mut test:String = String::new();
-    for cor in code.into_iter(){
+fn ascii_to_string(code: Vec<u8>) -> String {
+    let mut test: String = String::new();
+    for cor in code.into_iter() {
         test.push(ascii_to_char(cor));
     }
     test
@@ -27,7 +27,7 @@ pub struct MyButton {
     //pub urls : String,
     //pub name : String,
     //pub port :String,
-    pub func :String,
+    pub func: String,
     //pub company:String,
     pub urls: String,
     pub add: String,
@@ -39,22 +39,21 @@ pub struct MyButton {
     pub port: String,
     pub ps: String,
     pub tls: String,
-    pub typpe: String
-
+    pub typpe: String,
 }
 
-impl MyButton{
+impl MyButton {
     pub fn output(&self) -> Dialog {
-        fn running_json(s: &mut Cursive,name: &MyButton){
+        fn running_json(s: &mut Cursive, name: &MyButton) {
             let mut json = String::new();
             let temp = name.port.clone();
             let length = temp.len();
-            let port:String = (&temp[1..length-1]).to_string();
+            let port: String = (&temp[1..length - 1]).to_string();
             let temp2 = name.aid.clone();
             let length2 = temp2.len();
-            let aid:String = (&temp2[1..length2-1]).to_string();
-let output = format!(
-"{{
+            let aid: String = (&temp2[1..length2 - 1]).to_string();
+            let output = format!(
+                "{{
     \"inbounds\":[{{
         \"port\":8889,
         \"listen\":\"127.0.0.1\",
@@ -167,40 +166,35 @@ let output = format!(
             \"outboundTag\": \"direct\"
         }}]
     }}
-}}", name.func,name.add,port,aid,name.id,name.path,name.path,name.net,name.path
-);
+}}",
+                name.func, name.add, port, aid, name.id, name.path, name.path, name.net, name.path
+            );
             json.push_str(output.as_str());
             let home = env::var("HOME").unwrap();
-            let location = home+"/.config/tv2ray/running.json";
+            let location = home + "/.config/tv2ray/running.json";
             let path2 = Path::new(location.as_str());
             //let display = path.display();
             //let path2 = Path::new("storage.json");
             let display2 = path2.display();
             let mut file2 = match File::create(&path2) {
-                Err(why) => panic!("couldn't create {}: {}",
-                                   display2,
-                                   why.to_string()),
+                Err(why) => panic!("couldn't create {}: {}", display2, why.to_string()),
                 Ok(file2) => file2,
             };
 
             // 将 `LOREM_IPSUM` 字符串写进 `file`，返回 `io::Result<()>`
             match file2.write_all(json.as_bytes()) {
                 Err(why) => {
-                    panic!("couldn't write to {}: {}", display2,
-                                                       why.to_string())
-                },
-                Ok(_) => {
-                },
+                    panic!("couldn't write to {}: {}", display2, why.to_string())
+                }
+                Ok(_) => {}
             }
             Command::new("pkill")
                 .arg("v2ray")
-                .output().unwrap_or_else(|e| {
-                    panic!("failed to execute process: {}", e)
-            });
+                .output()
+                .unwrap_or_else(|e| panic!("failed to execute process: {}", e));
 
-            
             let home2 = env::var("HOME").unwrap();
-            let location = home2.clone()+"/.config/tv2ray/v2core.json";
+            let location = home2.clone() + "/.config/tv2ray/v2core.json";
             let path = Path::new(location.as_str());
             //let display = path.display();
             let mut file = match File::open(&path) {
@@ -209,55 +203,49 @@ let output = format!(
                     let path2 = Path::new(location.as_str());
                     let display2 = path2.display();
                     let mut file2 = match File::create(&path2) {
-                        Err(why) => panic!("couldn't create {}: {}",
-                                           display2,
-                                           why.to_string()),
+                        Err(why) => panic!("couldn't create {}: {}", display2, why.to_string()),
                         Ok(file2) => file2,
                     };
-                    let mut storge2:String = String::new();
+                    let mut storge2: String = String::new();
                     storge2.push_str("{\n\"v2core\":\"/usr/v2ray\"\n}");
                     // 将 `LOREM_IPSUM` 字符串写进 `file`，返回 `io::Result<()>`
                     match file2.write_all(storge2.as_bytes()) {
                         Err(why) => {
-                            panic!("couldn't write to {}: {}", display2,
-                                                               why.to_string())
-                        },
-                        Ok(_) => {
-                        },
+                            panic!("couldn't write to {}: {}", display2, why.to_string())
+                        }
+                        Ok(_) => {}
                     }
                     let path3 = Path::new(location.as_str());
                     File::open(&path3).unwrap()
-
                 }
                 Ok(file) => file,
             };
             let mut ss = String::new();
             let mut content: String = String::new();
-            match file.read_to_string(&mut ss){
-                Err(_) => {},
-                Ok(_)=>{
-                    let v:Value = serde_json::from_str(ss.as_str()).unwrap();
+            match file.read_to_string(&mut ss) {
+                Err(_) => {}
+                Ok(_) => {
+                    let v: Value = serde_json::from_str(ss.as_str()).unwrap();
                     let temp = v["v2core"].to_string();
                     let length = temp.len();
-                    content = (&temp[1..length-1]).to_string();
+                    content = (&temp[1..length - 1]).to_string();
                 }
             }
 
             Command::new("nohup")
-                    .arg(content)
-                    .arg("-config")
-                    .arg(home2.clone()+"/.config/tv2ray/running.json")
-                    .arg(">")
-                    .arg(home2+"/.config/tv2ray/test.log")
-                    .arg("2>&1")
-                    .arg("&")
-                    .spawn()
-                    .expect("failed");
+                .arg(content)
+                .arg("-config")
+                .arg(home2.clone() + "/.config/tv2ray/running.json")
+                .arg(">")
+                .arg(home2 + "/.config/tv2ray/test.log")
+                .arg("2>&1")
+                .arg("&")
+                .spawn()
+                .expect("failed");
 
             s.pop_layer();
         }
-        let mut select = SelectView::<MyButton>::new()
-            .on_submit(running_json);
+        let mut select = SelectView::<MyButton>::new().on_submit(running_json);
         select.add_item("<start>", self.clone());
         //Dialog::text(format!("Name:{}\nUrl:{}\nport:{}\nfunction:{}\ncompany:{}", self.ps,self.urls,self.port,self.func,self.add))
         //        .title(format!("{}", self.add))
@@ -267,91 +255,88 @@ let output = format!(
         //        })
         Dialog::around(
             LinearLayout::horizontal()
-                .child(TextView::new(format!("Name:{}\nUrl:{}\nport:{}\nfunction:{}\ncompany:{}", self.ps,self.urls,self.port,self.func,self.add)))
-                .child(LinearLayout::vertical()
-                    .child(select)
-                    .child(Button::new("quit", |s|{
-                        s.pop_layer();
-                    }))
-                    )
-            )
+                .child(TextView::new(format!(
+                    "Name:{}\nUrl:{}\nport:{}\nfunction:{}\ncompany:{}",
+                    self.ps, self.urls, self.port, self.func, self.add
+                )))
+                .child(
+                    LinearLayout::vertical()
+                        .child(select)
+                        .child(Button::new("quit", |s| {
+                            s.pop_layer();
+                        })),
+                ),
+        )
     }
-    pub fn new (url:String) -> MyButton{
-        let mut test : Tcp = Tcp::V2; 
-        for pair in url.chars(){
-            if pair=='s'{
-                test =  Tcp::Ss;
+    pub fn new(url: String) -> MyButton {
+        let mut test: Tcp = Tcp::V2;
+        for pair in url.chars() {
+            if pair == 's' {
+                test = Tcp::Ss;
                 break;
             }
-            if pair=='v'{
+            if pair == 'v' {
                 test = Tcp::V2;
                 break;
-
             }
         }
         match test {
             Tcp::Ss => {
-                return MyButton{
-                    urls  : url,
-                    func  : "\"ss\"".to_string(),
-                    add   : "\"unknown\"".to_string(),
-                    aid   : "\"unknown\"".to_string(),
-                    host  : "\"unknown\"".to_string(),
-                    id    : "\"unknown\"".to_string(),
-                    net   : "\"unknown\"".to_string(),
-                    path  : "\"unknown\"".to_string(),
-                    port  : "\"unknown\"".to_string(),
-                    ps    : "\"unknown\"".to_string(),
-                    tls   : "\"unknown\"".to_string(),
-                    typpe : "\"unknown\"".to_string()
-
+                return MyButton {
+                    urls: url,
+                    func: "\"ss\"".to_string(),
+                    add: "\"unknown\"".to_string(),
+                    aid: "\"unknown\"".to_string(),
+                    host: "\"unknown\"".to_string(),
+                    id: "\"unknown\"".to_string(),
+                    net: "\"unknown\"".to_string(),
+                    path: "\"unknown\"".to_string(),
+                    port: "\"unknown\"".to_string(),
+                    ps: "\"unknown\"".to_string(),
+                    tls: "\"unknown\"".to_string(),
+                    typpe: "\"unknown\"".to_string(),
                 }
-            },
+            }
             Tcp::V2 => {
-                let newurl=&url[8..];
+                let newurl = &url[8..];
                 let json = ascii_to_string(base64::decode(newurl.to_string().as_bytes()).unwrap());
-                let v : Result<Value> = serde_json::from_str(json.as_str());
+                let v: Result<Value> = serde_json::from_str(json.as_str());
                 match v {
-                    Ok(input)=>{
-                        return MyButton{
+                    Ok(input) => {
+                        return MyButton {
                             //company : input["add"].to_string(),
-                            urls : url,
-                            func : "\"vmess\"".to_string(),
-                            add : input["add"].to_string(),
-                            aid : input["aid"].to_string(),
-                            host : input["host"].to_string(),
-                            id : input["id"].to_string(),
-                            net : input["net"].to_string(),
-                            path : input["path"].to_string(),
-                            port : input["port"].to_string(),
-                            ps : input["ps"].to_string(),
-                            tls : input["tls"].to_string(),
-                            typpe : input["type"].to_string()
-                        }}
-                    Err(_)=>{
-                        return MyButton{
-                            urls  : url,
-                            func  : "\"vmess\"".to_string(),
-                            add   : "\"unknown\"".to_string(),
-                            aid   : "\"unknown\"".to_string(),
-                            host  : "\"unknown\"".to_string(),
-                            id    : "\"unknown\"".to_string(),
-                            net   : "\"unknown\"".to_string(),
-                            path  : "\"unknown\"".to_string(),
-                            port  : "\"unknown\"".to_string(),
-                            ps    : "\"unknown\"".to_string(),
-                            tls   : "\"unknown\"".to_string(),
-                            typpe : "\"unknown\"".to_string()
-
+                            urls: url,
+                            func: "\"vmess\"".to_string(),
+                            add: input["add"].to_string(),
+                            aid: input["aid"].to_string(),
+                            host: input["host"].to_string(),
+                            id: input["id"].to_string(),
+                            net: input["net"].to_string(),
+                            path: input["path"].to_string(),
+                            port: input["port"].to_string(),
+                            ps: input["ps"].to_string(),
+                            tls: input["tls"].to_string(),
+                            typpe: input["type"].to_string(),
+                        };
+                    }
+                    Err(_) => {
+                        return MyButton {
+                            urls: url,
+                            func: "\"vmess\"".to_string(),
+                            add: "\"unknown\"".to_string(),
+                            aid: "\"unknown\"".to_string(),
+                            host: "\"unknown\"".to_string(),
+                            id: "\"unknown\"".to_string(),
+                            net: "\"unknown\"".to_string(),
+                            path: "\"unknown\"".to_string(),
+                            port: "\"unknown\"".to_string(),
+                            ps: "\"unknown\"".to_string(),
+                            tls: "\"unknown\"".to_string(),
+                            typpe: "\"unknown\"".to_string(),
                         }
-
                     }
                 }
-
-                
             }
         }
     }
-} 
-
-
+}
