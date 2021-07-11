@@ -21,9 +21,7 @@ async fn fetch_path(path: String) -> surf::Result<String> {
             }
             Ok(back_string)
         }
-        Err(_) => {
-            Ok(String::new())
-        }
+        Err(_) => Ok(String::new()),
     }
 }
 pub fn ascii_to_char(code: u8) -> char {
@@ -86,7 +84,7 @@ pub fn ascii_to_char(code: u8) -> char {
         97 => 'a',
         98 => 'b',
         99 => 'c',
-        100 =>  'd',
+        100 => 'd',
         101 => 'e',
         102 => 'f',
         103 => 'g',

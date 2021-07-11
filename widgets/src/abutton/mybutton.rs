@@ -188,7 +188,7 @@ impl MyButton {
             //    }
             //    Ok(_) => {}
             //}
-            if let Err(why) = file2.write_all(json.as_bytes()){
+            if let Err(why) = file2.write_all(json.as_bytes()) {
                 panic!("couldn't write to {}: {}", display2, why.to_string())
             }
             Command::new("pkill")
@@ -213,7 +213,7 @@ impl MyButton {
                     storge2.push_str("{\n\"v2core\":\"/usr/v2ray\"\n}");
                     // 将 `LOREM_IPSUM` 字符串写进 `file`，返回 `io::Result<()>`
                     if let Err(why) = file2.write_all(storge2.as_bytes()) {
-                            panic!("couldn't write to {}: {}", display2, why.to_string())
+                        panic!("couldn't write to {}: {}", display2, why.to_string())
                     }
                     let path3 = Path::new(location.as_str());
                     File::open(&path3).unwrap()
@@ -281,29 +281,27 @@ impl MyButton {
             }
         }
         match test {
-            Tcp::Ss => {
-                MyButton {
-                    urls: url,
-                    func: "\"ss\"".to_string(),
-                    add: "\"unknown\"".to_string(),
-                    aid: "\"unknown\"".to_string(),
-                    host: "\"unknown\"".to_string(),
-                    id: "\"unknown\"".to_string(),
-                    net: "\"unknown\"".to_string(),
-                    path: "\"unknown\"".to_string(),
-                    port: "\"unknown\"".to_string(),
-                    ps: "\"unknown\"".to_string(),
-                    tls: "\"unknown\"".to_string(),
-                    typpe: "\"unknown\"".to_string(),
-                }
-            }
+            Tcp::Ss => MyButton {
+                urls: url,
+                func: "\"ss\"".to_string(),
+                add: "\"unknown\"".to_string(),
+                aid: "\"unknown\"".to_string(),
+                host: "\"unknown\"".to_string(),
+                id: "\"unknown\"".to_string(),
+                net: "\"unknown\"".to_string(),
+                path: "\"unknown\"".to_string(),
+                port: "\"unknown\"".to_string(),
+                ps: "\"unknown\"".to_string(),
+                tls: "\"unknown\"".to_string(),
+                typpe: "\"unknown\"".to_string(),
+            },
             Tcp::V2 => {
                 let newurl = &url[8..];
                 let json = ascii_to_string(base64::decode(newurl.to_string().as_bytes()).unwrap());
                 let v: Result<Value> = serde_json::from_str(json.as_str());
                 match v {
                     Ok(input) => {
-                       MyButton {
+                        MyButton {
                             //company : input["add"].to_string(),
                             urls: url,
                             func: "\"vmess\"".to_string(),
@@ -319,22 +317,20 @@ impl MyButton {
                             typpe: input["type"].to_string(),
                         }
                     }
-                    Err(_) => {
-                        MyButton {
-                            urls: url,
-                            func: "\"vmess\"".to_string(),
-                            add: "\"unknown\"".to_string(),
-                            aid: "\"unknown\"".to_string(),
-                            host: "\"unknown\"".to_string(),
-                            id: "\"unknown\"".to_string(),
-                            net: "\"unknown\"".to_string(),
-                            path: "\"unknown\"".to_string(),
-                            port: "\"unknown\"".to_string(),
-                            ps: "\"unknown\"".to_string(),
-                            tls: "\"unknown\"".to_string(),
-                            typpe: "\"unknown\"".to_string(),
-                        }
-                    }
+                    Err(_) => MyButton {
+                        urls: url,
+                        func: "\"vmess\"".to_string(),
+                        add: "\"unknown\"".to_string(),
+                        aid: "\"unknown\"".to_string(),
+                        host: "\"unknown\"".to_string(),
+                        id: "\"unknown\"".to_string(),
+                        net: "\"unknown\"".to_string(),
+                        path: "\"unknown\"".to_string(),
+                        port: "\"unknown\"".to_string(),
+                        ps: "\"unknown\"".to_string(),
+                        tls: "\"unknown\"".to_string(),
+                        typpe: "\"unknown\"".to_string(),
+                    },
                 }
             }
         }
