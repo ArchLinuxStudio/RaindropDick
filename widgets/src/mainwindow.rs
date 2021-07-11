@@ -36,11 +36,8 @@ fn url_select() -> ResizedView<ScrollView<NamedView<SelectView<MyButton>>>> {
             let mut storge2: String = String::new();
             storge2.push_str("[]");
             // 将 `LOREM_IPSUM` 字符串写进 `file`，返回 `io::Result<()>`
-            match file2.write_all(storge2.as_bytes()) {
-                Err(why) => {
+            if let Err(why) = file2.write_all(storge2.as_bytes()) {
                     panic!("couldn't write to {}: {}", display2, why.to_string())
-                }
-                Ok(_) => {}
             }
             let path3 = Path::new(location.as_str());
             File::open(&path3).unwrap()
@@ -73,16 +70,14 @@ fn url_select() -> ResizedView<ScrollView<NamedView<SelectView<MyButton>>>> {
                 };
                 let names = v[index]["ps"].to_string();
                 start.add_item(names, url);
-                index = index + 1;
+                index += 1;
             }
         }
     }
-    let select = start
-        .with_name("select")
+    start.with_name("select")
         .scrollable()
         .scroll_y(true)
-        .fixed_size((60, 25));
-    return select;
+        .fixed_size((60, 25))
 }
 pub fn url_buttons() -> Dialog {
     let select = url_select();
@@ -98,14 +93,13 @@ pub fn url_buttons() -> Dialog {
         }))
         .child(DummyView)
         .child(Button::new("Quit", quit));
-    let dialog = Dialog::around(
+    Dialog::around(
         LinearLayout::horizontal()
             .child(select)
             .child(DummyView)
             .child(buttons),
     )
-    .title("Fuck you GFW");
-    return dialog;
+    .title("Fuck you GFW")
 }
 fn delete_name(s: &mut Cursive) {
     let select = s.find_name::<SelectView<MyButton>>("select").unwrap();
@@ -146,8 +140,8 @@ fn add_name(s: &mut Cursive) {
     fn ok(s: &mut Cursive, name: &str) {
         s.call_on_name("select", |view: &mut SelectView<MyButton>| {
             view.clear();
-            let mut temp: Vec<String> = vec![];
-            temp.push(name.to_string());
+            let temp: Vec<String> = vec![name.to_string()];
+            //temp.push(name.to_string());
             let future = get_the_key(temp);
             let output: Vec<Vec<String>> = block_on(future).unwrap();
             let mut storge: String = String::new();
@@ -208,11 +202,8 @@ fn add_name(s: &mut Cursive) {
             };
 
             // 将 `LOREM_IPSUM` 字符串写进 `file`，返回 `io::Result<()>`
-            match file2.write_all(storge.as_bytes()) {
-                Err(why) => {
+            if let Err(why) = file2.write_all(storge.as_bytes()) {
                     panic!("couldn't write to {}: {}", display2, why.to_string())
-                }
-                Ok(_) => {}
             }
         });
         s.pop_layer();
@@ -261,11 +252,8 @@ pub fn v2core() -> Dialog {
         };
 
         // 将 `LOREM_IPSUM` 字符串写进 `file`，返回 `io::Result<()>`
-        match file2.write_all(output.as_bytes()) {
-            Err(why) => {
+        if let Err(why) =  file2.write_all(output.as_bytes()) {
                 panic!("couldn't write to {}: {}", display2, why.to_string())
-            }
-            Ok(_) => {}
         }
     }
     create_storage_before();
@@ -285,11 +273,8 @@ pub fn v2core() -> Dialog {
             let mut storge2: String = String::new();
             storge2.push_str("{\n\"v2core\":\"/usr/v2ray\"\n}");
             // 将 `LOREM_IPSUM` 字符串写进 `file`，返回 `io::Result<()>`
-            match file2.write_all(storge2.as_bytes()) {
-                Err(why) => {
+            if let Err(why) = file2.write_all(storge2.as_bytes()) {
                     panic!("couldn't write to {}: {}", display2, why.to_string())
-                }
-                Ok(_) => {}
             }
             let path3 = Path::new(location.as_str());
             File::open(&path3).unwrap()
@@ -364,7 +349,7 @@ fn onload(s: &mut Cursive) {
                     };
                     let names = v[index]["ps"].to_string();
                     view.add_item(names, url);
-                    index = index + 1;
+                    index += 1;
                 }
             });
         }

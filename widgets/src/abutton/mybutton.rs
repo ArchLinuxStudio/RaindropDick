@@ -182,11 +182,14 @@ impl MyButton {
             };
 
             // 将 `LOREM_IPSUM` 字符串写进 `file`，返回 `io::Result<()>`
-            match file2.write_all(json.as_bytes()) {
-                Err(why) => {
-                    panic!("couldn't write to {}: {}", display2, why.to_string())
-                }
-                Ok(_) => {}
+            //match file2.write_all(json.as_bytes()) {
+            //    Err(why) => {
+            //        panic!("couldn't write to {}: {}", display2, why.to_string())
+            //    }
+            //    Ok(_) => {}
+            //}
+            if let Err(why) = file2.write_all(json.as_bytes()){
+                panic!("couldn't write to {}: {}", display2, why.to_string())
             }
             Command::new("pkill")
                 .arg("v2ray")
@@ -209,11 +212,8 @@ impl MyButton {
                     let mut storge2: String = String::new();
                     storge2.push_str("{\n\"v2core\":\"/usr/v2ray\"\n}");
                     // 将 `LOREM_IPSUM` 字符串写进 `file`，返回 `io::Result<()>`
-                    match file2.write_all(storge2.as_bytes()) {
-                        Err(why) => {
+                    if let Err(why) = file2.write_all(storge2.as_bytes()) {
                             panic!("couldn't write to {}: {}", display2, why.to_string())
-                        }
-                        Ok(_) => {}
                     }
                     let path3 = Path::new(location.as_str());
                     File::open(&path3).unwrap()
@@ -282,7 +282,7 @@ impl MyButton {
         }
         match test {
             Tcp::Ss => {
-                return MyButton {
+                MyButton {
                     urls: url,
                     func: "\"ss\"".to_string(),
                     add: "\"unknown\"".to_string(),
@@ -303,7 +303,7 @@ impl MyButton {
                 let v: Result<Value> = serde_json::from_str(json.as_str());
                 match v {
                     Ok(input) => {
-                        return MyButton {
+                       MyButton {
                             //company : input["add"].to_string(),
                             urls: url,
                             func: "\"vmess\"".to_string(),
@@ -317,10 +317,10 @@ impl MyButton {
                             ps: input["ps"].to_string(),
                             tls: input["tls"].to_string(),
                             typpe: input["type"].to_string(),
-                        };
+                        }
                     }
                     Err(_) => {
-                        return MyButton {
+                        MyButton {
                             urls: url,
                             func: "\"vmess\"".to_string(),
                             add: "\"unknown\"".to_string(),
