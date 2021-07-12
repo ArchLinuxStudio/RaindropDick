@@ -272,7 +272,7 @@ pub fn v2core() -> Dialog {
                 Ok(file2) => file2,
             };
             let mut storge2: String = String::new();
-            storge2.push_str("{\n\"v2core\":\"/usr/v2ray\"\n}");
+            storge2.push_str("{\n\"v2core\":\"/usr/bin/v2ray\"\n}");
             // 将 `LOREM_IPSUM` 字符串写进 `file`，返回 `io::Result<()>`
             if let Err(why) = file2.write_all(storge2.as_bytes()) {
                 panic!("couldn't write to {}: {}", display2, why.to_string())

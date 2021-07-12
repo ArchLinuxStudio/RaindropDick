@@ -6,6 +6,18 @@ fn main() {
 
     // We'll use a counter to name new files.
     let counter = AtomicUsize::new(1);
+    //add the handle for ctrl-c
+    siv.clear_global_callbacks(cursive::event::Event::CtrlChar('c'));
+
+    siv.set_on_pre_event(cursive::event::Event::CtrlChar('c'), |s| {
+        s.add_layer(
+            Dialog::text("Do you want to quit?")
+                .button("Yes", |s| s.quit())
+                .button("No", |s| {
+                    s.pop_layer();
+                }),
+        );
+    });
 
     // The menubar is a list of (label, menu tree) pairs.
     siv.menubar()
@@ -72,7 +84,9 @@ fn main() {
                             s.add_layer(Dialog::info(text))
                         }),
                 )
-                .leaf("About", |s| s.add_layer(Dialog::info("Fuck the GFW 1.0.0")))
+                .leaf("About", |s| {
+                    s.add_layer(Dialog::info("Fuck the GFW 1.0.0\nStand with LGBT"))
+                })
                 .leaf("Core", |s| s.add_layer(v2core())),
         )
         .add_delimiter()
