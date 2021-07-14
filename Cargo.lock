@@ -1281,10 +1281,11 @@ name = "raindropdick"
 version = "0.1.0"
 dependencies = [
  "async-std",
+ "base64",
  "cursive",
  "futures",
- "spider",
- "widgets",
+ "serde_json",
+ "surf",
 ]
 
 [[package]]

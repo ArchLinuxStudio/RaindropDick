@@ -9,9 +9,10 @@ members = ["widgets","spider"]
 [dependencies]
 cursive = { git = "https://github.com/gyscos/cursive" }
 #cursive = "0.15"
-widgets = {path = "./widgets"}
-spider = {path = "./spider"}
 futures = "0.3"
+base64 = "0.13.0"
+surf = "2.1.0"
+serde_json = "1.0"
 [dependencies.async-std]
 version = "1.7.0"
 features = ["attributes"]
