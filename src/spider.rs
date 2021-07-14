@@ -109,9 +109,7 @@ pub fn ascii_to_char(code: u8) -> char {
         122 => 'z',
         123 => '{',
         125 => '}',
-        _ => {
-            '_'
-        }
+        _ => '_',
     }
 }
 fn ascii_to_string(code: Vec<u8>) -> Vec<String> {

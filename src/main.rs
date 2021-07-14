@@ -1,8 +1,8 @@
 use cursive::{event::Key, menu, traits::*, views::Dialog};
 use std::sync::atomic::{AtomicUsize, Ordering};
-pub mod spider;
 pub mod abutton;
 pub mod mainwindow;
+pub mod spider;
 use crate::mainwindow::v2core;
 fn main() {
     let mut siv = cursive::default();

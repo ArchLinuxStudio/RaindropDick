@@ -1,3 +1,4 @@
+use crate::spider::ascii_to_char;
 use cursive::views::Button;
 use cursive::views::Dialog;
 use cursive::views::LinearLayout;
@@ -6,7 +7,6 @@ use cursive::views::TextView;
 use cursive::Cursive;
 use serde_json::Result;
 use serde_json::Value;
-use crate::spider::ascii_to_char;
 use std::process::Command;
 use std::{env, fs::File, io::prelude::*, path::Path};
 extern crate base64;
