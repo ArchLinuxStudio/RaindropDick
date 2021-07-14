@@ -5,8 +5,6 @@ edition = "2018"
 license = " GPL-3.0-or-later"
 description = "a v2ray tui"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-[workspace]
-members = ["widgets","spider"]
 [dependencies]
 #cursive = { git = "https://github.com/gyscos/cursive" }
 cursive = "0.17.0-alpha.0"

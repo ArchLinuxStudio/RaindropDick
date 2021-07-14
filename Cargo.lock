@@ -447,27 +447,7 @@ dependencies = [
  "ahash",
  "cfg-if",
  "crossbeam-channel",
- "cursive_core 0.3.0-alpha.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "lazy_static",
- "libc",
- "log",
- "maplit",
- "ncurses",
- "signal-hook",
- "term_size",
- "unicode-segmentation",
- "unicode-width",
-]
-
-[[package]]
-name = "cursive"
-version = "0.17.0-alpha.0"
-source = "git+https://github.com/gyscos/cursive#3ebecd2d7656b2734ba64f65d2ed7db9bf607865"
-dependencies = [
- "ahash",
- "cfg-if",
- "crossbeam-channel",
- "cursive_core 0.3.0-alpha.0 (git+https://github.com/gyscos/cursive)",
+ "cursive_core",
  "lazy_static",
  "libc",
  "log",
@@ -484,25 +464,6 @@ name = "cursive_core"
 version = "0.3.0-alpha.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ca3dea03bedd9310bd302c0160059b09b718f0a4601924693dcc18564b0c6204"
-dependencies = [
- "ahash",
- "chrono",
- "crossbeam-channel",
- "enum-map",
- "enumset",
- "lazy_static",
- "log",
- "num",
- "owning_ref",
- "unicode-segmentation",
- "unicode-width",
- "xi-unicode",
-]
-
-[[package]]
-name = "cursive_core"
-version = "0.3.0-alpha.0"
-source = "git+https://github.com/gyscos/cursive#3ebecd2d7656b2734ba64f65d2ed7db9bf607865"
 dependencies = [
  "ahash",
  "chrono",
@@ -1323,7 +1284,7 @@ version = "0.1.0"
 dependencies = [
  "async-std",
  "base64",
- "cursive 0.17.0-alpha.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "cursive",
  "futures",
  "serde_json",
  "surf",
@@ -1574,16 +1535,6 @@ checksum = "9e3dfc207c526015c632472a77be09cf1b6e46866581aecae5cc38fb4235dea2"
 dependencies = [
  "libc",
  "winapi",
-]
-
-[[package]]
-name = "spider"
-version = "0.1.0"
-dependencies = [
- "async-std",
- "base64",
- "futures",
- "surf",
 ]
 
 [[package]]
@@ -2037,17 +1988,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d743fdedc5c64377b5fc2bc036b01c7fd642205a0d96356034ae3404d49eb7fb"
 dependencies = [
  "cc",
-]
-
-[[package]]
-name = "widgets"
-version = "0.1.0"
-dependencies = [
- "base64",
- "cursive 0.17.0-alpha.0 (git+https://github.com/gyscos/cursive)",
- "futures",
- "serde_json",
- "spider",
 ]
 
 [[package]]
