@@ -441,12 +441,13 @@ dependencies = [
 [[package]]
 name = "cursive"
 version = "0.17.0-alpha.0"
-source = "git+https://github.com/gyscos/cursive#3ebecd2d7656b2734ba64f65d2ed7db9bf607865"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c114844e97b4e07aaae55a252a692df0cf1392dd977aa1368209bd388b11d1a2"
 dependencies = [
  "ahash",
  "cfg-if",
  "crossbeam-channel",
- "cursive_core",
+ "cursive_core 0.3.0-alpha.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "lazy_static",
  "libc",
  "log",
@@ -456,6 +457,46 @@ dependencies = [
  "term_size",
  "unicode-segmentation",
  "unicode-width",
+]
+
+[[package]]
+name = "cursive"
+version = "0.17.0-alpha.0"
+source = "git+https://github.com/gyscos/cursive#3ebecd2d7656b2734ba64f65d2ed7db9bf607865"
+dependencies = [
+ "ahash",
+ "cfg-if",
+ "crossbeam-channel",
+ "cursive_core 0.3.0-alpha.0 (git+https://github.com/gyscos/cursive)",
+ "lazy_static",
+ "libc",
+ "log",
+ "maplit",
+ "ncurses",
+ "signal-hook",
+ "term_size",
+ "unicode-segmentation",
+ "unicode-width",
+]
+
+[[package]]
+name = "cursive_core"
+version = "0.3.0-alpha.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ca3dea03bedd9310bd302c0160059b09b718f0a4601924693dcc18564b0c6204"
+dependencies = [
+ "ahash",
+ "chrono",
+ "crossbeam-channel",
+ "enum-map",
+ "enumset",
+ "lazy_static",
+ "log",
+ "num",
+ "owning_ref",
+ "unicode-segmentation",
+ "unicode-width",
+ "xi-unicode",
 ]
 
 [[package]]
@@ -1282,7 +1323,7 @@ version = "0.1.0"
 dependencies = [
  "async-std",
  "base64",
- "cursive",
+ "cursive 0.17.0-alpha.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "futures",
  "serde_json",
  "surf",
@@ -2003,7 +2044,7 @@ name = "widgets"
 version = "0.1.0"
 dependencies = [
  "base64",
- "cursive",
+ "cursive 0.17.0-alpha.0 (git+https://github.com/gyscos/cursive)",
  "futures",
  "serde_json",
  "spider",
