@@ -185,11 +185,12 @@ fn add_name(s: &mut Cursive) {
                     let names = temp2.clone().ps;
                     view.add_item(names, temp2);
                 }
-                storge.pop();
-                storge.pop();
-                storge.push('\n');
-                storge.push(']');
             }
+            storge.pop();
+            storge.pop();
+            storge.push('\n');
+            storge.push(']');
+
             //Get the Home
             let home = env::var("HOME").unwrap();
             let location = home + "/.config/tv2ray/storage.json";
