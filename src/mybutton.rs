@@ -265,19 +265,44 @@ impl MyButton {
             }
         }
         match test {
-            Tcp::Ss => MyButton {
-                urls: url,
-                func: "\"ss\"".to_string(),
-                add: "\"unknown\"".to_string(),
-                aid: "\"unknown\"".to_string(),
-                host: "\"unknown\"".to_string(),
-                id: "\"unknown\"".to_string(),
-                net: "\"unknown\"".to_string(),
-                path: "\"unknown\"".to_string(),
-                port: "\"unknown\"".to_string(),
-                ps: "\"unknown\"".to_string(),
-                tls: "\"unknown\"".to_string(),
-                typpe: "\"unknown\"".to_string(),
+            Tcp::Ss =>{
+                                // 预处理，去除ss://
+                let newurl = (&url[5..]).to_string();
+                // 用@分割字符串
+                let first: Vec<&str> = newurl.split('@').collect();
+                // 传来的节点补全最后一位解析
+                let header = first[0].to_string() + "=";
+                // 解析，解析结果会返回一个function和密码，中间通过分号分割
+                let header2 = ascii_to_string(base64::decode(header.as_bytes()).unwrap());
+                // 通过分号切开两个内容
+                let header3: Vec<&str> = header2.split(':').collect();
+                let net = format!("\"{}\"", header3[0].to_string());
+                let id = format!("\"{}\"", header3[1].to_string());
+
+                let first_temp = first[1].to_string();
+                let second: Vec<&str> = first_temp.split('#').collect();
+                let ps0 = urlencoding::decode(second[1]).unwrap();
+                let ps = format!("\"{}\"", ps0.to_string());
+
+                let second_temp = second[0].to_string();
+                let third: Vec<&str> = second_temp.split(':').collect();
+                let add = format!("\"{}\"", third[0].to_string());
+                let port = format!("\"{}\"", third[1].to_string());
+                MyButton {
+                    urls: url,
+                    func: "\"ss\"".to_string(),
+                    add,
+                    aid: "\"unknown\"".to_string(),
+                    host: "\"\"".to_string(),
+                    id,
+                    net,
+                    path: "\"unknown\"".to_string(),
+                    port,
+                    ps,
+                    tls: "\"unknown\"".to_string(),
+                    typpe: "\"unknown\"".to_string(),
+
+                }
             },
             Tcp::V2 => {
                 let newurl = &url[8..];

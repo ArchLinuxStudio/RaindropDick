@@ -1,4 +1,4 @@
-use crate::abutton::mybutton::MyButton;
+use crate::mybutton::MyButton;
 use crate::spider::get_the_key;
 use cursive::view::{Nameable, Resizable, Scrollable};
 use cursive::views::{
