@@ -24,11 +24,7 @@ fn ascii_to_string(code: Vec<u8>) -> String {
 }
 #[derive(Clone)]
 pub struct MyButton {
-    //pub urls : String,
-    //pub name : String,
-    //pub port :String,
     pub func: String,
-    //pub company:String,
     pub urls: String,
     pub add: String,
     pub aid: String,
@@ -181,13 +177,7 @@ impl MyButton {
                 Ok(file2) => file2,
             };
 
-            // 将 `LOREM_IPSUM` 字符串写进 `file`，返回 `io::Result<()>`
-            //match file2.write_all(json.as_bytes()) {
-            //    Err(why) => {
-            //        panic!("couldn't write to {}: {}", display2, why.to_string())
-            //    }
-            //    Ok(_) => {}
-            //}
+
             if let Err(why) = file2.write_all(json.as_bytes()) {
                 panic!("couldn't write to {}: {}", display2, why.to_string())
             }
@@ -247,12 +237,6 @@ impl MyButton {
         }
         let mut select = SelectView::<MyButton>::new().on_submit(running_json);
         select.add_item("<start>", self.clone());
-        //Dialog::text(format!("Name:{}\nUrl:{}\nport:{}\nfunction:{}\ncompany:{}", self.ps,self.urls,self.port,self.func,self.add))
-        //        .title(format!("{}", self.add))
-        //        //.button("Quit", Cursive::quit)
-        //        .button("quit", |s|{
-        //            s.pop_layer();
-        //        })
         Dialog::around(
             LinearLayout::horizontal()
                 .child(TextView::new(format!(
