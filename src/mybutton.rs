@@ -465,7 +465,7 @@ impl MyButton {
             LinearLayout::horizontal()
                 .child(TextView::new(format!(
                     "Name:{}\nUrl:{}\nport:{}\nfunction:{}\ncompany:{}",
-                    self.ps, self.urls, self.port, self.func, self.add
+                    self.ps, self.get_the_link(), self.port, self.func, self.add
                 )))
                 .child(
                     LinearLayout::vertical()
@@ -568,4 +568,28 @@ impl MyButton {
             }
         }
     }
+    fn get_the_link(&self) -> String {
+        let mut temp = String::new();
+        if self.func == *"\"vmess\"" {
+            temp.push_str(&format!(
+                "vmess://{}:{}-{}@{}:{}/#{}",
+                &remove_quotation(self.net.clone()),
+                &remove_quotation(self.id.clone()),
+                &remove_quotation(self.aid.clone()),
+                &remove_quotation(self.add.clone()),
+                &remove_quotation(self.port.clone()),
+                &remove_quotation(self.ps.clone())
+            ))
+        } else {
+            temp = self.urls.clone();
+        }
+        temp
+    }
+    pub fn get_name(&self) -> String{
+        remove_quotation(self.ps.clone())
+    }
+}
+pub fn remove_quotation(input: String) -> String {
+    let length = input.len();
+    (&input[1..length - 1]).to_string()
 }

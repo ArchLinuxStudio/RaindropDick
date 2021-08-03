@@ -1,4 +1,4 @@
-use crate::mybutton::MyButton;
+use crate::mybutton::{MyButton,remove_quotation};
 use crate::spider::get_the_key;
 use cursive::view::{Nameable, Resizable, Scrollable};
 use cursive::views::{
@@ -69,7 +69,7 @@ fn url_select() -> ResizedView<ScrollView<NamedView<SelectView<MyButton>>>> {
                     typpe: v[index]["type"].to_string(),
                 };
                 let names = v[index]["ps"].to_string();
-                start.add_item(names, url);
+                start.add_item(remove_quotation(names), url);
                 index += 1;
             }
         }
@@ -349,7 +349,7 @@ fn onload(s: &mut Cursive) {
                         tls: v[index]["tls"].to_string(),
                         typpe: v[index]["type"].to_string(),
                     };
-                    let names = v[index]["ps"].to_string();
+                    let names = url.get_name();
                     view.add_item(names, url);
                     index += 1;
                 }
