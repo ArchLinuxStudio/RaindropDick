@@ -2,7 +2,7 @@ use crate::mybutton::{MyButton,remove_quotation};
 use crate::spider::get_the_key;
 use cursive::view::{Nameable, Resizable, Scrollable};
 use cursive::views::{
-    Button, Dialog, DummyView, EditView, LinearLayout, NamedView, ResizedView, ScrollView,
+    Button, Dialog, DummyView, EditView, LinearLayout,
     SelectView,
 };
 use cursive::Cursive;
@@ -17,7 +17,7 @@ fn create_storage_before() {
     let home = env::var("HOME").unwrap();
     fs::create_dir_all(home + "/.config/tv2ray").unwrap();
 }
-fn url_select() -> ResizedView<ScrollView<NamedView<SelectView<MyButton>>>> {
+fn url_select() -> impl Resizable {
     let mut start = SelectView::<MyButton>::new().on_submit(on_submit);
     create_storage_before();
     let home = env::var("HOME").unwrap();
