@@ -30,14 +30,14 @@ fn url_select() -> impl Resizable {
             let path2 = Path::new(location.as_str());
             let display2 = path2.display();
             let mut file2 = match File::create(&path2) {
-                Err(why) => panic!("couldn't create {}: {}", display2, why.to_string()),
+                Err(why) => panic!("couldn't create {}: {}", display2, why),
                 Ok(file2) => file2,
             };
             let mut storge2: String = String::new();
             storge2.push_str("[]");
             // 将 `LOREM_IPSUM` 字符串写进 `file`，返回 `io::Result<()>`
             if let Err(why) = file2.write_all(storge2.as_bytes()) {
-                panic!("couldn't write to {}: {}", display2, why.to_string())
+                panic!("couldn't write to {}: {}", display2, why)
             }
             let path3 = Path::new(location.as_str());
             File::open(&path3).unwrap()
@@ -199,13 +199,13 @@ fn add_name(s: &mut Cursive) {
             //let path2 = Path::new("storage.json");
             let display2 = path2.display();
             let mut file2 = match File::create(&path2) {
-                Err(why) => panic!("couldn't create {}: {}", display2, why.to_string()),
+                Err(why) => panic!("couldn't create {}: {}", display2, why),
                 Ok(file2) => file2,
             };
 
             // 将 `LOREM_IPSUM` 字符串写进 `file`，返回 `io::Result<()>`
             if let Err(why) = file2.write_all(storge.as_bytes()) {
-                panic!("couldn't write to {}: {}", display2, why.to_string())
+                panic!("couldn't write to {}: {}", display2, why)
             }
         });
         s.pop_layer();
@@ -249,13 +249,13 @@ pub fn v2core() -> Dialog {
         //let path2 = Path::new("storage.json");
         let display2 = path2.display();
         let mut file2 = match File::create(&path2) {
-            Err(why) => panic!("couldn't create {}: {}", display2, why.to_string()),
+            Err(why) => panic!("couldn't create {}: {}", display2, why),
             Ok(file2) => file2,
         };
 
         // 将 `LOREM_IPSUM` 字符串写进 `file`，返回 `io::Result<()>`
         if let Err(why) = file2.write_all(output.as_bytes()) {
-            panic!("couldn't write to {}: {}", display2, why.to_string())
+            panic!("couldn't write to {}: {}", display2, why)
         }
     }
     create_storage_before();
@@ -269,14 +269,14 @@ pub fn v2core() -> Dialog {
             let path2 = Path::new(location.as_str());
             let display2 = path2.display();
             let mut file2 = match File::create(&path2) {
-                Err(why) => panic!("couldn't create {}: {}", display2, why.to_string()),
+                Err(why) => panic!("couldn't create {}: {}", display2, why),
                 Ok(file2) => file2,
             };
             let mut storge2: String = String::new();
             storge2.push_str("{\n\"v2core\":\"/usr/bin/v2ray\"\n}");
             // 将 `LOREM_IPSUM` 字符串写进 `file`，返回 `io::Result<()>`
             if let Err(why) = file2.write_all(storge2.as_bytes()) {
-                panic!("couldn't write to {}: {}", display2, why.to_string())
+                panic!("couldn't write to {}: {}", display2, why)
             }
             let path3 = Path::new(location.as_str());
             File::open(&path3).unwrap()
@@ -321,7 +321,7 @@ fn onload(s: &mut Cursive) {
     let display = path.display();
     let mut file = match File::open(&path) {
         // `io::Error` 的 `description` 方法返回一个描述错误的字符串。
-        Err(why) => panic!("couldn't open {}: {}", display, why.to_string()),
+        Err(why) => panic!("couldn't open {}: {}", display, why),
         Ok(file) => file,
     };
     let mut ss = String::new();
