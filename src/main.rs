@@ -17,10 +17,10 @@ use crossterm::{
 use std::{error::Error, io};
 use tui::{
     backend::{Backend, CrosstermBackend},
-    layout::{Constraint, Direction, Layout,Rect},
+    layout::{Constraint, Direction, Layout, Rect},
     style::{Color, Modifier, Style},
     text::{Span, Spans, Text},
-    widgets::{Block, Borders, List, ListItem, ListState, Paragraph,Clear},
+    widgets::{Block, Borders, Clear, List, ListItem, ListState, Paragraph},
     Frame, Terminal,
 };
 use unicode_width::UnicodeWidthStr;
@@ -43,7 +43,7 @@ struct App {
     state: ListState,
     index: Option<usize>,
     stateoflist: bool,
-    show_popup : bool,
+    show_popup: bool,
 }
 impl App {
     fn next(&mut self) {
@@ -183,16 +183,14 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<(
                     } else {
                         app.input_mode = InputMode::Normal;
                     }
-                },
-                InputMode::Popup => {
-                    match key.code {
-                        KeyCode::Char('q') => {
-                            app.input_mode = InputMode::Select;
-                            app.show_popup = false;
-                        }
-                        _=> {}
-                    }
                 }
+                InputMode::Popup => match key.code {
+                    KeyCode::Char('q') => {
+                        app.input_mode = InputMode::Select;
+                        app.show_popup = false;
+                    }
+                    _ => {}
+                },
             }
         }
     }
@@ -253,7 +251,7 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
 
     let input = Paragraph::new(app.input.as_ref())
         .style(match app.input_mode {
-            InputMode::Normal | InputMode::Select | InputMode::Popup=> Style::default(),
+            InputMode::Normal | InputMode::Select | InputMode::Popup => Style::default(),
             InputMode::Editing => Style::default().fg(Color::Yellow),
         })
         .block(Block::default().borders(Borders::ALL).title("Input"));
