@@ -38,4 +38,3 @@ pub fn get_the_key(paths: Vec<String>) -> Result<Vec<Vec<String>>> {
     }
     Ok(output)
 }
-

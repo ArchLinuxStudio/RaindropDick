@@ -20,7 +20,7 @@ use tui::{
     layout::{Constraint, Direction, Layout},
     style::{Color, Modifier, Style},
     text::{Span, Spans, Text},
-    widgets::{Block, Borders, List, ListItem, Paragraph,ListState},
+    widgets::{Block, Borders, List, ListItem, ListState, Paragraph},
     Frame, Terminal,
 };
 use unicode_width::UnicodeWidthStr;
@@ -28,6 +28,7 @@ mod spider;
 enum InputMode {
     Normal,
     Editing,
+    Select,
 }
 
 /// App holds the state of the application
@@ -39,6 +40,8 @@ struct App {
     /// History of recorded messages
     messages: Vec<String>,
     state: ListState,
+    index: Option<usize>,
+    stateoflist: bool,
 }
 impl App {
     fn next(&mut self) {
@@ -53,6 +56,7 @@ impl App {
             None => 0,
         };
         self.state.select(Some(i));
+        self.index = Some(i);
     }
 
     fn previous(&mut self) {
@@ -67,6 +71,7 @@ impl App {
             None => 0,
         };
         self.state.select(Some(i));
+        self.index = Some(i);
     }
 
     fn unselect(&mut self) {
@@ -80,6 +85,8 @@ impl Default for App {
             input_mode: InputMode::Normal,
             messages: Vec::new(),
             state: ListState::default(),
+            index: None,
+            stateoflist: false,
         }
     }
 }
@@ -122,6 +129,9 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<(
                     KeyCode::Char('e') => {
                         app.input_mode = InputMode::Editing;
                     }
+                    KeyCode::Char('s') => {
+                        app.input_mode = InputMode::Select;
+                    }
                     KeyCode::Char('q') => {
                         return Ok(());
                     }
@@ -129,9 +139,15 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<(
                 },
                 InputMode::Editing => match key.code {
                     KeyCode::Enter => {
-                        let input  = vec![app.input.clone()];
-                        app.messages = spider::get_the_key(input.clone()).unwrap()[0].clone();
-                        app.state.select(Some(0));
+                        let input = vec![app.input.clone()];
+                        let get_list = spider::get_the_key(input.clone());
+                        if let Ok(list) = get_list {
+                            if !list.is_empty() {
+                                app.messages = list[0].clone();
+                                app.stateoflist = true;
+                                app.state.select(Some(0));
+                            }
+                        }
                         //app.messages.push(app.input.drain(..).collect());
                     }
                     KeyCode::Char(c) => {
@@ -143,11 +159,26 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<(
                     KeyCode::Esc => {
                         app.input_mode = InputMode::Normal;
                     }
-                    KeyCode::Left => app.unselect(),
-                    KeyCode::Down => app.next(),
-                    KeyCode::Up => app.previous(),
                     _ => {}
                 },
+                InputMode::Select => {
+                    if app.stateoflist {
+                        match key.code {
+                            KeyCode::Left => app.unselect(),
+                            KeyCode::Down => app.next(),
+                            KeyCode::Up => app.previous(),
+                            KeyCode::Esc => {
+                                app.input_mode = InputMode::Normal;
+                            }
+                            KeyCode::Enter => {
+                                app.input = app.index.as_ref().unwrap().to_string();
+                            }
+                            _ => {}
+                        }
+                    } else {
+                        app.input_mode = InputMode::Normal;
+                    }
+                }
             }
         }
     }
@@ -175,8 +206,20 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
                 Span::raw(" to exit, "),
                 Span::styled("e", Style::default().add_modifier(Modifier::BOLD)),
                 Span::raw(" to start editing."),
+                Span::styled("s", Style::default().add_modifier(Modifier::BOLD)),
+                Span::raw(" to select trees"),
             ],
             Style::default().add_modifier(Modifier::RAPID_BLINK),
+        ),
+        InputMode::Select => (
+            vec![
+                Span::raw("Press "),
+                Span::styled("Esc", Style::default().add_modifier(Modifier::BOLD)),
+                Span::raw(" to stop editing, "),
+                Span::styled("Enter", Style::default().add_modifier(Modifier::BOLD)),
+                Span::raw(" to record the message"),
+            ],
+            Style::default(),
         ),
         InputMode::Editing => (
             vec![
@@ -196,13 +239,13 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
 
     let input = Paragraph::new(app.input.as_ref())
         .style(match app.input_mode {
-            InputMode::Normal => Style::default(),
+            InputMode::Normal | InputMode::Select => Style::default(),
             InputMode::Editing => Style::default().fg(Color::Yellow),
         })
         .block(Block::default().borders(Borders::ALL).title("Input"));
     f.render_widget(input, chunks[1]);
     match app.input_mode {
-        InputMode::Normal =>
+        InputMode::Normal | InputMode::Select =>
             // Hide the cursor. `Frame` does this by default, so we don't need to do anything here
             {}
 
