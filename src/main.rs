@@ -44,6 +44,7 @@ struct App {
     index: Option<usize>,
     stateoflist: bool,
     show_popup: bool,
+    informations: Vec<spider::Information>,
 }
 impl App {
     fn next(&mut self) {
@@ -90,6 +91,7 @@ impl Default for App {
             index: None,
             stateoflist: false,
             show_popup: false,
+            informations: Vec::new(),
         }
     }
 }
@@ -145,10 +147,15 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<(
                         let input = vec![app.input.clone()];
                         let get_list = spider::get_the_key(input.clone());
                         if let Ok(list) = get_list {
-                            if !list.is_empty() {
+                            if !list[0].is_empty() {
                                 app.messages = list[0].clone();
                                 app.stateoflist = true;
                                 app.state.select(Some(0));
+                                app.index = Some(0);
+                                for alist in &list[0] {
+                                    app.informations
+                                        .push(spider::Information::new(alist.to_string()));
+                                }
                             }
                         }
                         //app.messages.push(app.input.drain(..).collect());
@@ -184,13 +191,12 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<(
                         app.input_mode = InputMode::Normal;
                     }
                 }
-                InputMode::Popup => match key.code {
-                    KeyCode::Char('q') => {
+                InputMode::Popup => {
+                    if let KeyCode::Char('q') = key.code {
                         app.input_mode = InputMode::Select;
                         app.show_popup = false;
                     }
-                    _ => {}
-                },
+                }
             }
         }
     }
@@ -272,6 +278,12 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
         }
     }
 
+    // Bottom two inner blocks
+    let bottom_chunks = Layout::default()
+        .direction(Direction::Horizontal)
+        .constraints([Constraint::Percentage(40), Constraint::Percentage(60)].as_ref())
+        .split(chunks[2]);
+
     let messages: Vec<ListItem> = app
         .messages
         .iter()
@@ -289,11 +301,30 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
                 .add_modifier(Modifier::BOLD),
         )
         .highlight_symbol(">> ");
-    //let messages =
-    //    List::new(messages).block(Block::default().borders(Borders::ALL).title("Messages"));
-    f.render_stateful_widget(messages, chunks[2], &mut app.state);
+    // popup wiget
+    f.render_stateful_widget(messages, bottom_chunks[0], &mut app.state);
+    //let block : Box<dyn Widget> = {
+    if let Some(a) = app.index {
+        let list = app.informations[a].information_to_list();
+        let messages: Vec<ListItem> = list
+            .iter()
+            .map(|infom| {
+                let content = vec![Spans::from(Span::raw(infom))];
+                ListItem::new(content)
+            })
+            .collect();
+        let block =
+            List::new(messages).block(Block::default().borders(Borders::ALL).title("Messages"));
+        f.render_widget(block, bottom_chunks[1]);
+    } else {
+        let block = Block::default().title("With borders").borders(Borders::ALL);
+        f.render_widget(block, bottom_chunks[1]);
+    }
+    //};
+    //f.render_widget(*block, bottom_chunks[0]);
+
     if app.show_popup {
-        let block = Block::default().title("Popup").borders(Borders::ALL);
+        let block = Block::default().title("About port").borders(Borders::ALL);
         let area = centered_rect(60, 20, f.size());
         f.render_widget(Clear, area); //this clears out the background
         f.render_widget(block, area);
