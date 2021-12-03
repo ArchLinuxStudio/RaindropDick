@@ -263,6 +263,8 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<(
                 InputMode::PopupEdit => {
                     match key.code {
                         KeyCode::Char('q') => app.input_mode = InputMode::Popup,
+                        // here todo
+                        KeyCode::Char('e') => todo!(),
                         _ => {}
                     }
                 }
@@ -331,8 +333,7 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
         })
         .block(Block::default().borders(Borders::ALL).title("Input"));
     f.render_widget(input, chunks[1]);
-    match app.input_mode {
-        InputMode::Editing => {
+    if let InputMode::Editing =  app.input_mode {
             // Make the cursor visible and ask tui-rs to put it at the specified coordinates after rendering
             f.set_cursor(
                 // Put cursor past the end of the input text
@@ -340,10 +341,8 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
                 // Move one line down, from the border to the input line
                 chunks[1].y + 1,
             )
-        }
         //InputMode::Normal | InputMode::Select | InputMode::Popup =>
         // Hide the cursor. `Frame` does this by default, so we don't need to do anything here
-        _ => {}
     }
 
     // Bottom two inner blocks
