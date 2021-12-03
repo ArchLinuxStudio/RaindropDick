@@ -35,13 +35,13 @@ pub fn start() -> Vec<Information> {
         Ok(output) => output,
         Err(_) => {
             if let Err(err) = create_json_file("[]".to_string()) {
-                panic!("{}",err);
+                panic!("{}", err);
             };
             "[]".to_string()
         }
     };
     let mut informations = Vec::new();
-    let v: Value = serde_json::from_str(&messages.as_str()).unwrap();
+    let v: Value = serde_json::from_str(messages.as_str()).unwrap();
     let mut index = 0;
     while v[index] != Value::Null {
         let the_url = v[index]["url"].to_string();
