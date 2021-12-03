@@ -1,4 +1,4 @@
-extern crate base64;
+//extern crate base64;
 use reqwest::Result;
 pub fn ascii_to_char(code: u8) -> char {
     std::char::from_u32(code as u32).unwrap_or('_')
