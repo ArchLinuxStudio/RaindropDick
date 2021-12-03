@@ -8,6 +8,7 @@ use std::{
     path::Path,
     result::Result,
 };
+#[allow(dead_code)]
 pub enum Save{
     Storage,
     Running,
