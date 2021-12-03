@@ -17,10 +17,10 @@ use crossterm::{
 use std::{error::Error, io};
 use tui::{
     backend::{Backend, CrosstermBackend},
-    layout::{Constraint, Direction, Layout},
+    layout::{Constraint, Direction, Layout,Rect},
     style::{Color, Modifier, Style},
     text::{Span, Spans, Text},
-    widgets::{Block, Borders, List, ListItem, ListState, Paragraph},
+    widgets::{Block, Borders, List, ListItem, ListState, Paragraph,Clear},
     Frame, Terminal,
 };
 use unicode_width::UnicodeWidthStr;
@@ -29,6 +29,7 @@ enum InputMode {
     Normal,
     Editing,
     Select,
+    Popup,
 }
 
 /// App holds the state of the application
@@ -42,6 +43,7 @@ struct App {
     state: ListState,
     index: Option<usize>,
     stateoflist: bool,
+    show_popup : bool,
 }
 impl App {
     fn next(&mut self) {
@@ -87,6 +89,7 @@ impl Default for App {
             state: ListState::default(),
             index: None,
             stateoflist: false,
+            show_popup: false,
         }
     }
 }
@@ -171,12 +174,23 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<(
                                 app.input_mode = InputMode::Normal;
                             }
                             KeyCode::Enter => {
-                                app.input = app.index.as_ref().unwrap().to_string();
+                                //app.input = app.index.as_ref().unwrap().to_string();
+                                app.show_popup = true;
+                                app.input_mode = InputMode::Popup;
                             }
                             _ => {}
                         }
                     } else {
                         app.input_mode = InputMode::Normal;
+                    }
+                },
+                InputMode::Popup => {
+                    match key.code {
+                        KeyCode::Char('q') => {
+                            app.input_mode = InputMode::Select;
+                            app.show_popup = false;
+                        }
+                        _=> {}
                     }
                 }
             }
@@ -199,7 +213,7 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
         .split(f.size());
 
     let (msg, style) = match app.input_mode {
-        InputMode::Normal => (
+        InputMode::Normal | InputMode::Popup => (
             vec![
                 Span::raw("Press "),
                 Span::styled("q", Style::default().add_modifier(Modifier::BOLD)),
@@ -239,13 +253,13 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
 
     let input = Paragraph::new(app.input.as_ref())
         .style(match app.input_mode {
-            InputMode::Normal | InputMode::Select => Style::default(),
+            InputMode::Normal | InputMode::Select | InputMode::Popup=> Style::default(),
             InputMode::Editing => Style::default().fg(Color::Yellow),
         })
         .block(Block::default().borders(Borders::ALL).title("Input"));
     f.render_widget(input, chunks[1]);
     match app.input_mode {
-        InputMode::Normal | InputMode::Select =>
+        InputMode::Normal | InputMode::Select | InputMode::Popup =>
             // Hide the cursor. `Frame` does this by default, so we don't need to do anything here
             {}
 
@@ -280,4 +294,35 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
     //let messages =
     //    List::new(messages).block(Block::default().borders(Borders::ALL).title("Messages"));
     f.render_stateful_widget(messages, chunks[2], &mut app.state);
+    if app.show_popup {
+        let block = Block::default().title("Popup").borders(Borders::ALL);
+        let area = centered_rect(60, 20, f.size());
+        f.render_widget(Clear, area); //this clears out the background
+        f.render_widget(block, area);
+    }
+}
+fn centered_rect(percent_x: u16, percent_y: u16, r: Rect) -> Rect {
+    let popup_layout = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints(
+            [
+                Constraint::Percentage((100 - percent_y) / 2),
+                Constraint::Percentage(percent_y),
+                Constraint::Percentage((100 - percent_y) / 2),
+            ]
+            .as_ref(),
+        )
+        .split(r);
+
+    Layout::default()
+        .direction(Direction::Horizontal)
+        .constraints(
+            [
+                Constraint::Percentage((100 - percent_x) / 2),
+                Constraint::Percentage(percent_x),
+                Constraint::Percentage((100 - percent_x) / 2),
+            ]
+            .as_ref(),
+        )
+        .split(popup_layout[1])[1]
 }
