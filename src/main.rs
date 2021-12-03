@@ -25,6 +25,7 @@ use tui::{
 };
 use unicode_width::UnicodeWidthStr;
 mod spider;
+mod utils;
 enum InputMode {
     Normal,
     Editing,
@@ -105,7 +106,18 @@ fn main() -> Result<(), Box<dyn Error>> {
     let mut terminal = Terminal::new(backend)?;
 
     // create app and run it
-    let app = App::default();
+    let mut app = App::default();
+    let informations = utils::start();
+    if !informations.is_empty() {
+        app.messages = informations
+            .iter()
+            .map(|amessage| amessage.urls.clone())
+            .collect();
+        app.stateoflist = true;
+        app.state.select(Some(0));
+        app.index = Some(0);
+        app.informations = informations;
+    }
     let res = run_app(&mut terminal, app);
 
     // restore terminal
