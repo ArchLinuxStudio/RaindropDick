@@ -12,14 +12,14 @@ fn create_storage_before() {
     let home = env::var("HOME").unwrap();
     fs::create_dir_all(home + "/.config/tv2ray").unwrap();
 }
-fn create_json_file() -> Result<String, Error> {
+pub fn create_json_file(input: String) -> Result<(), Error> {
     let home = env::var("HOME").unwrap();
     let location = format!("{}/.config/tv2ray/storage.json", home);
     let path = Path::new(location.as_str());
     let mut file = File::create(&path)?;
-    let storge: String = "[]".to_string();
-    file.write_all(storge.as_bytes())?;
-    Ok(storge)
+    //let storge: String = input;
+    file.write_all(input.as_bytes())?;
+    Ok(())
 }
 fn get_json() -> Result<String, Error> {
     let home = env::var("HOME").unwrap();
@@ -33,7 +33,12 @@ pub fn start() -> Vec<Information> {
     create_storage_before();
     let messages = match get_json() {
         Ok(output) => output,
-        Err(_) => create_json_file().unwrap(),
+        Err(_) => {
+            if let Err(err) = create_json_file("[]".to_string()) {
+                panic!("{}",err);
+            };
+            "[]".to_string()
+        }
     };
     let mut informations = Vec::new();
     let v: Value = serde_json::from_str(&messages.as_str()).unwrap();

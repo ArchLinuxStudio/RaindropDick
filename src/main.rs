@@ -159,17 +159,59 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<(
                         let input = vec![app.input.clone()];
                         let get_list = spider::get_the_key(input.clone());
                         if let Ok(list) = get_list {
+                            let mut storge: String = String::new();
+                            storge.push('[');
+                            storge.push('\n');
                             if !list[0].is_empty() {
                                 app.messages = list[0].clone();
                                 app.stateoflist = true;
                                 app.state.select(Some(0));
                                 app.index = Some(0);
                                 for alist in &list[0] {
-                                    app.informations
-                                        .push(spider::Information::new(alist.to_string()));
+                                    let information = spider::Information::new(alist.to_string());
+                                    app.informations.push(information.clone());
+                                    storge.push_str(
+                                        format!(
+                                            "{{
+    \"func\":{},
+    \"url\":\"{}\",
+    \"add\":{},
+    \"aid\":{},
+    \"host\":{},
+    \"id\":{},
+    \"net\":{},
+    \"path\":{},
+    \"port\":{},
+    \"ps\":{},
+    \"tls\":{},
+    \"type\":{}
+}},\n",
+                                            information.clone().func,
+                                            information.clone().urls,
+                                            information.clone().add,
+                                            information.clone().aid,
+                                            information.clone().host,
+                                            information.clone().id,
+                                            information.clone().net,
+                                            information.clone().path,
+                                            information.clone().port,
+                                            information.clone().ps,
+                                            information.clone().tls,
+                                            information.clone().typpe
+                                        )
+                                        .as_str(),
+                                    );
                                 }
                             }
+                            storge.pop();
+                            storge.pop();
+                            storge.push('\n');
+                            storge.push(']');
+                            if let Err(err) = utils::create_json_file(storge) {
+                                panic!("err {}", err);
+                            };
                         }
+
                         //app.messages.push(app.input.drain(..).collect());
                     }
                     KeyCode::Char(c) => {
