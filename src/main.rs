@@ -31,6 +31,7 @@ enum InputMode {
     Editing,
     Select,
     Popup,
+    PopupEdit,
 }
 
 /// App holds the state of the application
@@ -152,6 +153,11 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<(
                     KeyCode::Char('q') => {
                         return Ok(());
                     }
+                    KeyCode::Char('h') => {
+                        //app.input = app.index.as_ref().unwrap().to_string();
+                        app.show_popup = true;
+                        app.input_mode = InputMode::Popup;
+                    }
                     _ => {}
                 },
                 InputMode::Editing => match key.code {
@@ -207,7 +213,8 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<(
                             storge.pop();
                             storge.push('\n');
                             storge.push(']');
-                            if let Err(err) = utils::create_json_file(storge) {
+                            if let Err(err) = utils::create_json_file(utils::Save::Storage, storge)
+                            {
                                 panic!("err {}", err);
                             };
                         }
@@ -234,11 +241,7 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<(
                             KeyCode::Esc => {
                                 app.input_mode = InputMode::Normal;
                             }
-                            KeyCode::Enter => {
-                                //app.input = app.index.as_ref().unwrap().to_string();
-                                app.show_popup = true;
-                                app.input_mode = InputMode::Popup;
-                            }
+
                             _ => {}
                         }
                     } else {
@@ -246,9 +249,21 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<(
                     }
                 }
                 InputMode::Popup => {
-                    if let KeyCode::Char('q') = key.code {
-                        app.input_mode = InputMode::Select;
-                        app.show_popup = false;
+                    match key.code {
+                        KeyCode::Char('q') => {
+                            app.input_mode = InputMode::Normal;
+                            app.show_popup = false;
+                        },
+                        KeyCode::Char('e') => {
+                            app.input_mode = InputMode::PopupEdit;
+                        },
+                        _ => {}
+                    }
+                }
+                InputMode::PopupEdit => {
+                    match key.code {
+                        KeyCode::Char('q') => app.input_mode = InputMode::Popup,
+                        _ => {}
                     }
                 }
             }
@@ -271,7 +286,7 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
         .split(f.size());
 
     let (msg, style) = match app.input_mode {
-        InputMode::Normal | InputMode::Popup => (
+        InputMode::Normal | InputMode::Popup | InputMode::PopupEdit => (
             vec![
                 Span::raw("Press "),
                 Span::styled("q", Style::default().add_modifier(Modifier::BOLD)),
@@ -311,16 +326,12 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
 
     let input = Paragraph::new(app.input.as_ref())
         .style(match app.input_mode {
-            InputMode::Normal | InputMode::Select | InputMode::Popup => Style::default(),
             InputMode::Editing => Style::default().fg(Color::Yellow),
+            _ => Style::default(),
         })
         .block(Block::default().borders(Borders::ALL).title("Input"));
     f.render_widget(input, chunks[1]);
     match app.input_mode {
-        InputMode::Normal | InputMode::Select | InputMode::Popup =>
-            // Hide the cursor. `Frame` does this by default, so we don't need to do anything here
-            {}
-
         InputMode::Editing => {
             // Make the cursor visible and ask tui-rs to put it at the specified coordinates after rendering
             f.set_cursor(
@@ -330,6 +341,9 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
                 chunks[1].y + 1,
             )
         }
+        //InputMode::Normal | InputMode::Select | InputMode::Popup =>
+        // Hide the cursor. `Frame` does this by default, so we don't need to do anything here
+        _ => {}
     }
 
     // Bottom two inner blocks
@@ -378,10 +392,17 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
     //f.render_widget(*block, bottom_chunks[0]);
 
     if app.show_popup {
-        let block = Block::default().title("About port").borders(Borders::ALL);
+        //let block = Block::default().title("About port").borders(Borders::ALL);
+        let inputpop = Paragraph::new(app.input.as_ref())
+            .style(match app.input_mode {
+                InputMode::PopupEdit => Style::default().fg(Color::Yellow),
+                _ => Style::default(),
+            })
+            .block(Block::default().borders(Borders::ALL).title("Input"));
+        //f.render_widget(input, chunks[1]);
         let area = centered_rect(60, 20, f.size());
         f.render_widget(Clear, area); //this clears out the background
-        f.render_widget(block, area);
+        f.render_widget(inputpop, area);
     }
 }
 fn centered_rect(percent_x: u16, percent_y: u16, r: Rect) -> Rect {

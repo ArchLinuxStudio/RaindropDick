@@ -77,9 +77,8 @@ impl Information {
         output.push(format!("func: {}", self.func));
         output.push(format!("urls: {}", self.urls));
         output.push(format!("add: {}", self.add));
-        output.push(format!("aid: {}", self.aid));
-        output.push(format!("tls: {}", self.tls));
-        output.push(format!("type: {}", self.typpe));
+        output.push(format!("port: {}", self.port));
+        output.push(format!("name: {}", self.ps));
         output
     }
     fn get_the_link(&self) -> String {
