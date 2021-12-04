@@ -29,22 +29,40 @@ pub fn create_json_file(save: Save, input: String) -> Result<()> {
     file.write_all(input.as_bytes())?;
     Ok(())
 }
-fn get_json() -> Result<String> {
+fn get_json(save: Save) -> Result<String> {
     let home = env::var("HOME").unwrap();
-    let location = format!("{}/.config/tv2ray/storage.json", home);
+    let location = match save {
+        Save::Storage => format!("{}/.config/tv2ray/storage.json", home),
+        Save::Running => format!("{}/.config/tv2ray/running.json", home),
+        Save::V2ray => format!("{}/.config/tv2ray/v2core.json", home),
+    };
     let mut file = File::open(location)?;
     let mut output = String::new();
     file.read_to_string(&mut output).unwrap();
     Ok(output)
 }
-pub fn start() -> Vec<Information> {
+pub fn start_v2core() -> String {
     create_storage_before();
-    let messages = match get_json() {
+    let message = match get_json(Save::V2ray) {
         Ok(output) => output,
         Err(_) => {
-            if let Err(err) = create_json_file(Save::Storage, "[]".to_string()) {
-                panic!("{}", err);
-            };
+            let core = "{\n\"v2core\":\"/usr/bin/v2ray\"\n}".to_string();
+            if let Err(err) = create_json_file(Save::V2ray, core.clone()) {
+                panic!("{}",err);
+            }
+            core
+        }
+    };
+    let v: Value = serde_json::from_str(message.as_str()).unwrap();
+    let message_pre = v["v2core"].to_string();
+    crate::spider::remove_quotation(message_pre)
+}
+pub fn start() -> Vec<Information> {
+    create_storage_before();
+    let messages = match get_json(Save::Storage) {
+        Ok(output) => output,
+        Err(_) => {
+            create_json_file(Save::Storage, "[]".to_string()).unwrap_or_else(|err| panic!("{}", err));
             "[]".to_string()
         }
     };

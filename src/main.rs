@@ -14,7 +14,7 @@ use crossterm::{
     execute,
     terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
 };
-use std::{error::Error, io};
+use std::{env, error::Error, io, process::Command};
 use tui::{
     backend::{Backend, CrosstermBackend},
     layout::{Constraint, Direction, Layout, Rect},
@@ -114,13 +114,14 @@ fn main() -> Result<(), Box<dyn Error>> {
     if !informations.is_empty() {
         app.messages = informations
             .iter()
-            .map(|amessage| amessage.urls.clone())
+            .map(|amessage| spider::remove_quotation(amessage.ps.clone()))
             .collect();
         app.stateoflist = true;
         app.state.select(Some(0));
         app.index = Some(0);
         app.informations = informations;
     }
+    app.v2ray_input = utils::start_v2core();
     let res = run_app(&mut terminal, app);
 
     // restore terminal
@@ -160,6 +161,7 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<(
                         app.show_popup = true;
                         app.input_mode = InputMode::Popup;
                     }
+
                     _ => {}
                 },
                 InputMode::Editing => match key.code {
@@ -171,7 +173,7 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<(
                             storge.push('[');
                             storge.push('\n');
                             if !list[0].is_empty() {
-                                app.messages = list[0].clone();
+                                //app.messages = list[0].clone();
                                 app.stateoflist = true;
                                 app.state.select(Some(0));
                                 app.index = Some(0);
@@ -180,15 +182,20 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<(
                                     app.informations.push(information.clone());
                                     storge.push_str(information.get_the_json_node().as_str());
                                 }
+                                app.messages = app
+                                    .informations
+                                    .iter()
+                                    .map(|ainformation| {
+                                        spider::remove_quotation(ainformation.ps.clone())
+                                    })
+                                    .collect();
                             }
                             storge.pop();
                             storge.pop();
                             storge.push('\n');
                             storge.push(']');
-                            if let Err(err) = utils::create_json_file(utils::Save::Storage, storge)
-                            {
-                                panic!("err {}", err);
-                            };
+                            utils::create_json_file(utils::Save::Storage, storge)
+                                .unwrap_or_else(|err| panic!("err {}", err));
                         }
 
                         //app.messages.push(app.input.drain(..).collect());
@@ -213,7 +220,29 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<(
                             KeyCode::Esc => {
                                 app.input_mode = InputMode::Normal;
                             }
-
+                            KeyCode::F(5) => {
+                                if let Some(index) = app.index {
+                                    let home = env::var("HOME").unwrap();
+                                    utils::create_json_file(
+                                        utils::Save::Running,
+                                        app.informations[index].clone().running_json(),
+                                    )
+                                    .unwrap_or_else(|err| panic!("err {}", err));
+                                    Command::new("pkill").arg("v2ray").output().unwrap_or_else(
+                                        |e| panic!("failed to execute process: {}", e),
+                                    );
+                                    Command::new("nohup")
+                                        .arg(app.v2ray_input.clone())
+                                        .arg("-config")
+                                        .arg(home.clone() + "/.config/tv2ray/running.json")
+                                        .arg(">")
+                                        .arg(home + "/.config/tv2ray/test.log")
+                                        .arg("2>&1")
+                                        .arg("&")
+                                        .spawn()
+                                        .expect("failed");
+                                }
+                            }
                             _ => {}
                         }
                     } else {
@@ -227,6 +256,19 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<(
                     }
                     KeyCode::Char('e') => {
                         app.input_mode = InputMode::PopupEdit;
+                    }
+                    KeyCode::Char('s') => {
+                        if let Err(err) = utils::create_json_file(
+                            utils::Save::V2ray,
+                            format!(
+                                "{{
+    \"v2core\":\"{}\"
+}}",
+                                app.v2ray_input
+                            ),
+                        ) {
+                            panic!("{}", err);
+                        }
                     }
                     _ => {}
                 },
@@ -372,18 +414,49 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
                 InputMode::PopupEdit => Style::default().fg(Color::Yellow),
                 _ => Style::default(),
             })
-            .block(Block::default().borders(Borders::ALL).title("Settings"));
+            .block(Block::default().borders(Borders::ALL).title("v2ray-core"));
         //f.render_widget(input, chunks[1]);
         let area = centered_rect(60, 20, f.size());
+        //let settings :Vec<Paragraph> = app
+        //    .settings
+        //    .iter()
+        //    .map(|asetting| Paragraph::new(app.v2ray_input.as_ref())
+        //        .style(Style::default())
+        //        .block(Block::default().borders(Borders::ALL).title(asetting.clone())))
+
+        //    .collect();
+
+        let chunk = Layout::default()
+            .direction(Direction::Vertical)
+            .margin(1)
+            .constraints(
+                [
+                    Constraint::Length(1),
+                    Constraint::Length(3),
+                    Constraint::Min(1),
+                ]
+                .as_ref(),
+            )
+            .split(area);
+
         f.render_widget(Clear, area); //this clears out the background
-        f.render_widget(inputpop, area);
+        let (msg, style) = (
+            vec![Span::raw("Settings, e to edit, s to save")],
+            Style::default(),
+        );
+        let mut text = Text::from(Spans::from(msg));
+        text.patch_style(style);
+        let title = Paragraph::new(text);
+        f.render_widget(title, chunk[0]);
+        f.render_widget(inputpop, chunk[1]);
+
         if let InputMode::PopupEdit = app.input_mode {
             // Make the cursor visible and ask tui-rs to put it at the specified coordinates after rendering
             f.set_cursor(
                 // Put cursor past the end of the input text
-                area.x + app.v2ray_input.width() as u16 + 1,
+                chunk[1].x + app.v2ray_input.width() as u16 + 1,
                 // Move one line down, from the border to the input line
-                area.y + 1,
+                chunk[1].y + 1,
             )
             //InputMode::Normal | InputMode::Select | InputMode::Popup =>
             // Hide the cursor. `Frame` does this by default, so we don't need to do anything here
