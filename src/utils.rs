@@ -3,13 +3,11 @@ use serde_json::Value;
 use std::{
     env,
     fs::{self, File},
-    io::prelude::*,
-    io::Error,
+    io::{prelude::*, Result},
     path::Path,
-    result::Result,
 };
 #[allow(dead_code)]
-pub enum Save{
+pub enum Save {
     Storage,
     Running,
     V2ray,
@@ -18,12 +16,12 @@ fn create_storage_before() {
     let home = env::var("HOME").unwrap();
     fs::create_dir_all(home + "/.config/tv2ray").unwrap();
 }
-pub fn create_json_file(save:Save,input: String) -> Result<(), Error> {
+pub fn create_json_file(save: Save, input: String) -> Result<()> {
     let home = env::var("HOME").unwrap();
     let location = match save {
         Save::Storage => format!("{}/.config/tv2ray/storage.json", home),
-        Save::Running => format!("{}/.config/tv2ray/running.json",home),
-        Save::V2ray => format!("{}/.config/tv2ray/v2core.json",home),
+        Save::Running => format!("{}/.config/tv2ray/running.json", home),
+        Save::V2ray => format!("{}/.config/tv2ray/v2core.json", home),
     };
     let path = Path::new(location.as_str());
     let mut file = File::create(&path)?;
@@ -31,7 +29,7 @@ pub fn create_json_file(save:Save,input: String) -> Result<(), Error> {
     file.write_all(input.as_bytes())?;
     Ok(())
 }
-fn get_json() -> Result<String, Error> {
+fn get_json() -> Result<String> {
     let home = env::var("HOME").unwrap();
     let location = format!("{}/.config/tv2ray/storage.json", home);
     let mut file = File::open(location)?;
@@ -44,7 +42,7 @@ pub fn start() -> Vec<Information> {
     let messages = match get_json() {
         Ok(output) => output,
         Err(_) => {
-            if let Err(err) = create_json_file(Save::Storage,"[]".to_string()) {
+            if let Err(err) = create_json_file(Save::Storage, "[]".to_string()) {
                 panic!("{}", err);
             };
             "[]".to_string()
