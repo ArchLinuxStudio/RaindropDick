@@ -120,7 +120,7 @@ pub(crate) fn subscribe_state(app: &mut App) -> io::Result<IFEXIT> {
                 }
 
                 KeyCode::Char('s') => {
-                    if let Err(err) = utils::create_json_file(
+                    utils::create_json_file(
                         utils::Save::V2ray,
                         format!(
                             "{{
@@ -128,9 +128,8 @@ pub(crate) fn subscribe_state(app: &mut App) -> io::Result<IFEXIT> {
 }}",
                             app.settings_input[0]
                         ),
-                    ) {
-                        panic!("{}", err);
-                    }
+                    )
+                    .unwrap_or_else(|err| panic!("{}", err));
                 }
                 _ => {}
             },
