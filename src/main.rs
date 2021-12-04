@@ -14,15 +14,12 @@ use crossterm::{
     execute,
     terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
 };
-use std::{io,error::Error};
-use tui::{
-    backend::CrosstermBackend,
-    Terminal,
-};
-mod spider;
-mod utils;
+use std::{error::Error, io};
+use tui::{backend::CrosstermBackend, Terminal};
 mod app;
+mod spider;
 mod state;
+mod utils;
 use app::*;
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -63,4 +60,3 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     Ok(())
 }
-

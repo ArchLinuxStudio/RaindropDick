@@ -1,5 +1,5 @@
-use tui::widgets::ListState;
 use crate::spider;
+use tui::widgets::ListState;
 pub enum InputMode {
     Normal,
     Editing,
@@ -24,7 +24,7 @@ pub struct App {
     pub stateoflist: bool,
     pub show_popup: bool,
     pub informations: Vec<spider::Information>,
-    pub subscription : Vec<String>,
+    pub subscription: Vec<String>,
 }
 impl App {
     pub fn next(&mut self) {
@@ -109,4 +109,3 @@ impl Default for App {
         }
     }
 }
-

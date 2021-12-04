@@ -1,8 +1,8 @@
 use crate::app::*;
 use crate::spider;
 use crate::utils;
-use crossterm::event::{self,KeyCode,Event};
-use std::{env,  io, process::Command};
+use crossterm::event::{self, Event, KeyCode};
+use std::{env, io, process::Command};
 use tui::{
     backend::Backend,
     layout::{Constraint, Direction, Layout, Rect},
@@ -14,6 +14,7 @@ use tui::{
 use unicode_width::UnicodeWidthStr;
 pub fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<()> {
     loop {
+        // here ,need with different tab ,use different draw funcitons
         terminal.draw(|f| ui(f, &mut app))?;
 
         if let Event::Key(key) = event::read()? {
@@ -157,7 +158,7 @@ pub fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Resu
                         KeyCode::Down => {
                             if app.index_settings == 0 {
                                 app.index_settings = 1;
-                            } else if !app.subscription.is_empty(){
+                            } else if !app.subscription.is_empty() {
                                 app.input_mode = InputMode::SubscriptView;
                                 app.index_subscription.select(Some(0));
                             } else {
@@ -180,18 +181,16 @@ pub fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Resu
                         _ => {}
                     }
                 }
-                InputMode::SubscriptView => {
-                    match key.code {
-                        KeyCode::Up => app.previous_sub(),
-                        KeyCode::Down => app.next_sub(),
-                        KeyCode::Esc => {
-                            app.index_settings =0;
-                            app.unselect_sub();
-                            app.input_mode = InputMode::PopupEdit;
-                        }
-                        _ => {}
+                InputMode::SubscriptView => match key.code {
+                    KeyCode::Up => app.previous_sub(),
+                    KeyCode::Down => app.next_sub(),
+                    KeyCode::Esc => {
+                        app.index_settings = 0;
+                        app.unselect_sub();
+                        app.input_mode = InputMode::PopupEdit;
                     }
-                }
+                    _ => {}
+                },
             }
         }
     }
@@ -211,7 +210,7 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
         .split(f.size());
 
     let (msg, style) = match app.input_mode {
-        InputMode::Normal | InputMode::Popup | InputMode::PopupEdit | InputMode::SubscriptView=> (
+        InputMode::Normal | InputMode::Popup | InputMode::PopupEdit | InputMode::SubscriptView => (
             vec![
                 Span::raw("Press "),
                 Span::styled("q", Style::default().add_modifier(Modifier::BOLD)),
@@ -356,23 +355,23 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
             })
             .block(Block::default().borders(Borders::ALL).title("add domins"));
         f.render_widget(inputpop2, chunk[2]);
-        let subscription : Vec<ListItem> = app
+        let subscription: Vec<ListItem> = app
             .subscription
             .iter()
             .enumerate()
-            .map(|(i,m)|{
-                let content = vec![Spans::from(Span::raw(format!("{}:{}",i,m)))];
+            .map(|(i, m)| {
+                let content = vec![Spans::from(Span::raw(format!("{}:{}", i, m)))];
                 ListItem::new(content)
             })
-        .collect();
+            .collect();
         let subscription = List::new(subscription)
-        .block(Block::default().borders(Borders::ALL).title("List"))
-        .highlight_style(
-            Style::default()
-                .bg(Color::LightBlue)
-                .add_modifier(Modifier::BOLD),
-        )
-        .highlight_symbol(">> ");
+            .block(Block::default().borders(Borders::ALL).title("List"))
+            .highlight_style(
+                Style::default()
+                    .bg(Color::LightBlue)
+                    .add_modifier(Modifier::BOLD),
+            )
+            .highlight_symbol(">> ");
         f.render_stateful_widget(subscription, chunk[3], &mut app.index_subscription);
         if let InputMode::PopupEdit = app.input_mode {
             let index = app.index_settings;
