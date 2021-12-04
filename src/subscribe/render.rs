@@ -1,5 +1,6 @@
 use super::app::*;
 use tui::{
+    Terminal,
     backend::Backend,
     layout::{Constraint, Direction, Layout, Rect},
     style::{Color, Modifier, Style},
@@ -8,7 +9,13 @@ use tui::{
     Frame,
 };
 use unicode_width::UnicodeWidthStr;
-pub fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
+use super::IFEXIT;
+use std::io;
+pub fn run_app_subscribe<B: Backend>(terminal: &mut Terminal<B>,app: &mut App) -> io::Result<IFEXIT>  {
+    terminal.draw(|f| ui(f,app))?;
+    super::state::subscribe_state(app)
+}
+fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
     let chunks = Layout::default()
         .direction(Direction::Vertical)
         .margin(2)

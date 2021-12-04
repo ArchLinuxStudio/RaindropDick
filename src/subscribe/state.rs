@@ -28,7 +28,7 @@ pub fn subscribe_state(app: &mut App) -> io::Result<IFEXIT> {
             InputMode::Editing => match key.code {
                 KeyCode::Enter => {
                     let input = vec![app.input.clone()];
-                    let get_list = spider::get_the_key(input.clone());
+                    let get_list = spider::get_the_key(input);
                     if let Ok(list) = get_list {
                         let mut storge: String = String::new();
                         storge.push('[');
