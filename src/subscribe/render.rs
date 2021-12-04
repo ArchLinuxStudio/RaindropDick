@@ -1,18 +1,20 @@
 use super::app::*;
+use super::IFEXIT;
+use std::io;
 use tui::{
-    Terminal,
     backend::Backend,
     layout::{Constraint, Direction, Layout, Rect},
     style::{Color, Modifier, Style},
     text::{Span, Spans, Text},
     widgets::{Block, Borders, Clear, List, ListItem, Paragraph},
-    Frame,
+    Frame, Terminal,
 };
 use unicode_width::UnicodeWidthStr;
-use super::IFEXIT;
-use std::io;
-pub fn run_app_subscribe<B: Backend>(terminal: &mut Terminal<B>,app: &mut App) -> io::Result<IFEXIT>  {
-    terminal.draw(|f| ui(f,app))?;
+pub fn run_app_subscribe<B: Backend>(
+    terminal: &mut Terminal<B>,
+    app: &mut App,
+) -> io::Result<IFEXIT> {
+    terminal.draw(|f| ui(f, app))?;
     super::state::subscribe_state(app)
 }
 fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
