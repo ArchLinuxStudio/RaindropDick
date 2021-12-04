@@ -98,6 +98,36 @@ impl Information {
         }
         temp
     }
+    pub fn get_the_json_node(&self) -> String {
+        format!(
+            "{{
+    \"func\":{},
+    \"url\":\"{}\",
+    \"add\":{},
+    \"aid\":{},
+    \"host\":{},
+    \"id\":{},
+    \"net\":{},
+    \"path\":{},
+    \"port\":{},
+    \"ps\":{},
+    \"tls\":{},
+    \"type\":{}
+}},\n",
+            self.func,
+            self.urls,
+            self.add,
+            self.aid,
+            self.host,
+            self.id,
+            self.net,
+            self.path,
+            self.port,
+            self.ps,
+            self.tls,
+            self.typpe
+        )
+    }
     pub fn new(url: String) -> Self {
         let aurl: Vec<char> = url.chars().collect();
         let url_type = {

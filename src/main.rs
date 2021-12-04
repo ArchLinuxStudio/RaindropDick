@@ -38,6 +38,7 @@ enum InputMode {
 struct App {
     /// Current value of the input box
     input: String,
+    v2ray_input: String,
     /// Current input mode
     input_mode: InputMode,
     /// History of recorded messages
@@ -87,6 +88,7 @@ impl Default for App {
     fn default() -> App {
         App {
             input: String::new(),
+            v2ray_input: String::new(),
             input_mode: InputMode::Normal,
             messages: Vec::new(),
             state: ListState::default(),
@@ -176,37 +178,7 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<(
                                 for alist in &list[0] {
                                     let information = spider::Information::new(alist.to_string());
                                     app.informations.push(information.clone());
-                                    storge.push_str(
-                                        format!(
-                                            "{{
-    \"func\":{},
-    \"url\":\"{}\",
-    \"add\":{},
-    \"aid\":{},
-    \"host\":{},
-    \"id\":{},
-    \"net\":{},
-    \"path\":{},
-    \"port\":{},
-    \"ps\":{},
-    \"tls\":{},
-    \"type\":{}
-}},\n",
-                                            information.clone().func,
-                                            information.clone().urls,
-                                            information.clone().add,
-                                            information.clone().aid,
-                                            information.clone().host,
-                                            information.clone().id,
-                                            information.clone().net,
-                                            information.clone().path,
-                                            information.clone().port,
-                                            information.clone().ps,
-                                            information.clone().tls,
-                                            information.clone().typpe
-                                        )
-                                        .as_str(),
-                                    );
+                                    storge.push_str(information.get_the_json_node().as_str());
                                 }
                             }
                             storge.pop();
@@ -248,23 +220,26 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, mut app: App) -> io::Result<(
                         app.input_mode = InputMode::Normal;
                     }
                 }
-                InputMode::Popup => {
-                    match key.code {
-                        KeyCode::Char('q') => {
-                            app.input_mode = InputMode::Normal;
-                            app.show_popup = false;
-                        },
-                        KeyCode::Char('e') => {
-                            app.input_mode = InputMode::PopupEdit;
-                        },
-                        _ => {}
+                InputMode::Popup => match key.code {
+                    KeyCode::Char('q') => {
+                        app.input_mode = InputMode::Normal;
+                        app.show_popup = false;
                     }
-                }
+                    KeyCode::Char('e') => {
+                        app.input_mode = InputMode::PopupEdit;
+                    }
+                    _ => {}
+                },
                 InputMode::PopupEdit => {
                     match key.code {
-                        KeyCode::Char('q') => app.input_mode = InputMode::Popup,
+                        KeyCode::Esc => app.input_mode = InputMode::Popup,
                         // here todo
-                        KeyCode::Char('e') => todo!(),
+                        KeyCode::Char(c) => {
+                            app.v2ray_input.push(c);
+                        }
+                        KeyCode::Backspace => {
+                            app.v2ray_input.pop();
+                        }
                         _ => {}
                     }
                 }
@@ -333,14 +308,14 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
         })
         .block(Block::default().borders(Borders::ALL).title("Input"));
     f.render_widget(input, chunks[1]);
-    if let InputMode::Editing =  app.input_mode {
-            // Make the cursor visible and ask tui-rs to put it at the specified coordinates after rendering
-            f.set_cursor(
-                // Put cursor past the end of the input text
-                chunks[1].x + app.input.width() as u16 + 1,
-                // Move one line down, from the border to the input line
-                chunks[1].y + 1,
-            )
+    if let InputMode::Editing = app.input_mode {
+        // Make the cursor visible and ask tui-rs to put it at the specified coordinates after rendering
+        f.set_cursor(
+            // Put cursor past the end of the input text
+            chunks[1].x + app.input.width() as u16 + 1,
+            // Move one line down, from the border to the input line
+            chunks[1].y + 1,
+        )
         //InputMode::Normal | InputMode::Select | InputMode::Popup =>
         // Hide the cursor. `Frame` does this by default, so we don't need to do anything here
     }
@@ -392,16 +367,27 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
 
     if app.show_popup {
         //let block = Block::default().title("About port").borders(Borders::ALL);
-        let inputpop = Paragraph::new(app.input.as_ref())
+        let inputpop = Paragraph::new(app.v2ray_input.as_ref())
             .style(match app.input_mode {
                 InputMode::PopupEdit => Style::default().fg(Color::Yellow),
                 _ => Style::default(),
             })
-            .block(Block::default().borders(Borders::ALL).title("Input"));
+            .block(Block::default().borders(Borders::ALL).title("Settings"));
         //f.render_widget(input, chunks[1]);
         let area = centered_rect(60, 20, f.size());
         f.render_widget(Clear, area); //this clears out the background
         f.render_widget(inputpop, area);
+        if let InputMode::PopupEdit = app.input_mode {
+            // Make the cursor visible and ask tui-rs to put it at the specified coordinates after rendering
+            f.set_cursor(
+                // Put cursor past the end of the input text
+                area.x + app.v2ray_input.width() as u16 + 1,
+                // Move one line down, from the border to the input line
+                area.y + 1,
+            )
+            //InputMode::Normal | InputMode::Select | InputMode::Popup =>
+            // Hide the cursor. `Frame` does this by default, so we don't need to do anything here
+        }
     }
 }
 fn centered_rect(percent_x: u16, percent_y: u16, r: Rect) -> Rect {
