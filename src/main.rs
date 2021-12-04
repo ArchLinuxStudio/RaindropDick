@@ -19,6 +19,7 @@ use tui::{backend::CrosstermBackend, Terminal};
 mod app;
 mod spider;
 mod state;
+mod subscribe;
 mod utils;
 use app::*;
 
