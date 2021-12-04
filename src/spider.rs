@@ -83,8 +83,8 @@ impl Information {
     }
     pub fn running_json(&self) -> String {
         if self.func == *"\"vmess\"" {
-        format!(
-            "{{
+            format!(
+                "{{
     \"inbounds\":[{{
         \"port\":8889,
         \"listen\":\"127.0.0.1\",
@@ -198,10 +198,19 @@ impl Information {
         }}]
     }}
 }}",
-            self.func, self.add, remove_quotation(self.port.clone()), remove_quotation(self.aid.clone()), self.id, self.path, self.path, self.net, self.path
-        )
-        }else{
-            format!("{{
+                self.func,
+                self.add,
+                remove_quotation(self.port.clone()),
+                remove_quotation(self.aid.clone()),
+                self.id,
+                self.path,
+                self.path,
+                self.net,
+                self.path
+            )
+        } else {
+            format!(
+                "{{
     \"api\":{{
         \"service\":[
             \"HandlerService\",
@@ -411,9 +420,13 @@ impl Information {
     }},
     \"stats\": {{
     }}
-}}",self.add,self.net,self.id,remove_quotation(self.port.clone()))
+}}",
+                self.add,
+                self.net,
+                self.id,
+                remove_quotation(self.port.clone())
+            )
         }
-
     }
     fn get_the_link(&self) -> String {
         let mut temp = String::new();

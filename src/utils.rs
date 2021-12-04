@@ -48,7 +48,7 @@ pub fn start_v2core() -> String {
         Err(_) => {
             let core = "{\n\"v2core\":\"/usr/bin/v2ray\"\n}".to_string();
             if let Err(err) = create_json_file(Save::V2ray, core.clone()) {
-                panic!("{}",err);
+                panic!("{}", err);
             }
             core
         }
@@ -62,7 +62,8 @@ pub fn start() -> Vec<Information> {
     let messages = match get_json(Save::Storage) {
         Ok(output) => output,
         Err(_) => {
-            create_json_file(Save::Storage, "[]".to_string()).unwrap_or_else(|err| panic!("{}", err));
+            create_json_file(Save::Storage, "[]".to_string())
+                .unwrap_or_else(|err| panic!("{}", err));
             "[]".to_string()
         }
     };
