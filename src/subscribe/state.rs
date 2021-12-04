@@ -1,7 +1,7 @@
-use super::super::app::*;
-use super::super::spider;
-use super::super::state::IFEXIT;
-use super::super::utils;
+use super::app::*;
+use super::spider;
+use super::IFEXIT;
+use super::utils;
 use crossterm::event::{self, Event, KeyCode};
 use std::{env, io, process::Command};
 pub fn subscribe_state(app: &mut App) -> io::Result<IFEXIT> {

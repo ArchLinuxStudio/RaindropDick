@@ -1,4 +1,4 @@
-use super::super::app::*;
+use super::app::*;
 use tui::{
     backend::Backend,
     layout::{Constraint, Direction, Layout, Rect},
