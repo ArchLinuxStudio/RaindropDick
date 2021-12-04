@@ -4,7 +4,7 @@ use super::utils;
 use super::IFEXIT;
 use crossterm::event::{self, Event, KeyCode};
 use std::{env, io, process::Command};
-pub fn subscribe_state(app: &mut App) -> io::Result<IFEXIT> {
+pub(crate) fn subscribe_state(app: &mut App) -> io::Result<IFEXIT> {
     if let Event::Key(key) = event::read()? {
         match app.input_mode {
             InputMode::Normal => match key.code {
