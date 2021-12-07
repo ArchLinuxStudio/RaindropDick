@@ -6,7 +6,7 @@ use crate::state::IFEXIT;
 use std::io;
 use tui::widgets::ListState;
 use tui::{backend::Backend, Terminal};
-pub enum InputMode {
+pub(crate) enum InputMode {
     Normal,
     Editing,
     Select,
@@ -20,7 +20,7 @@ pub struct AppSub {
     pub input: String,
     pub settings_input: Vec<String>,
     /// Current input mode
-    pub input_mode: InputMode,
+    pub(crate) input_mode: InputMode,
     /// History of recorded messages
     pub messages: Vec<String>,
     pub state: ListState,
