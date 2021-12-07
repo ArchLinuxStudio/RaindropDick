@@ -23,7 +23,7 @@ pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                     app.show_popup = true;
                     app.input_mode = InputMode::Popup;
                 }
-                KeyCode::Char('t') => {
+                KeyCode::Char('t') | KeyCode::Char('2') => {
                     return Ok(IFEXIT::Change(Page::Information));
                 }
 

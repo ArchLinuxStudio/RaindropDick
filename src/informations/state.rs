@@ -7,7 +7,9 @@ pub fn information_state(timeout: Duration) -> io::Result<IFEXIT> {
         if let Event::Key(key) = event::read()? {
             match key.code {
                 KeyCode::Char('q') => return Ok(crate::state::IFEXIT::Exit),
-                KeyCode::Char('t') => return Ok(crate::state::IFEXIT::Change(Page::SubScribe)),
+                KeyCode::Char('t') | KeyCode::Char('1') => {
+                    return Ok(crate::state::IFEXIT::Change(Page::SubScribe))
+                }
                 _ => return Ok(IFEXIT::Next),
             }
         }
