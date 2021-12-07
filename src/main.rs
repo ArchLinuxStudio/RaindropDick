@@ -21,7 +21,7 @@ mod spider;
 mod state;
 mod subscribe;
 mod utils;
-use app::*;
+//use app::*;
 
 fn main() -> Result<(), Box<dyn Error>> {
     // setup terminal
@@ -31,20 +31,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
 
-    // create app and run it
-    let mut app = App::default();
-    let informations = utils::start();
-    if !informations.is_empty() {
-        app.messages = informations
-            .iter()
-            .map(|amessage| spider::remove_quotation(amessage.ps.clone()))
-            .collect();
-        app.stateoflist = true;
-        app.state.select(Some(0));
-        app.informations = informations;
-    }
-    app.settings_input[0] = utils::start_v2core();
-    let res = state::run_app(&mut terminal, app);
+    let res = state::run_app(&mut terminal);
 
     // restore terminal
     disable_raw_mode()?;

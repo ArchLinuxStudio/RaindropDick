@@ -1,10 +1,11 @@
-use super::app::*;
+use super::app::InputMode;
+use super::appsub::AppSub;
 use super::spider;
 use super::utils;
 use super::IFEXIT;
 use crossterm::event::{self, Event, KeyCode};
 use std::{env, io, process::Command};
-pub(crate) fn subscribe_state(app: &mut App) -> io::Result<IFEXIT> {
+pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
     if let Event::Key(key) = event::read()? {
         match app.input_mode {
             InputMode::Normal => match key.code {
