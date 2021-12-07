@@ -17,10 +17,10 @@ use crossterm::{
 use std::{error::Error, io};
 use tui::{backend::CrosstermBackend, Terminal};
 mod app;
+mod informations;
 mod spider;
 mod state;
 mod subscribe;
-mod informations;
 mod utils;
 //use app::*;
 

@@ -2,7 +2,7 @@ use super::app::InputMode;
 use super::appsub::AppSub;
 use super::spider;
 use super::utils;
-use super::{IFEXIT,Page};
+use super::{Page, IFEXIT};
 use crossterm::event::{self, Event, KeyCode};
 use std::{env, io, process::Command};
 pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {

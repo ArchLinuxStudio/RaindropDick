@@ -5,7 +5,7 @@ use crate::subscribe::appsub::AppSub;
 use crate::utils;
 use std::io;
 use tui::{backend::Backend, Terminal};
-#[allow(dead_code)]
+
 pub enum Page {
     SubScribe,
     Information,
@@ -43,12 +43,7 @@ pub fn run_app<B: Backend>(terminal: &mut Terminal<B>) -> io::Result<()> {
                 IFEXIT::Exit => return Ok(()),
                 IFEXIT::Change(e) => local_page = e,
                 IFEXIT::Next => {}
-            }
+            },
         }
-        // here ,need with different tab ,use different draw funcitons
-        //terminal.draw(|f| render::ui(f, &mut app))?;
-        //if let IFEXIT::Exit = appsub.run_app_local(terminal)? {
-        //    return Ok(());
-        //}
     }
 }
