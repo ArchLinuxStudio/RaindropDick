@@ -1,5 +1,4 @@
-use super::app::InputMode;
-use super::appsub::AppSub;
+use super::appsub::*;
 use super::spider;
 use super::utils;
 use super::{Page, IFEXIT};

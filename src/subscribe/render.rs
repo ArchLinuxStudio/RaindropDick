@@ -1,4 +1,4 @@
-use super::app::InputMode;
+use super::appsub::InputMode;
 use super::appsub::AppSub;
 use tui::{
     backend::Backend,

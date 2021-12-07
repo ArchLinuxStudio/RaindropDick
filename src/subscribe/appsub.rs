@@ -6,6 +6,14 @@ use crate::state::IFEXIT;
 use std::io;
 use tui::widgets::ListState;
 use tui::{backend::Backend, Terminal};
+pub enum InputMode {
+    Normal,
+    Editing,
+    Select,
+    Popup,
+    PopupEdit,
+    SubscriptView,
+}
 /// App holds the state of the application
 pub struct AppSub {
     /// Current value of the input box
