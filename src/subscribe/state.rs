@@ -2,7 +2,7 @@ use super::app::InputMode;
 use super::appsub::AppSub;
 use super::spider;
 use super::utils;
-use super::IFEXIT;
+use super::{IFEXIT,Page};
 use crossterm::event::{self, Event, KeyCode};
 use std::{env, io, process::Command};
 pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
@@ -22,6 +22,9 @@ pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                     //app.input = app.index.as_ref().unwrap().to_string();
                     app.show_popup = true;
                     app.input_mode = InputMode::Popup;
+                }
+                KeyCode::Char('t') => {
+                    return Ok(IFEXIT::Change(Page::Information));
                 }
 
                 _ => {}

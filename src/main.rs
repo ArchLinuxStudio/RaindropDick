@@ -20,6 +20,7 @@ mod app;
 mod spider;
 mod state;
 mod subscribe;
+mod informations;
 mod utils;
 //use app::*;
 
