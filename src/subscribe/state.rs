@@ -77,10 +77,11 @@ pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
             InputMode::Select => {
                 if app.stateoflist {
                     match key.code {
-                        KeyCode::Left => app.unselect(),
+                        //KeyCode::Left => app.unselect(),
                         KeyCode::Down => app.next(),
                         KeyCode::Up => app.previous(),
                         KeyCode::Esc => {
+                            app.unselect();
                             app.input_mode = InputMode::Normal;
                         }
                         KeyCode::F(5) => {
@@ -149,6 +150,35 @@ pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                     utils::create_json_file(utils::Save::Subscribes, subscribe_json)
                         .unwrap_or_else(|err| panic!("{}", err));
                     //    .collect();
+                    let get_list = spider::get_the_key(app.subscription.clone());
+                    if let Ok(list) = get_list {
+                        let mut storge: String = String::new();
+                        storge.push('[');
+                        storge.push('\n');
+                        if !list[0].is_empty() {
+                            //app.subs = list[0].clone();
+                            app.stateoflist = true;
+                            app.state.select(Some(0));
+                            for alist in &list[0] {
+                                let information = spider::Information::new(alist.to_string());
+                                app.informations.push(information.clone());
+                                storge.push_str(information.get_the_json_node().as_str());
+                            }
+                            app.subs = app
+                                .informations
+                                .iter()
+                                .map(|ainformation| {
+                                    spider::remove_quotation(ainformation.ps.clone())
+                                })
+                                .collect();
+                        }
+                        storge.pop();
+                        storge.pop();
+                        storge.push('\n');
+                        storge.push(']');
+                        utils::create_json_file(utils::Save::Storage, storge)
+                            .unwrap_or_else(|err| panic!("err {}", err));
+                    }
                 }
                 _ => {}
             },
