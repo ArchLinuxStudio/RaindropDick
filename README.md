@@ -27,3 +27,17 @@ export https_proxy=http://127.0.0.1:8889
 ```
 
 然后可以联网
+
+下载方式
+
+cargo :
+
+```sh
+cargo install raindropdic
+```
+
+wget
+
+```sh
+https://endpoint.fastgit.org/ArchLinuxStudio/RaindropDick/releases/download/v0.3.5/raindropdick
+```
