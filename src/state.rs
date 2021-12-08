@@ -26,10 +26,6 @@ pub fn run_app(terminal: &mut Terminal<MyBackend>) -> io::Result<()> {
     let mut appsub = AppSub::default();
     let informations = utils::start();
     if !informations.is_empty() {
-        //appsub.subs[0] = informations[0]
-        //    .iter()
-        //    .map(|amessage| spider::remove_quotation(amessage.ps.clone()))
-        //    .collect();
         appsub.subs = informations
             .iter()
             .map(|ainformation| ainformation
