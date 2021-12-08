@@ -2,10 +2,11 @@ use super::app::*;
 use super::render::ui;
 use super::state::subscribe_state;
 use crate::spider;
+use crate::state::MyBackend;
 use crate::state::IFEXIT;
 use std::io;
 use tui::widgets::ListState;
-use tui::{backend::Backend, Terminal};
+use tui::Terminal;
 pub(crate) enum InputMode {
     Normal,
     Editing,
@@ -98,7 +99,7 @@ impl AppSub {
     }
 }
 impl App for AppSub {
-    fn run_app_local<B: Backend>(&mut self, terminal: &mut Terminal<B>) -> io::Result<IFEXIT> {
+    fn run_app_local(&mut self, terminal: &mut Terminal<MyBackend>) -> io::Result<IFEXIT> {
         terminal.draw(|f| ui(f, self))?;
         subscribe_state(self)
     }

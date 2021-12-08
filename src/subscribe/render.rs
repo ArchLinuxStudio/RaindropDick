@@ -1,5 +1,5 @@
-use super::appsub::InputMode;
 use super::appsub::AppSub;
+use super::appsub::InputMode;
 use tui::{
     backend::Backend,
     layout::{Constraint, Direction, Layout, Rect},

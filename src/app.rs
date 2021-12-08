@@ -1,7 +1,7 @@
-use crate::state::IFEXIT;
+use crate::state::{MyBackend, IFEXIT};
 use std::io;
-use tui::{backend::Backend, Terminal};
+use tui::Terminal;
 
 pub trait App {
-    fn run_app_local<B: Backend>(&mut self, terminal: &mut Terminal<B>) -> io::Result<IFEXIT>;
+    fn run_app_local(&mut self, terminal: &mut Terminal<MyBackend>) -> io::Result<IFEXIT>;
 }

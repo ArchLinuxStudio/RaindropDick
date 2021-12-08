@@ -4,11 +4,13 @@ use crate::spider;
 use crate::subscribe::appsub::AppSub;
 use crate::utils;
 use std::io;
-use tui::{backend::Backend, Terminal};
-
+use std::io::Stdout;
+use tui::backend::CrosstermBackend;
+use tui::Terminal;
+#[derive(Clone, Copy)]
 pub enum Page {
-    SubScribe,
-    Information,
+    SubScribe = 0,
+    Information = 1,
 }
 // 这个做成tab的选择入口
 pub enum IFEXIT {
@@ -16,8 +18,10 @@ pub enum IFEXIT {
     Exit,
     Change(Page),
 }
+
+pub type MyBackend = CrosstermBackend<Stdout>;
 //计划将它设置成一个入口
-pub fn run_app<B: Backend>(terminal: &mut Terminal<B>) -> io::Result<()> {
+pub fn run_app(terminal: &mut Terminal<MyBackend>) -> io::Result<()> {
     let mut appsub = AppSub::default();
     let informations = utils::start();
     if !informations.is_empty() {
@@ -29,21 +33,16 @@ pub fn run_app<B: Backend>(terminal: &mut Terminal<B>) -> io::Result<()> {
         appsub.state.select(Some(0));
         appsub.informations = informations;
     }
-    let mut appbar = AppBar::new();
+    let appbar = AppBar::new();
     appsub.settings_input[0] = utils::start_v2core();
     let mut local_page = Page::SubScribe;
+    let mut pages: Vec<Box<dyn App>> = vec![Box::new(appsub), Box::new(appbar)];
+
     loop {
-        match local_page {
-            Page::SubScribe => match appsub.run_app_local(terminal)? {
-                IFEXIT::Exit => return Ok(()),
-                IFEXIT::Change(e) => local_page = e,
-                IFEXIT::Next => {}
-            },
-            Page::Information => match appbar.run_app_local(terminal)? {
-                IFEXIT::Exit => return Ok(()),
-                IFEXIT::Change(e) => local_page = e,
-                IFEXIT::Next => {}
-            },
+        match pages[local_page as usize].run_app_local(terminal)? {
+            IFEXIT::Exit => return Ok(()),
+            IFEXIT::Change(e) => local_page = e,
+            IFEXIT::Next => {}
         }
     }
 }

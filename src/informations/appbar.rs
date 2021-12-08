@@ -1,9 +1,10 @@
 use crate::app::App;
+use crate::state::MyBackend;
 use std::{
     io,
     time::{Duration, Instant},
 };
-use tui::{backend::Backend, Terminal};
+use tui::Terminal;
 pub struct AppBar<'a> {
     pub(crate) data: Vec<(&'a str, u64)>,
     last_tick: Instant,
@@ -49,9 +50,9 @@ impl<'a> AppBar<'a> {
     }
 }
 impl<'a> App for AppBar<'a> {
-    fn run_app_local<B: Backend>(
+    fn run_app_local(
         &mut self,
-        terminal: &mut Terminal<B>,
+        terminal: &mut Terminal<MyBackend>,
     ) -> io::Result<crate::state::IFEXIT> {
         terminal.draw(|f| ui(f, self))?;
         let tick_rate = Duration::from_millis(250);
