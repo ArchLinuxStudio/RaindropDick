@@ -25,21 +25,22 @@ pub struct AppSub {
     pub(crate) input_mode: InputMode,
     // History of recorded subs
     // subs's names
-    pub subs: Vec<String>,
-    pub state: ListState,
+    pub subs: Vec<Vec<String>>,
+    pub subsindex : usize,
+    pub state: Vec<ListState>,
     pub index_subscription: ListState,
     pub index_settings: usize,
     pub stateoflist: bool,
     pub show_popup: bool,
     // subscribes's information
-    pub informations: Vec<spider::Information>,
+    pub informations: Vec<Vec<spider::Information>>,
     pub subscription: Vec<String>,
 }
 impl AppSub {
     pub fn next(&mut self) {
-        let i = match self.state.selected() {
+        let i = match self.state[self.subsindex].selected() {
             Some(i) => {
-                if i >= self.subs.len() - 1 {
+                if i >= self.subs[self.subsindex].len() - 1 {
                     0
                 } else {
                     i + 1
@@ -47,25 +48,25 @@ impl AppSub {
             }
             None => 0,
         };
-        self.state.select(Some(i));
+        self.state[self.subsindex].select(Some(i));
     }
 
     pub fn previous(&mut self) {
-        let i = match self.state.selected() {
+        let i = match self.state[self.subsindex].selected() {
             Some(i) => {
                 if i == 0 {
-                    self.subs.len() - 1
+                    self.subs[self.subsindex].len() - 1
                 } else {
                     i - 1
                 }
             }
             None => 0,
         };
-        self.state.select(Some(i));
+        self.state[self.subsindex].select(Some(i));
     }
 
     pub fn unselect(&mut self) {
-        self.state.select(None);
+        self.state[self.subsindex].select(None);
     }
     pub fn next_sub(&mut self) {
         let i = match self.index_subscription.selected() {
@@ -113,13 +114,14 @@ impl Default for AppSub {
             input: String::new(),
             settings_input: vec![String::new(), String::new()],
             input_mode: InputMode::Normal,
-            subs: Vec::new(),
-            state: ListState::default(),
+            subs: vec![vec![]],
+            subsindex: 0,
+            state: vec![ListState::default()],
             index_subscription: ListState::default(),
             index_settings: 0,
             stateoflist: false,
             show_popup: false,
-            informations: Vec::new(),
+            informations: vec![vec![]],
             subscription: Vec::new(),
         }
     }

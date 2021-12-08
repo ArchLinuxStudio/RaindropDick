@@ -39,14 +39,14 @@ pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                         if !list[0].is_empty() {
                             //app.subs = list[0].clone();
                             app.stateoflist = true;
-                            app.state.select(Some(0));
+                            app.state[app.subsindex].select(Some(0));
                             for alist in &list[0] {
                                 let information = spider::Information::new(alist.to_string());
-                                app.informations.push(information.clone());
+                                app.informations[0].push(information.clone());
                                 storge.push_str(information.get_the_json_node().as_str());
                             }
-                            app.subs = app
-                                .informations
+                            app.subs[0] = app
+                                .informations[0]
                                 .iter()
                                 .map(|ainformation| {
                                     spider::remove_quotation(ainformation.ps.clone())
@@ -85,11 +85,11 @@ pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                             app.input_mode = InputMode::Normal;
                         }
                         KeyCode::F(5) => {
-                            if let Some(index) = app.state.selected() {
+                            if let Some(index) = app.state[app.subsindex].selected() {
                                 let home = env::var("HOME").unwrap();
                                 utils::create_json_file(
                                     utils::Save::Running,
-                                    app.informations[index].clone().running_json(),
+                                    app.informations[app.subsindex][index].clone().running_json(),
                                 )
                                 .unwrap_or_else(|err| panic!("err {}", err));
                                 Command::new("pkill")
@@ -157,14 +157,14 @@ pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                         if !list.is_empty() && !list[0].is_empty() {
                             //app.subs = list[0].clone();
                             app.stateoflist = true;
-                            app.state.select(Some(0));
+                            app.state[app.subsindex].select(Some(0));
                             for alist in &list[0] {
                                 let information = spider::Information::new(alist.to_string());
-                                app.informations.push(information.clone());
+                                app.informations[0].push(information.clone());
                                 storge.push_str(information.get_the_json_node().as_str());
                             }
-                            app.subs = app
-                                .informations
+                            app.subs[0] = app
+                                .informations[0]
                                 .iter()
                                 .map(|ainformation| {
                                     spider::remove_quotation(ainformation.ps.clone())

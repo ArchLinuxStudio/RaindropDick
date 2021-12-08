@@ -89,7 +89,7 @@ pub(crate) fn ui<B: Backend>(f: &mut Frame<B>, app: &mut AppSub) {
         .split(chunks[2]);
 
     let subs: Vec<ListItem> = app
-        .subs
+        .subs[0]
         .iter()
         .enumerate()
         .map(|(i, m)| {
@@ -106,10 +106,10 @@ pub(crate) fn ui<B: Backend>(f: &mut Frame<B>, app: &mut AppSub) {
         )
         .highlight_symbol(">> ");
     // popup wiget
-    f.render_stateful_widget(subs, bottom_chunks[0], &mut app.state);
+    f.render_stateful_widget(subs, bottom_chunks[0], &mut app.state[app.subsindex]);
     //let block : Box<dyn Widget> = {
-    if let Some(a) = app.state.selected() {
-        let list = app.informations[a].information_to_list();
+    if let Some(a) = app.state[app.subsindex].selected() {
+        let list = app.informations[app.subsindex][a].information_to_list();
         let messages: Vec<ListItem> = list
             .iter()
             .map(|infom| {

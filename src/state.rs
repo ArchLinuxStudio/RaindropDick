@@ -25,13 +25,13 @@ pub fn run_app(terminal: &mut Terminal<MyBackend>) -> io::Result<()> {
     let mut appsub = AppSub::default();
     let informations = utils::start();
     if !informations.is_empty() {
-        appsub.subs = informations
+        appsub.subs[0] = informations
             .iter()
             .map(|amessage| spider::remove_quotation(amessage.ps.clone()))
             .collect();
         appsub.stateoflist = true;
-        appsub.state.select(Some(0));
-        appsub.informations = informations;
+        appsub.state[0].select(Some(0));
+        appsub.informations[0] = informations;
     }
     appsub.subscription = utils::get_subs();
     appsub.settings_input[0] = utils::start_v2core();
