@@ -33,8 +33,8 @@ pub fn run_app(terminal: &mut Terminal<MyBackend>) -> io::Result<()> {
         appsub.state.select(Some(0));
         appsub.informations = informations;
     }
-    let appbar = AppBar::new();
     appsub.settings_input[0] = utils::start_v2core();
+    let appbar = AppBar::new();
     let mut local_page = Page::SubScribe;
     let mut pages: Vec<Box<dyn App>> = vec![Box::new(appsub), Box::new(appbar)];
 
