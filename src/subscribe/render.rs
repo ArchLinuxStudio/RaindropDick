@@ -68,7 +68,7 @@ pub(crate) fn ui<B: Backend>(f: &mut Frame<B>, app: &mut AppSub) {
             InputMode::Editing => Style::default().fg(Color::Yellow),
             _ => Style::default(),
         })
-        .block(Block::default().borders(Borders::ALL).title("Input"));
+        .block(Block::default().borders(Borders::ALL).title("Search bar"));
     f.render_widget(input, chunks[1]);
     if let InputMode::Editing = app.input_mode {
         // Make the cursor visible and ask tui-rs to put it at the specified coordinates after rendering
@@ -78,8 +78,6 @@ pub(crate) fn ui<B: Backend>(f: &mut Frame<B>, app: &mut AppSub) {
             // Move one line down, from the border to the input line
             chunks[1].y + 1,
         )
-        //InputMode::Normal | InputMode::Select | InputMode::Popup =>
-        // Hide the cursor. `Frame` does this by default, so we don't need to do anything here
     }
 
     // Bottom two inner blocks
@@ -89,7 +87,7 @@ pub(crate) fn ui<B: Backend>(f: &mut Frame<B>, app: &mut AppSub) {
         .split(chunks[2]);
 
     let subs: Vec<ListItem> = app
-        .subs[0]
+        .subs[app.subsindex]
         .iter()
         .enumerate()
         .map(|(i, m)| {
@@ -98,7 +96,7 @@ pub(crate) fn ui<B: Backend>(f: &mut Frame<B>, app: &mut AppSub) {
         })
         .collect();
     let subs = List::new(subs)
-        .block(Block::default().borders(Borders::ALL).title("List"))
+        .block(Block::default().borders(Borders::ALL).title(format!("Subscribe {}",app.subsindex)))
         .highlight_style(
             Style::default()
                 .bg(Color::LightGreen)
@@ -118,10 +116,10 @@ pub(crate) fn ui<B: Backend>(f: &mut Frame<B>, app: &mut AppSub) {
             })
             .collect();
         let block =
-            List::new(messages).block(Block::default().borders(Borders::ALL).title("Messages"));
+            List::new(messages).block(Block::default().borders(Borders::ALL).title("Informations"));
         f.render_widget(block, bottom_chunks[1]);
     } else {
-        let block = Block::default().title("With borders").borders(Borders::ALL);
+        let block = Block::default().title("Informations None").borders(Borders::ALL);
         f.render_widget(block, bottom_chunks[1]);
     }
     //};

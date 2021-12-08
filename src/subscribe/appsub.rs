@@ -64,7 +64,20 @@ impl AppSub {
         };
         self.state[self.subsindex].select(Some(i));
     }
-
+    pub fn left(&mut self){
+        if self.subsindex == 0 {
+            self.subsindex = self.state.len()-1;
+        } else {
+            self.subsindex -=1;
+        }
+    }
+    pub fn right(&mut self){
+        if self.subsindex >= self.state.len() -1 {
+            self.subsindex = 0;
+        } else {
+            self.subsindex +=1;
+        }
+    }
     pub fn unselect(&mut self) {
         self.state[self.subsindex].select(None);
     }

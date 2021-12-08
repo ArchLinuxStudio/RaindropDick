@@ -7,6 +7,7 @@ use std::io;
 use std::io::Stdout;
 use tui::backend::CrosstermBackend;
 use tui::Terminal;
+use tui::widgets::ListState;
 #[derive(Clone, Copy)]
 pub enum Page {
     SubScribe = 0,
@@ -25,13 +26,22 @@ pub fn run_app(terminal: &mut Terminal<MyBackend>) -> io::Result<()> {
     let mut appsub = AppSub::default();
     let informations = utils::start();
     if !informations.is_empty() {
-        appsub.subs[0] = informations
+        //appsub.subs[0] = informations[0]
+        //    .iter()
+        //    .map(|amessage| spider::remove_quotation(amessage.ps.clone()))
+        //    .collect();
+        appsub.subs = informations
             .iter()
-            .map(|amessage| spider::remove_quotation(amessage.ps.clone()))
+            .map(|ainformation| ainformation
+                .iter()
+                .map(|message| spider::remove_quotation(message.ps.clone()))
+                .collect())
             .collect();
         appsub.stateoflist = true;
-        appsub.state[0].select(Some(0));
-        appsub.informations[0] = informations;
+        let len = informations.len();
+        appsub.state = vec![ListState::default();len];
+        //appsub.state[0].select(Some(0));
+        appsub.informations = informations.clone();
     }
     appsub.subscription = utils::get_subs();
     appsub.settings_input[0] = utils::start_v2core();

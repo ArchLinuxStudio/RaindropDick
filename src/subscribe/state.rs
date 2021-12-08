@@ -4,6 +4,7 @@ use super::utils;
 use super::{Page, IFEXIT};
 use crossterm::event::{self, Event, KeyCode};
 use std::{env, io, process::Command};
+use tui::widgets::ListState;
 pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
     if let Event::Key(key) = event::read()? {
         match app.input_mode {
@@ -30,38 +31,7 @@ pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
             },
             InputMode::Editing => match key.code {
                 KeyCode::Enter => {
-                    let input = vec![app.input.clone()];
-                    let get_list = spider::get_the_key(input);
-                    if let Ok(list) = get_list {
-                        let mut storge: String = String::new();
-                        storge.push('[');
-                        storge.push('\n');
-                        if !list[0].is_empty() {
-                            //app.subs = list[0].clone();
-                            app.stateoflist = true;
-                            app.state[app.subsindex].select(Some(0));
-                            for alist in &list[0] {
-                                let information = spider::Information::new(alist.to_string());
-                                app.informations[0].push(information.clone());
-                                storge.push_str(information.get_the_json_node().as_str());
-                            }
-                            app.subs[0] = app
-                                .informations[0]
-                                .iter()
-                                .map(|ainformation| {
-                                    spider::remove_quotation(ainformation.ps.clone())
-                                })
-                                .collect();
-                        }
-                        storge.pop();
-                        storge.pop();
-                        storge.push('\n');
-                        storge.push(']');
-                        utils::create_json_file(utils::Save::Storage, storge)
-                            .unwrap_or_else(|err| panic!("err {}", err));
-                    }
-
-                    //app.subs.push(app.input.drain(..).collect());
+                    app.input = "This should be a search bar".to_string();
                 }
                 KeyCode::Char(c) => {
                     app.input.push(c);
@@ -80,6 +50,8 @@ pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                         //KeyCode::Left => app.unselect(),
                         KeyCode::Down => app.next(),
                         KeyCode::Up => app.previous(),
+                        KeyCode::Left => app.left(),
+                        KeyCode::Right => app.right(),
                         KeyCode::Esc => {
                             app.unselect();
                             app.input_mode = InputMode::Normal;
@@ -137,8 +109,8 @@ pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                     let mut subscribe_json: String = "[\n\n".to_string();
                     for asub in &app.subscription {
                         subscribe_json.push_str(&format!(
-                            "{{ \n\
-                                \"url\": \"{}\"\n   \
+                            "{{\n   \
+                                \"url\": \"{}\"\n\
                             }},\n",
                             asub
                         ));
@@ -151,32 +123,46 @@ pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                     //    .collect();
                     let get_list = spider::get_the_key(app.subscription.clone());
                     if let Ok(list) = get_list {
-                        let mut storge: String = String::new();
-                        storge.push('[');
-                        storge.push_str("\n\n");
-                        if !list.is_empty() && !list[0].is_empty() {
-                            //app.subs = list[0].clone();
-                            app.stateoflist = true;
-                            app.state[app.subsindex].select(Some(0));
-                            for alist in &list[0] {
-                                let information = spider::Information::new(alist.to_string());
-                                app.informations[0].push(information.clone());
-                                storge.push_str(information.get_the_json_node().as_str());
+                        if !list.is_empty(){
+                            let mut storge: String = "[\n\n".to_string();
+                            let mut subs : Vec<Vec<String>> =Vec::new();
+                            let mut information :Vec<Vec<spider::Information>> = Vec::new();
+                            let mut state: Vec<ListState>= Vec::new();
+                            for lista  in list {
+                                let mut ainformation: Vec<spider::Information> = Vec::new();
+                                //let mut asub: Vec<String> = Vec::new();
+                                storge.push_str("[\n\n");
+                                if !lista.is_empty() {
+                                    for alist in lista {
+                                        let inform = spider::Information::new(alist.to_string());
+                                        ainformation.push(inform.clone());
+                                        storge.push_str(&inform.get_the_json_node());
+
+                                    }
+                                    storge.pop();
+                                    storge.pop();
+                                    storge.push_str("\n  ],");
+                                }
+                                state.push(ListState::default());
+                                subs.push(ainformation
+                                    .iter()
+                                    .map(|ainfor| spider::remove_quotation(ainfor.ps.clone()))
+                                    .collect());
+                                information.push(ainformation);
+
                             }
-                            app.subs[0] = app
-                                .informations[0]
-                                .iter()
-                                .map(|ainformation| {
-                                    spider::remove_quotation(ainformation.ps.clone())
-                                })
-                                .collect();
+                            app.state = state;
+                            app.subs = subs;
+                            app.informations = information;
+                            storge.pop();
+                            storge.push_str("\n]");
+                            utils::create_json_file(utils::Save::Storage, storge)
+                                .unwrap_or_else(|err| panic!("err {}", err));
+                            app.subsindex = 0;
+                            app.state[0].select(Some(0));
+                            app.stateoflist=true;
+
                         }
-                        storge.pop();
-                        storge.pop();
-                        storge.push('\n');
-                        storge.push(']');
-                        utils::create_json_file(utils::Save::Storage, storge)
-                            .unwrap_or_else(|err| panic!("err {}", err));
                     }
                 }
                 _ => {}

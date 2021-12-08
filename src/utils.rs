@@ -1,5 +1,5 @@
 use crate::spider::Information;
-use serde_json::{Value,json};
+use serde_json::{json, Value};
 use std::{
     env,
     fs::{self, File},
@@ -50,7 +50,8 @@ pub fn start_v2core() -> String {
         Err(_) => {
             let core = json!({
                 "v2core":"/usr/bin/v2ray"
-            }).to_string();
+            })
+            .to_string();
             create_json_file(Save::V2ray, core.clone()).unwrap_or_else(|err| panic!("{}", err));
             core
         }
@@ -81,7 +82,7 @@ pub fn get_subs() -> Vec<String> {
     }
     subscribes
 }
-pub fn start() -> Vec<Information> {
+pub fn start() -> Vec<Vec<Information>> {
     create_storage_before();
     let messages = match get_json(Save::Storage) {
         Ok(output) => output,
@@ -95,23 +96,30 @@ pub fn start() -> Vec<Information> {
     let v: Value = serde_json::from_str(messages.as_str()).unwrap();
     let mut index = 0;
     while v[index] != Value::Null {
-        let the_url = v[index]["url"].to_string();
-        let length = the_url.len();
-        let instore = &the_url[1..length - 1];
-        informations.push(Information {
-            urls: instore.to_string(),
-            func: v[index]["func"].to_string(),
-            add: v[index]["add"].to_string(),
-            aid: v[index]["aid"].to_string(),
-            host: v[index]["host"].to_string(),
-            id: v[index]["id"].to_string(),
-            net: v[index]["net"].to_string(),
-            path: v[index]["path"].to_string(),
-            port: v[index]["port"].to_string(),
-            ps: v[index]["ps"].to_string(),
-            tls: v[index]["tls"].to_string(),
-            typpe: v[index]["type"].to_string(),
-        });
+        let mut index2 = 0;
+        let w = v[index].clone();
+        let mut information = Vec::new();
+        while w[index2] != Value::Null {
+            let the_url = w[index2]["url"].to_string();
+            let length = the_url.len();
+            let instore = &the_url[1..length - 1];
+            information.push(Information {
+                urls: instore.to_string(),
+                func: w[index2]["func"].to_string(),
+                add: w[index2]["add"].to_string(),
+                aid: w[index2]["aid"].to_string(),
+                host: w[index2]["host"].to_string(),
+                id: w[index2]["id"].to_string(),
+                net: w[index2]["net"].to_string(),
+                path: w[index2]["path"].to_string(),
+                port: w[index2]["port"].to_string(),
+                ps: w[index2]["ps"].to_string(),
+                tls: w[index2]["tls"].to_string(),
+                typpe: w[index2]["type"].to_string(),
+            });
+            index2 += 1;
+        }
+        informations.push(information);
         //let names = v[index]["ps"].to_string();
         //start.add_item(remove_quotation(names), url);
         index += 1;
