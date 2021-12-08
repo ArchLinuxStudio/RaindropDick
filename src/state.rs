@@ -19,7 +19,7 @@ pub enum IFEXIT {
     Change(Page),
 }
 
-pub type MyBackend = CrosstermBackend<Stdout>;
+pub(crate) type MyBackend = CrosstermBackend<Stdout>;
 //计划将它设置成一个入口
 pub fn run_app(terminal: &mut Terminal<MyBackend>) -> io::Result<()> {
     let mut appsub = AppSub::default();
