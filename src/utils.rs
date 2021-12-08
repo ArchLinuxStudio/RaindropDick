@@ -10,6 +10,7 @@ pub enum Save {
     Storage,
     Running,
     V2ray,
+    Subscribes,
 }
 fn create_storage_before() {
     let home = env::var("HOME").unwrap();
@@ -21,6 +22,7 @@ pub fn create_json_file(save: Save, input: String) -> Result<()> {
         Save::Storage => format!("{}/.config/tv2ray/storage.json", home),
         Save::Running => format!("{}/.config/tv2ray/running.json", home),
         Save::V2ray => format!("{}/.config/tv2ray/v2core.json", home),
+        Save::Subscribes => format!("{}/.config/tv2ray/subscribes.json", home),
     };
     let path = Path::new(location.as_str());
     let mut file = File::create(&path)?;
@@ -34,6 +36,7 @@ fn get_json(save: Save) -> Result<String> {
         Save::Storage => format!("{}/.config/tv2ray/storage.json", home),
         Save::Running => format!("{}/.config/tv2ray/running.json", home),
         Save::V2ray => format!("{}/.config/tv2ray/v2core.json", home),
+        Save::Subscribes => format!("{}/.config/tv2ray/subscribes.json", home),
     };
     let mut file = File::open(location)?;
     let mut output = String::new();
@@ -54,6 +57,28 @@ pub fn start_v2core() -> String {
     let message_pre = v["v2core"].to_string();
     crate::spider::remove_quotation(message_pre)
 }
+pub fn get_subs() -> Vec<String> {
+    create_storage_before();
+    let messages = match get_json(Save::Subscribes) {
+        Ok(output) => output,
+        Err(_) => {
+            create_json_file(Save::Storage, "[]".to_string())
+                .unwrap_or_else(|err| panic!("{}", err));
+            "[]".to_string()
+        }
+    };
+    let mut subscribes = Vec::new();
+    let v: Value = serde_json::from_str(messages.as_str()).unwrap();
+    let mut index = 0;
+    while v[index] != Value::Null {
+        let sub = v[index]["url"].to_string();
+        let length = sub.len();
+        let sub = (&sub[1..length - 1]).to_string();
+        subscribes.push(sub);
+        index += 1;
+    }
+    subscribes
+}
 pub fn start() -> Vec<Information> {
     create_storage_before();
     let messages = match get_json(Save::Storage) {
@@ -69,8 +94,8 @@ pub fn start() -> Vec<Information> {
     let mut index = 0;
     while v[index] != Value::Null {
         let the_url = v[index]["url"].to_string();
-        let lenghth = the_url.len();
-        let instore = &the_url[1..lenghth - 1];
+        let length = the_url.len();
+        let instore = &the_url[1..length - 1];
         informations.push(Information {
             urls: instore.to_string(),
             func: v[index]["func"].to_string(),

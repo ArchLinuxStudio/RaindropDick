@@ -25,7 +25,7 @@ pub fn run_app(terminal: &mut Terminal<MyBackend>) -> io::Result<()> {
     let mut appsub = AppSub::default();
     let informations = utils::start();
     if !informations.is_empty() {
-        appsub.messages = informations
+        appsub.subs = informations
             .iter()
             .map(|amessage| spider::remove_quotation(amessage.ps.clone()))
             .collect();
@@ -33,6 +33,7 @@ pub fn run_app(terminal: &mut Terminal<MyBackend>) -> io::Result<()> {
         appsub.state.select(Some(0));
         appsub.informations = informations;
     }
+    appsub.subscription = utils::get_subs();
     appsub.settings_input[0] = utils::start_v2core();
     let appbar = AppBar::new();
     let mut local_page = Page::SubScribe;

@@ -2,8 +2,7 @@ use super::app::*;
 use super::render::ui;
 use super::state::subscribe_state;
 use crate::spider;
-use crate::state::MyBackend;
-use crate::state::IFEXIT;
+use crate::state::{MyBackend, IFEXIT};
 use std::io;
 use tui::widgets::ListState;
 use tui::Terminal;
@@ -18,17 +17,21 @@ pub(crate) enum InputMode {
 /// App holds the state of the application
 pub struct AppSub {
     /// Current value of the input box
+    // search bar
     pub input: String,
+    // settings , include coresetting and subscribe setting
     pub settings_input: Vec<String>,
     /// Current input mode
     pub(crate) input_mode: InputMode,
-    /// History of recorded messages
-    pub messages: Vec<String>,
+    // History of recorded subs
+    // subs's names
+    pub subs: Vec<String>,
     pub state: ListState,
     pub index_subscription: ListState,
     pub index_settings: usize,
     pub stateoflist: bool,
     pub show_popup: bool,
+    // subscribes's information
     pub informations: Vec<spider::Information>,
     pub subscription: Vec<String>,
 }
@@ -36,7 +39,7 @@ impl AppSub {
     pub fn next(&mut self) {
         let i = match self.state.selected() {
             Some(i) => {
-                if i >= self.messages.len() - 1 {
+                if i >= self.subs.len() - 1 {
                     0
                 } else {
                     i + 1
@@ -51,7 +54,7 @@ impl AppSub {
         let i = match self.state.selected() {
             Some(i) => {
                 if i == 0 {
-                    self.messages.len() - 1
+                    self.subs.len() - 1
                 } else {
                     i - 1
                 }
@@ -110,7 +113,7 @@ impl Default for AppSub {
             input: String::new(),
             settings_input: vec![String::new(), String::new()],
             input_mode: InputMode::Normal,
-            messages: Vec::new(),
+            subs: Vec::new(),
             state: ListState::default(),
             index_subscription: ListState::default(),
             index_settings: 0,

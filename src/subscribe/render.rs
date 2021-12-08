@@ -88,8 +88,8 @@ pub(crate) fn ui<B: Backend>(f: &mut Frame<B>, app: &mut AppSub) {
         .constraints([Constraint::Percentage(40), Constraint::Percentage(60)].as_ref())
         .split(chunks[2]);
 
-    let messages: Vec<ListItem> = app
-        .messages
+    let subs: Vec<ListItem> = app
+        .subs
         .iter()
         .enumerate()
         .map(|(i, m)| {
@@ -97,7 +97,7 @@ pub(crate) fn ui<B: Backend>(f: &mut Frame<B>, app: &mut AppSub) {
             ListItem::new(content)
         })
         .collect();
-    let messages = List::new(messages)
+    let subs = List::new(subs)
         .block(Block::default().borders(Borders::ALL).title("List"))
         .highlight_style(
             Style::default()
@@ -106,7 +106,7 @@ pub(crate) fn ui<B: Backend>(f: &mut Frame<B>, app: &mut AppSub) {
         )
         .highlight_symbol(">> ");
     // popup wiget
-    f.render_stateful_widget(messages, bottom_chunks[0], &mut app.state);
+    f.render_stateful_widget(subs, bottom_chunks[0], &mut app.state);
     //let block : Box<dyn Widget> = {
     if let Some(a) = app.state.selected() {
         let list = app.informations[a].information_to_list();

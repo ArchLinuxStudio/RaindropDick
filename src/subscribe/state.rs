@@ -37,7 +37,7 @@ pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                         storge.push('[');
                         storge.push('\n');
                         if !list[0].is_empty() {
-                            //app.messages = list[0].clone();
+                            //app.subs = list[0].clone();
                             app.stateoflist = true;
                             app.state.select(Some(0));
                             for alist in &list[0] {
@@ -45,7 +45,7 @@ pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                                 app.informations.push(information.clone());
                                 storge.push_str(information.get_the_json_node().as_str());
                             }
-                            app.messages = app
+                            app.subs = app
                                 .informations
                                 .iter()
                                 .map(|ainformation| {
@@ -61,7 +61,7 @@ pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                             .unwrap_or_else(|err| panic!("err {}", err));
                     }
 
-                    //app.messages.push(app.input.drain(..).collect());
+                    //app.subs.push(app.input.drain(..).collect());
                 }
                 KeyCode::Char(c) => {
                     app.input.push(c);
@@ -133,6 +133,22 @@ pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                         ),
                     )
                     .unwrap_or_else(|err| panic!("{}", err));
+                    let mut subscribe_json: String = "[\n".to_string();
+                    for asub in &app.subscription {
+                        subscribe_json.push_str(&format!(
+                            "
+    {{
+        \"url\": \"{}\"
+    }},\n",
+                            asub
+                        ));
+                    }
+                    subscribe_json.pop();
+                    subscribe_json.pop();
+                    subscribe_json.push_str("\n]");
+                    utils::create_json_file(utils::Save::Subscribes, subscribe_json)
+                        .unwrap_or_else(|err| panic!("{}", err));
+                    //    .collect();
                 }
                 _ => {}
             },
@@ -175,6 +191,16 @@ pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
             InputMode::SubscriptView => match key.code {
                 KeyCode::Up => app.previous_sub(),
                 KeyCode::Down => app.next_sub(),
+                KeyCode::Char('d') => {
+                    app.subscription.remove(app.index_subscription.selected().unwrap());
+                    if app.subscription.is_empty() {
+                        app.unselect_sub();
+                        app.input_mode = InputMode::Popup;
+                    } else {
+                        app.index_subscription.select(Some(0));
+                    }
+                    //app.settings_input[app.index_settings].push(c);
+                }
                 KeyCode::Esc => {
                     app.index_settings = 0;
                     app.unselect_sub();
