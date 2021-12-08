@@ -127,20 +127,19 @@ pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                     utils::create_json_file(
                         utils::Save::V2ray,
                         format!(
-                            "{{
-    \"v2core\":\"{}\"
-}}",
+                            "{{\n   \
+                                    \"v2core\":\"{}\"\n\
+                            }}",
                             app.settings_input[0]
                         ),
                     )
                     .unwrap_or_else(|err| panic!("{}", err));
-                    let mut subscribe_json: String = "[\n".to_string();
+                    let mut subscribe_json: String = "[\n\n".to_string();
                     for asub in &app.subscription {
                         subscribe_json.push_str(&format!(
-                            "
-    {{
-        \"url\": \"{}\"
-    }},\n",
+                            "{{ \n\
+                                \"url\": \"{}\"\n   \
+                            }},\n",
                             asub
                         ));
                     }
@@ -154,8 +153,8 @@ pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                     if let Ok(list) = get_list {
                         let mut storge: String = String::new();
                         storge.push('[');
-                        storge.push('\n');
-                        if !list[0].is_empty() {
+                        storge.push_str("\n\n");
+                        if !list.is_empty() && !list[0].is_empty() {
                             //app.subs = list[0].clone();
                             app.stateoflist = true;
                             app.state.select(Some(0));
@@ -222,7 +221,8 @@ pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                 KeyCode::Up => app.previous_sub(),
                 KeyCode::Down => app.next_sub(),
                 KeyCode::Char('d') => {
-                    app.subscription.remove(app.index_subscription.selected().unwrap());
+                    app.subscription
+                        .remove(app.index_subscription.selected().unwrap());
                     if app.subscription.is_empty() {
                         app.unselect_sub();
                         app.input_mode = InputMode::Popup;

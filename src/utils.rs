@@ -1,5 +1,5 @@
 use crate::spider::Information;
-use serde_json::Value;
+use serde_json::{Value,json};
 use std::{
     env,
     fs::{self, File},
@@ -48,7 +48,9 @@ pub fn start_v2core() -> String {
     let message = match get_json(Save::V2ray) {
         Ok(output) => output,
         Err(_) => {
-            let core = "{\n\"v2core\":\"/usr/bin/v2ray\"\n}".to_string();
+            let core = json!({
+                "v2core":"/usr/bin/v2ray"
+            }).to_string();
             create_json_file(Save::V2ray, core.clone()).unwrap_or_else(|err| panic!("{}", err));
             core
         }
