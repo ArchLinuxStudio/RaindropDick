@@ -115,10 +115,12 @@ impl AppSub {
         self.index_subscription.select(None);
     }
 }
+use async_trait::async_trait;
+#[async_trait]
 impl App for AppSub {
-    fn run_app_local(&mut self, terminal: &mut Terminal<MyBackend>) -> io::Result<IFEXIT> {
+    async fn run_app_local(&mut self, terminal: &mut Terminal<MyBackend>) -> io::Result<IFEXIT> {
         terminal.draw(|f| ui(f, self))?;
-        subscribe_state(self)
+        subscribe_state(self).await
     }
 }
 impl Default for AppSub {

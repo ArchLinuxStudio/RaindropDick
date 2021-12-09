@@ -49,8 +49,10 @@ impl<'a> AppBar<'a> {
         self.data.insert(0, value);
     }
 }
+use async_trait::async_trait;
+#[async_trait]
 impl<'a> App for AppBar<'a> {
-    fn run_app_local(
+    async fn run_app_local(
         &mut self,
         terminal: &mut Terminal<MyBackend>,
     ) -> io::Result<crate::state::IFEXIT> {

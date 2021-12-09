@@ -5,7 +5,7 @@ use super::{Page, IFEXIT};
 use crossterm::event::{self, Event, KeyCode};
 use std::{env, io, process::Command};
 use tui::widgets::ListState;
-pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
+pub(crate) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
     if let Event::Key(key) = event::read()? {
         match app.input_mode {
             InputMode::Normal => match key.code {
@@ -121,7 +121,7 @@ pub(crate) fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                     utils::create_json_file(utils::Save::Subscribes, subscribe_json)
                         .unwrap_or_else(|err| panic!("{}", err));
                     //    .collect();
-                    let get_list = spider::get_the_key(app.subscription.clone());
+                    let get_list = spider::get_the_key(app.subscription.clone()).await;
                     if let Ok(list) = get_list {
                         if !list.is_empty(){
                             let mut storge: String = "[\n\n".to_string();

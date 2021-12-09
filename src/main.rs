@@ -12,8 +12,8 @@ mod state;
 mod subscribe;
 mod utils;
 //use app::*;
-
-fn main() -> Result<(), Box<dyn Error>> {
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn Error>> {
     // setup terminal
     enable_raw_mode()?;
     let mut stdout = io::stdout();
@@ -21,7 +21,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
 
-    let res = state::run_app(&mut terminal);
+    let res = state::run_app(&mut terminal).await;
 
     // restore terminal
     disable_raw_mode()?;

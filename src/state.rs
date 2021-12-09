@@ -22,7 +22,7 @@ pub enum IFEXIT {
 
 pub(crate) type MyBackend = CrosstermBackend<Stdout>;
 //计划将它设置成一个入口
-pub fn run_app(terminal: &mut Terminal<MyBackend>) -> io::Result<()> {
+pub async fn run_app(terminal: &mut Terminal<MyBackend>) -> io::Result<()> {
     let mut appsub = AppSub::default();
     let informations = utils::start();
     if !informations.is_empty() {
@@ -46,7 +46,7 @@ pub fn run_app(terminal: &mut Terminal<MyBackend>) -> io::Result<()> {
     let mut pages: Vec<Box<dyn App>> = vec![Box::new(appsub), Box::new(appbar)];
 
     loop {
-        match pages[local_page as usize].run_app_local(terminal)? {
+        match pages[local_page as usize].run_app_local(terminal).await? {
             IFEXIT::Exit => return Ok(()),
             IFEXIT::Change(e) => local_page = e,
             IFEXIT::Next => {}

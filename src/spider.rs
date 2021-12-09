@@ -31,10 +31,10 @@ fn ascii_to_string2(code: Vec<u8>) -> String {
     }
     test
 }
-pub fn get_the_key(paths: Vec<String>) -> Result<Vec<Vec<String>>> {
+pub async fn get_the_key(paths: Vec<String>) -> Result<Vec<Vec<String>>> {
     let mut output: Vec<Vec<String>> = vec![];
     for apath in paths {
-        let temp = reqwest::blocking::get(apath)?.bytes()?.to_vec();
+        let temp = reqwest::get(apath).await?.bytes().await?.to_vec();
         let code = base64::decode(temp);
         match code {
             Ok(input) => {
