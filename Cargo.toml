@@ -6,6 +6,7 @@ license = " GPL-3.0-or-later"
 description = "a v2ray tui"
 homepage = "https://github.com/ArchLinuxStudio/RaindropDick"
 authors = ["chen244 <aakari@tutanota.com>"]
+keywords = ["tui"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
