@@ -10,7 +10,7 @@ use tui::{
 };
 use unicode_width::UnicodeWidthStr;
 
-pub(crate) fn ui<B: Backend>(f: &mut Frame<B>, app: &mut AppSub) {
+pub(super) fn ui<B: Backend>(f: &mut Frame<B>, app: &mut AppSub) {
     let chunks = Layout::default()
         .direction(Direction::Vertical)
         .margin(2)

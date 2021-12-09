@@ -5,7 +5,7 @@ use super::{Page, IFEXIT};
 use crossterm::event::{self, Event, KeyCode};
 use std::{env, io, process::Command};
 use tui::widgets::ListState;
-pub(crate) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
+pub(super) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
     if let Event::Key(key) = event::read()? {
         match app.input_mode {
             InputMode::Normal => match key.code {

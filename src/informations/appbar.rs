@@ -6,7 +6,7 @@ use std::{
 };
 use tui::Terminal;
 pub struct AppBar<'a> {
-    pub(crate) data: Vec<(&'a str, u64)>,
+    pub(super) data: Vec<(&'a str, u64)>,
     last_tick: Instant,
 }
 use super::render::ui;

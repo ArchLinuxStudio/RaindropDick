@@ -6,7 +6,7 @@ use crate::state::{MyBackend, IFEXIT};
 use std::io;
 use tui::widgets::ListState;
 use tui::Terminal;
-pub(crate) enum InputMode {
+pub(super) enum InputMode {
     Normal,
     Editing,
     Select,
@@ -22,7 +22,7 @@ pub struct AppSub {
     // settings , include coresetting and subscribe setting
     pub settings_input: Vec<String>,
     /// Current input mode
-    pub(crate) input_mode: InputMode,
+    pub(super) input_mode: InputMode,
     // History of recorded subs
     // subs's names
     pub subs: Vec<Vec<String>>,
