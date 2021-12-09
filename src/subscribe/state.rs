@@ -61,7 +61,9 @@ pub(crate) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                                 let home = env::var("HOME").unwrap();
                                 utils::create_json_file(
                                     utils::Save::Running,
-                                    app.informations[app.subsindex][index].clone().running_json(),
+                                    app.informations[app.subsindex][index]
+                                        .clone()
+                                        .running_json(),
                                 )
                                 .unwrap_or_else(|err| panic!("err {}", err));
                                 Command::new("pkill")
@@ -123,12 +125,12 @@ pub(crate) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                     //    .collect();
                     let get_list = spider::get_the_key(app.subscription.clone()).await;
                     if let Ok(list) = get_list {
-                        if !list.is_empty(){
+                        if !list.is_empty() {
                             let mut storge: String = "[\n\n".to_string();
-                            let mut subs : Vec<Vec<String>> =Vec::new();
-                            let mut information :Vec<Vec<spider::Information>> = Vec::new();
-                            let mut state: Vec<ListState>= Vec::new();
-                            for lista  in list {
+                            let mut subs: Vec<Vec<String>> = Vec::new();
+                            let mut information: Vec<Vec<spider::Information>> = Vec::new();
+                            let mut state: Vec<ListState> = Vec::new();
+                            for lista in list {
                                 let mut ainformation: Vec<spider::Information> = Vec::new();
                                 //let mut asub: Vec<String> = Vec::new();
                                 storge.push_str("[\n\n");
@@ -137,19 +139,19 @@ pub(crate) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                                         let inform = spider::Information::new(alist.to_string());
                                         ainformation.push(inform.clone());
                                         storge.push_str(&inform.get_the_json_node());
-
                                     }
                                     storge.pop();
                                     storge.pop();
                                     storge.push_str("\n  ],");
                                 }
                                 state.push(ListState::default());
-                                subs.push(ainformation
-                                    .iter()
-                                    .map(|ainfor| spider::remove_quotation(ainfor.ps.clone()))
-                                    .collect());
+                                subs.push(
+                                    ainformation
+                                        .iter()
+                                        .map(|ainfor| spider::remove_quotation(ainfor.ps.clone()))
+                                        .collect(),
+                                );
                                 information.push(ainformation);
-
                             }
                             app.state = state;
                             app.subs = subs;
@@ -160,8 +162,7 @@ pub(crate) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                                 .unwrap_or_else(|err| panic!("err {}", err));
                             app.subsindex = 0;
                             app.state[0].select(Some(0));
-                            app.stateoflist=true;
-
+                            app.stateoflist = true;
                         }
                     }
                 }

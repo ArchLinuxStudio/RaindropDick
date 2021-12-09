@@ -86,8 +86,7 @@ pub(crate) fn ui<B: Backend>(f: &mut Frame<B>, app: &mut AppSub) {
         .constraints([Constraint::Percentage(40), Constraint::Percentage(60)].as_ref())
         .split(chunks[2]);
 
-    let subs: Vec<ListItem> = app
-        .subs[app.subsindex]
+    let subs: Vec<ListItem> = app.subs[app.subsindex]
         .iter()
         .enumerate()
         .map(|(i, m)| {
@@ -96,7 +95,11 @@ pub(crate) fn ui<B: Backend>(f: &mut Frame<B>, app: &mut AppSub) {
         })
         .collect();
     let subs = List::new(subs)
-        .block(Block::default().borders(Borders::ALL).title(format!("Subscribe {}",app.subsindex)))
+        .block(
+            Block::default()
+                .borders(Borders::ALL)
+                .title(format!("Subscribe {}", app.subsindex)),
+        )
         .highlight_style(
             Style::default()
                 .bg(Color::LightGreen)
@@ -119,7 +122,9 @@ pub(crate) fn ui<B: Backend>(f: &mut Frame<B>, app: &mut AppSub) {
             List::new(messages).block(Block::default().borders(Borders::ALL).title("Informations"));
         f.render_widget(block, bottom_chunks[1]);
     } else {
-        let block = Block::default().title("Informations None").borders(Borders::ALL);
+        let block = Block::default()
+            .title("Informations None")
+            .borders(Borders::ALL);
         f.render_widget(block, bottom_chunks[1]);
     }
     //};

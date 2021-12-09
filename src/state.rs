@@ -6,8 +6,8 @@ use crate::utils;
 use std::io;
 use std::io::Stdout;
 use tui::backend::CrosstermBackend;
-use tui::Terminal;
 use tui::widgets::ListState;
+use tui::Terminal;
 #[derive(Clone, Copy)]
 pub enum Page {
     SubScribe = 0,
@@ -28,14 +28,16 @@ pub async fn run_app(terminal: &mut Terminal<MyBackend>) -> io::Result<()> {
     if !informations.is_empty() {
         appsub.subs = informations
             .iter()
-            .map(|ainformation| ainformation
-                .iter()
-                .map(|message| spider::remove_quotation(message.ps.clone()))
-                .collect())
+            .map(|ainformation| {
+                ainformation
+                    .iter()
+                    .map(|message| spider::remove_quotation(message.ps.clone()))
+                    .collect()
+            })
             .collect();
         appsub.stateoflist = true;
         let len = informations.len();
-        appsub.state = vec![ListState::default();len];
+        appsub.state = vec![ListState::default(); len];
         //appsub.state[0].select(Some(0));
         appsub.informations = informations.clone();
     }

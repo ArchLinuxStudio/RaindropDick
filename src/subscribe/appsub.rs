@@ -26,7 +26,7 @@ pub struct AppSub {
     // History of recorded subs
     // subs's names
     pub subs: Vec<Vec<String>>,
-    pub subsindex : usize,
+    pub subsindex: usize,
     pub state: Vec<ListState>,
     pub index_subscription: ListState,
     pub index_settings: usize,
@@ -64,18 +64,18 @@ impl AppSub {
         };
         self.state[self.subsindex].select(Some(i));
     }
-    pub fn left(&mut self){
+    pub fn left(&mut self) {
         if self.subsindex == 0 {
-            self.subsindex = self.state.len()-1;
+            self.subsindex = self.state.len() - 1;
         } else {
-            self.subsindex -=1;
+            self.subsindex -= 1;
         }
     }
-    pub fn right(&mut self){
-        if self.subsindex >= self.state.len() -1 {
+    pub fn right(&mut self) {
+        if self.subsindex >= self.state.len() - 1 {
             self.subsindex = 0;
         } else {
-            self.subsindex +=1;
+            self.subsindex += 1;
         }
     }
     pub fn unselect(&mut self) {
