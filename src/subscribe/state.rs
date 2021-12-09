@@ -6,7 +6,52 @@ use crossterm::event::{self, Event, KeyCode};
 use std::{env, io, process::Command};
 use tui::widgets::ListState;
 pub(super) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
-    if let Event::Key(key) = event::read()? {
+    if app.receiver.is_some() {
+        if let Ok(list) = app.receiver.as_mut().unwrap().try_recv() {
+            if !list.is_empty() {
+                let mut storge: String = "[\n\n".to_string();
+                let mut subs: Vec<Vec<String>> = Vec::new();
+                let mut information: Vec<Vec<spider::Information>> = Vec::new();
+                let mut state: Vec<ListState> = Vec::new();
+                for lista in list {
+                    let mut ainformation: Vec<spider::Information> = Vec::new();
+                    //let mut asub: Vec<String> = Vec::new();
+                    storge.push_str("[\n\n");
+                    if !lista.is_empty() {
+                        for alist in lista {
+                            let inform = spider::Information::new(alist.to_string());
+                            ainformation.push(inform.clone());
+                            storge.push_str(&inform.get_the_json_node());
+                        }
+                        storge.pop();
+                        storge.pop();
+                        storge.push_str("\n  ],");
+                    }
+                    state.push(ListState::default());
+                    subs.push(
+                        ainformation
+                            .iter()
+                            .map(|ainfor| spider::remove_quotation(ainfor.ps.clone()))
+                            .collect(),
+                    );
+                    information.push(ainformation);
+                }
+                app.state = state;
+                app.subs = subs;
+                app.informations = information;
+                storge.pop();
+                storge.push_str("\n]");
+                utils::create_json_file(utils::Save::Storage, storge)
+                    .unwrap_or_else(|err| panic!("err {}", err));
+                app.subsindex = 0;
+                app.state[0].select(Some(0));
+                app.stateoflist = true;
+            }
+            app.receiver = None;
+            app.popinfomation = "Settings, e to edit, s to save".to_string();
+            app.input_mode = InputMode::Popup;
+        }
+    } else if let Event::Key(key) = event::read()? {
         match app.input_mode {
             InputMode::Normal => match key.code {
                 KeyCode::Char('e') => {
@@ -123,48 +168,19 @@ pub(super) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                     utils::create_json_file(utils::Save::Subscribes, subscribe_json)
                         .unwrap_or_else(|err| panic!("{}", err));
                     //    .collect();
-                    let get_list = spider::get_the_key(app.subscription.clone()).await;
-                    if let Ok(list) = get_list {
-                        if !list.is_empty() {
-                            let mut storge: String = "[\n\n".to_string();
-                            let mut subs: Vec<Vec<String>> = Vec::new();
-                            let mut information: Vec<Vec<spider::Information>> = Vec::new();
-                            let mut state: Vec<ListState> = Vec::new();
-                            for lista in list {
-                                let mut ainformation: Vec<spider::Information> = Vec::new();
-                                //let mut asub: Vec<String> = Vec::new();
-                                storge.push_str("[\n\n");
-                                if !lista.is_empty() {
-                                    for alist in lista {
-                                        let inform = spider::Information::new(alist.to_string());
-                                        ainformation.push(inform.clone());
-                                        storge.push_str(&inform.get_the_json_node());
-                                    }
-                                    storge.pop();
-                                    storge.pop();
-                                    storge.push_str("\n  ],");
-                                }
-                                state.push(ListState::default());
-                                subs.push(
-                                    ainformation
-                                        .iter()
-                                        .map(|ainfor| spider::remove_quotation(ainfor.ps.clone()))
-                                        .collect(),
-                                );
-                                information.push(ainformation);
-                            }
-                            app.state = state;
-                            app.subs = subs;
-                            app.informations = information;
-                            storge.pop();
-                            storge.push_str("\n]");
-                            utils::create_json_file(utils::Save::Storage, storge)
-                                .unwrap_or_else(|err| panic!("err {}", err));
-                            app.subsindex = 0;
-                            app.state[0].select(Some(0));
-                            app.stateoflist = true;
+                    let (sync_io_tx, sync_io_rx) =
+                        tokio::sync::mpsc::channel::<Vec<Vec<String>>>(100);
+                    app.receiver = Some(sync_io_rx);
+                    let input = app.subscription.clone();
+                    app.popinfomation = "Waiting for a moment".to_string();
+                    tokio::spawn(async move {
+                        let get_list = spider::get_the_key(input).await;
+                        if let Ok(list) = get_list {
+                            sync_io_tx.send(list).await.unwrap();
+                        } else {
+                            sync_io_tx.send(vec![]).await.unwrap();
                         }
-                    }
+                    });
                 }
                 _ => {}
             },

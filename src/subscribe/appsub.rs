@@ -4,6 +4,7 @@ use super::state::subscribe_state;
 use crate::spider;
 use crate::state::{MyBackend, IFEXIT};
 use std::io;
+use tokio::sync::mpsc::Receiver;
 use tui::widgets::ListState;
 use tui::Terminal;
 pub(super) enum InputMode {
@@ -35,6 +36,8 @@ pub struct AppSub {
     // subscribes's information
     pub informations: Vec<Vec<spider::Information>>,
     pub subscription: Vec<String>,
+    pub receiver: Option<Receiver<Vec<Vec<String>>>>,
+    pub popinfomation: String,
 }
 impl AppSub {
     pub fn next(&mut self) {
@@ -138,6 +141,8 @@ impl Default for AppSub {
             show_popup: false,
             informations: vec![vec![]],
             subscription: Vec::new(),
+            receiver: None,
+            popinfomation: "Settings, e to edit, s to save".to_string(),
         }
     }
 }

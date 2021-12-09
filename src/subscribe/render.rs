@@ -151,10 +151,7 @@ pub(super) fn ui<B: Backend>(f: &mut Frame<B>, app: &mut AppSub) {
             .split(area);
 
         f.render_widget(Clear, area); //this clears out the background
-        let (msg, style) = (
-            vec![Span::raw("Settings, e to edit, s to save")],
-            Style::default(),
-        );
+        let (msg, style) = (vec![Span::raw(app.popinfomation.clone())], Style::default());
         let mut text = Text::from(Spans::from(msg));
         text.patch_style(style);
         let title = Paragraph::new(text);
