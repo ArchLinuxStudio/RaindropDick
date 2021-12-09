@@ -6,7 +6,7 @@ use tui::{
     widgets::{BarChart, Block, Borders},
     Frame,
 };
-pub fn ui<B: Backend>(f: &mut Frame<B>, app: &AppBar) {
+pub(super) fn ui<B: Backend>(f: &mut Frame<B>, app: &AppBar) {
     let chunks = Layout::default()
         .direction(Direction::Vertical)
         .margin(2)

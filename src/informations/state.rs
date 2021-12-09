@@ -2,7 +2,7 @@ use crossterm::event::{self, Event, KeyCode};
 use std::{io, time::Duration};
 
 use crate::state::{Page, IFEXIT};
-pub fn information_state(timeout: Duration) -> io::Result<IFEXIT> {
+pub(super) fn information_state(timeout: Duration) -> io::Result<IFEXIT> {
     if crossterm::event::poll(timeout)? {
         if let Event::Key(key) = event::read()? {
             match key.code {
