@@ -44,7 +44,6 @@ pub(super) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                 utils::create_json_file(utils::Save::Storage, storge)
                     .unwrap_or_else(|err| panic!("err {}", err));
                 app.subsindex = 0;
-                app.state[0].select(Some(0));
                 app.stateoflist = true;
             }
             app.receiver = None;
