@@ -92,5 +92,6 @@ pub fn start() -> Vec<Vec<Information>> {
             "[]".to_string()
         }
     };
-    serde_json::from_str(messages.as_str()).unwrap()
+    // 如果发生错误，就不读取
+    serde_json::from_str(messages.as_str()).unwrap_or(vec![])
 }
