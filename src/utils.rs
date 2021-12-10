@@ -1,4 +1,5 @@
 use crate::spider::Information;
+use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::{
     env,
@@ -6,7 +7,6 @@ use std::{
     io::{prelude::*, Result},
     path::Path,
 };
-use serde::{Deserialize, Serialize};
 pub enum Save {
     Storage,
     Running,
@@ -63,7 +63,7 @@ pub fn start_v2core() -> String {
 }
 #[derive(Clone, Serialize, Deserialize)]
 struct Urls {
-    url : String,
+    url: String,
 }
 pub fn get_subs() -> Vec<String> {
     create_storage_before();
@@ -75,7 +75,8 @@ pub fn get_subs() -> Vec<String> {
             "[]".to_string()
         }
     };
-    serde_json::from_str::<Vec<Urls>>(messages.as_str()).unwrap_or_default()
+    serde_json::from_str::<Vec<Urls>>(messages.as_str())
+        .unwrap_or_default()
         .iter()
         .map(|aurl| aurl.url.clone())
         .collect()
