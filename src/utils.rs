@@ -6,6 +6,7 @@ use std::{
     io::{prelude::*, Result},
     path::Path,
 };
+use serde::{Deserialize, Serialize};
 pub enum Save {
     Storage,
     Running,
@@ -60,6 +61,10 @@ pub fn start_v2core() -> String {
     let message_pre = v["v2core"].to_string();
     crate::spider::remove_quotation(message_pre)
 }
+#[derive(Clone, Serialize, Deserialize)]
+struct Urls {
+    url : String,
+}
 pub fn get_subs() -> Vec<String> {
     create_storage_before();
     let messages = match get_json(Save::Subscribes) {
@@ -70,17 +75,10 @@ pub fn get_subs() -> Vec<String> {
             "[]".to_string()
         }
     };
-    let mut subscribes = Vec::new();
-    let v: Value = serde_json::from_str(messages.as_str()).unwrap();
-    let mut index = 0;
-    while v[index] != Value::Null {
-        let sub = v[index]["url"].to_string();
-        let length = sub.len();
-        let sub = (&sub[1..length - 1]).to_string();
-        subscribes.push(sub);
-        index += 1;
-    }
-    subscribes
+    serde_json::from_str::<Vec<Urls>>(messages.as_str()).unwrap_or_default()
+        .iter()
+        .map(|aurl| aurl.url.clone())
+        .collect()
 }
 pub fn start() -> Vec<Vec<Information>> {
     create_storage_before();
@@ -93,5 +91,5 @@ pub fn start() -> Vec<Vec<Information>> {
         }
     };
     // 如果发生错误，就不读取
-    serde_json::from_str(messages.as_str()).unwrap_or(vec![])
+    serde_json::from_str(messages.as_str()).unwrap_or_default()
 }
