@@ -3,9 +3,9 @@ use super::spider;
 use super::utils;
 use super::{Page, IFEXIT};
 use crossterm::event::{self, Event, KeyCode};
+use serde_json::json;
 use std::{env, io, process::Command};
 use tui::widgets::ListState;
-use serde_json::json;
 pub(super) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
     if app.receiver.is_some() {
         if let Ok(get_list) = app.receiver.as_mut().unwrap().try_recv() {
@@ -147,7 +147,8 @@ pub(super) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                         utils::Save::V2ray,
                         json!({
                             "v2core" : app.settings_input[0]
-                        }).to_string()
+                        })
+                        .to_string(),
                     )
                     .unwrap_or_else(|err| panic!("{}", err));
                     let mut subscribe_json: String = "[\n\n".to_string();
