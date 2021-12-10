@@ -83,7 +83,7 @@ impl Information {
         output
     }
     pub fn running_json(&self) -> String {
-        if self.func == *"\"vmess\"" {
+        if self.func == *"vmess" {
             format!(
                 "{{
     \"inbounds\":[{{
@@ -102,7 +102,7 @@ impl Information {
                 \"address\": \"{}\",
                 \"port\":{},
                 \"users\":[{{
-                    \"alterId\": \"{}\",
+                    \"alterId\": {},
                     \"id\":\"{}\"
                 }}]
             }}]
@@ -431,7 +431,7 @@ impl Information {
     }
     fn get_the_link(&self) -> String {
         let mut temp = String::new();
-        if self.func == *"\"vmess\"" {
+        if self.func == *"vmess" {
             temp.push_str(&format!(
                 "vmess://{}:{}-{}@{}:{}/#{}",
                 self.net.clone(),
