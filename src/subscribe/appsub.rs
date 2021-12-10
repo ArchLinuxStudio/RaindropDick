@@ -36,7 +36,7 @@ pub struct AppSub {
     // subscribes's information
     pub informations: Vec<Vec<spider::Information>>,
     pub subscription: Vec<String>,
-    pub receiver: Option<Receiver<Vec<Vec<String>>>>,
+    pub receiver: Option<Receiver<reqwest::Result<Vec<Vec<String>>>>>,
     pub popinfomation: String,
 }
 impl AppSub {

@@ -7,8 +7,8 @@ use std::{env, io, process::Command};
 use tui::widgets::ListState;
 pub(super) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
     if app.receiver.is_some() {
-        if let Ok(list) = app.receiver.as_mut().unwrap().try_recv() {
-            if !list.is_empty() {
+        if let Ok(get_list) = app.receiver.as_mut().unwrap().try_recv() {
+            if let Ok(list) = get_list {
                 let mut storge: String = "[\n\n".to_string();
                 let mut subs: Vec<Vec<String>> = Vec::new();
                 let mut information: Vec<Vec<spider::Information>> = Vec::new();
@@ -168,17 +168,13 @@ pub(super) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                         .unwrap_or_else(|err| panic!("{}", err));
                     //    .collect();
                     let (sync_io_tx, sync_io_rx) =
-                        tokio::sync::mpsc::channel::<Vec<Vec<String>>>(100);
+                        tokio::sync::mpsc::channel::<reqwest::Result<Vec<Vec<String>>>>(100);
                     app.receiver = Some(sync_io_rx);
                     let input = app.subscription.clone();
                     app.popinfomation = "Waiting for a moment".to_string();
                     tokio::spawn(async move {
                         let get_list = spider::get_the_key(input).await;
-                        if let Ok(list) = get_list {
-                            sync_io_tx.send(list).await.unwrap();
-                        } else {
-                            sync_io_tx.send(vec![]).await.unwrap();
-                        }
+                        sync_io_tx.send(get_list).await.unwrap();
                     });
                 }
                 _ => {}
