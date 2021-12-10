@@ -1,6 +1,7 @@
 //extern crate base64;
 use reqwest::Result;
 use serde_json::Value;
+use serde::{Deserialize, Serialize};
 pub fn ascii_to_char(code: u8) -> char {
     std::char::from_u32(code as u32).unwrap_or('_')
 }
@@ -55,7 +56,7 @@ enum Tcp {
     Ss,
     V2,
 }
-#[derive(Clone)]
+#[derive(Clone,Serialize, Deserialize)]
 pub struct Information {
     pub func: String,
     pub urls: String,
@@ -94,26 +95,26 @@ impl Information {
         }}
     }}],
     \"outbounds\":[{{
-        \"protocol\":{},
+        \"protocol\":\"{}\",
         \"sendThrough\": \"0.0.0.0\",
         \"settings\":{{
             \"vnext\": [{{
-                \"address\": {},
+                \"address\": \"{}\",
                 \"port\":{},
                 \"users\":[{{
-                    \"alterId\": {},
-                    \"id\":{}
+                    \"alterId\": \"{}\",
+                    \"id\":\"{}\"
                 }}]
             }}]
         }},
         \"streamSettings\":{{
             \"dsSettings\": {{
-                \"path\": {}
+                \"path\": \"{}\"
             }},
             \"httpSettings\":{{
                 \"host\": [
                 ],
-                \"path\":{}
+                \"path\":\"{}\"
             }},
             \"kcpSettings\": {{
                 \"congestion\": false,
@@ -127,7 +128,7 @@ impl Information {
                 \"uplinkCapacity\": 5,
                 \"writeBufferSize\": 1
             }},
-            \"network\": {},
+            \"network\": \"{}\",
             \"quicSettings\":{{
                 \"header\": {{
                     \"type\":\"none\"
@@ -168,7 +169,7 @@ impl Information {
             \"wsSettings\" :{{
                 \"headers\" :{{
                 }},
-                \"path\":{}
+                \"path\":\"{}\"
             }},
             \"xtlsSettings\":{{
                 \"allowInsecure\":true,
@@ -200,8 +201,8 @@ impl Information {
 }}",
                 self.func,
                 self.add,
-                remove_quotation(self.port.clone()),
-                remove_quotation(self.aid.clone()),
+                self.port.clone(),
+                self.aid.clone(),
                 self.id,
                 self.path,
                 self.path,
@@ -329,12 +330,12 @@ impl Information {
             \"settings\": {{
                 \"servers\" :[
                     {{
-                        \"address\":{},
+                        \"address\":\"{}\",
                         \"email\": \"\",
                         \"level\": 0,
-                        \"method\": {},
+                        \"method\": \"{}\",
                         \"ota\":false,
-                        \"password\":{},
+                        \"password\":\"{}\",
                         \"port\":{}
                     }}
                 ]
@@ -424,7 +425,7 @@ impl Information {
                 self.add,
                 self.net,
                 self.id,
-                remove_quotation(self.port.clone())
+                self.port.clone()
             )
         }
     }
@@ -433,12 +434,12 @@ impl Information {
         if self.func == *"\"vmess\"" {
             temp.push_str(&format!(
                 "vmess://{}:{}-{}@{}:{}/#{}",
-                &remove_quotation(self.net.clone()),
-                &remove_quotation(self.id.clone()),
-                &remove_quotation(self.aid.clone()),
-                &remove_quotation(self.add.clone()),
-                &remove_quotation(self.port.clone()),
-                &remove_quotation(self.ps.clone())
+                self.net.clone(),
+                self.id.clone(),
+                self.aid.clone(),
+                self.add.clone(),
+                self.port.clone(),
+                self.ps.clone()
             ))
         } else {
             temp = self.urls.clone();
@@ -448,8 +449,8 @@ impl Information {
     pub fn get_the_json_node(&self) -> String {
         format!(
             "{{
+    \"urls\":\"{}\",
     \"func\":{},
-    \"url\":\"{}\",
     \"add\":{},
     \"aid\":{},
     \"host\":{},
@@ -459,10 +460,12 @@ impl Information {
     \"port\":{},
     \"ps\":{},
     \"tls\":{},
-    \"type\":{}
+    \"typpe\":{}
 }},\n",
-            self.func,
+
             self.urls,
+
+            self.func,
             self.add,
             self.aid,
             self.host,

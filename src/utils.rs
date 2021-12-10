@@ -92,37 +92,6 @@ pub fn start() -> Vec<Vec<Information>> {
             "[]".to_string()
         }
     };
-    let mut informations = Vec::new();
-    let v: Value = serde_json::from_str(messages.as_str()).unwrap();
-    let mut index = 0;
-    while v[index] != Value::Null {
-        let mut index2 = 0;
-        let w = v[index].clone();
-        let mut information = Vec::new();
-        while w[index2] != Value::Null {
-            let the_url = w[index2]["url"].to_string();
-            let length = the_url.len();
-            let instore = &the_url[1..length - 1];
-            information.push(Information {
-                urls: instore.to_string(),
-                func: w[index2]["func"].to_string(),
-                add: w[index2]["add"].to_string(),
-                aid: w[index2]["aid"].to_string(),
-                host: w[index2]["host"].to_string(),
-                id: w[index2]["id"].to_string(),
-                net: w[index2]["net"].to_string(),
-                path: w[index2]["path"].to_string(),
-                port: w[index2]["port"].to_string(),
-                ps: w[index2]["ps"].to_string(),
-                tls: w[index2]["tls"].to_string(),
-                typpe: w[index2]["type"].to_string(),
-            });
-            index2 += 1;
-        }
-        informations.push(information);
-        //let names = v[index]["ps"].to_string();
-        //start.add_item(remove_quotation(names), url);
-        index += 1;
-    }
-    informations
+    serde_json::from_str(messages.as_str()).unwrap()
+
 }

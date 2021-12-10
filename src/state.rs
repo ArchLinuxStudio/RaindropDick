@@ -1,6 +1,6 @@
 use crate::app::App;
 use crate::informations::appbar::AppBar;
-use crate::spider;
+//use crate::spider;
 use crate::subscribe::appsub::AppSub;
 use crate::utils;
 use std::io;
@@ -31,7 +31,7 @@ pub async fn run_app(terminal: &mut Terminal<MyBackend>) -> io::Result<()> {
             .map(|ainformation| {
                 ainformation
                     .iter()
-                    .map(|message| spider::remove_quotation(message.ps.clone()))
+                    .map(|message| message.ps.clone())
                     .collect()
             })
             .collect();

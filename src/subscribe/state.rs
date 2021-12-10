@@ -31,7 +31,7 @@ pub(super) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                     subs.push(
                         ainformation
                             .iter()
-                            .map(|ainfor| spider::remove_quotation(ainfor.ps.clone()))
+                            .map(|ainfor| ainfor.ps.clone())
                             .collect(),
                     );
                     information.push(ainformation);
