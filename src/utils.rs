@@ -93,5 +93,4 @@ pub fn start() -> Vec<Vec<Information>> {
         }
     };
     serde_json::from_str(messages.as_str()).unwrap()
-
 }

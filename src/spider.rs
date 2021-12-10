@@ -1,7 +1,7 @@
 //extern crate base64;
 use reqwest::Result;
-use serde_json::Value;
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 pub fn ascii_to_char(code: u8) -> char {
     std::char::from_u32(code as u32).unwrap_or('_')
 }
@@ -56,7 +56,7 @@ enum Tcp {
     Ss,
     V2,
 }
-#[derive(Clone,Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Information {
     pub func: String,
     pub urls: String,
@@ -462,9 +462,7 @@ impl Information {
     \"tls\":\"{}\",
     \"typpe\":\"{}\"
 }},\n",
-
             self.urls,
-
             self.func,
             self.add,
             self.aid,
@@ -499,8 +497,8 @@ impl Information {
                 let header2 = ascii_to_string2(base64::decode(header.as_bytes()).unwrap());
                 // 通过分号切开两个内容
                 let header3: Vec<&str> = header2.split(':').collect();
-                let net = format!("{}", header3[0]);
-                let id = format!("{}", header3[1]);
+                let net = header3[0].to_string();
+                let id = header3[1].to_string();
 
                 let first_temp = first[1].to_string();
                 let second: Vec<&str> = first_temp.split('#').collect();
@@ -509,8 +507,8 @@ impl Information {
 
                 let second_temp = second[0].to_string();
                 let third: Vec<&str> = second_temp.split(':').collect();
-                let add = format!("{}", third[0]);
-                let port = format!("{}", third[1]);
+                let add = third[0].to_string();
+                let port = third[1].to_string();
                 Information {
                     urls: url,
                     func: "ss".to_string(),
@@ -538,28 +536,28 @@ impl Information {
                             func: "vmess".to_string(),
                             add: remove_quotation(input["add"].to_string()),
                             aid: remove_quotation(input["aid"].to_string()),
-                            host:  remove_quotation(input["host"].to_string()),
-                            id:    remove_quotation(input["id"].to_string()),
-                            net:   remove_quotation(input["net"].to_string()),
-                            path:  remove_quotation(input["path"].to_string()),
-                            port:  remove_quotation(input["port"].to_string()),
-                            ps:    remove_quotation(input["ps"].to_string()),
-                            tls:   remove_quotation(input["tls"].to_string()),
+                            host: remove_quotation(input["host"].to_string()),
+                            id: remove_quotation(input["id"].to_string()),
+                            net: remove_quotation(input["net"].to_string()),
+                            path: remove_quotation(input["path"].to_string()),
+                            port: remove_quotation(input["port"].to_string()),
+                            ps: remove_quotation(input["ps"].to_string()),
+                            tls: remove_quotation(input["tls"].to_string()),
                             typpe: remove_quotation(input["type"].to_string()),
                         }
                     }
                     Err(_) => Information {
                         urls: url,
-                        func:  "vmess".to_string(),
-                        add:   "unknown".to_string(),
-                        aid:   "unknown".to_string(),
-                        host:  "unknown".to_string(),
-                        id:    "unknown".to_string(),
-                        net:   "unknown".to_string(),
-                        path:  "unknown".to_string(),
-                        port:  "unknown".to_string(),
-                        ps:    "unknown".to_string(),
-                        tls:   "unknown".to_string(),
+                        func: "vmess".to_string(),
+                        add: "unknown".to_string(),
+                        aid: "unknown".to_string(),
+                        host: "unknown".to_string(),
+                        id: "unknown".to_string(),
+                        net: "unknown".to_string(),
+                        path: "unknown".to_string(),
+                        port: "unknown".to_string(),
+                        ps: "unknown".to_string(),
+                        tls: "unknown".to_string(),
                         typpe: "unknown".to_string(),
                     },
                 }
