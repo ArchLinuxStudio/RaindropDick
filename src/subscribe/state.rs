@@ -5,6 +5,7 @@ use super::{Page, IFEXIT};
 use crossterm::event::{self, Event, KeyCode};
 use std::{env, io, process::Command};
 use tui::widgets::ListState;
+use serde_json::json;
 pub(super) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
     if app.receiver.is_some() {
         if let Ok(get_list) = app.receiver.as_mut().unwrap().try_recv() {
@@ -144,12 +145,9 @@ pub(super) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                 KeyCode::Char('s') => {
                     utils::create_json_file(
                         utils::Save::V2ray,
-                        format!(
-                            "{{\n   \
-                                    \"v2core\":\"{}\"\n\
-                            }}",
-                            app.settings_input[0]
-                        ),
+                        json!({
+                            "v2core" : app.settings_input[0]
+                        }).to_string()
                     )
                     .unwrap_or_else(|err| panic!("{}", err));
                     let mut subscribe_json: String = "[\n\n".to_string();
