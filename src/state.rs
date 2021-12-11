@@ -39,7 +39,7 @@ pub async fn run_app(terminal: &mut Terminal<MyBackend>) -> io::Result<()> {
         let len = informations.len();
         appsub.state = vec![ListState::default(); len];
         //appsub.state[0].select(Some(0));
-        appsub.informations = informations.clone();
+        appsub.informations = informations;
     }
     appsub.subscription = utils::get_subs();
     appsub.settings_input[0] = utils::start_v2core();

@@ -201,8 +201,8 @@ impl Information {
 }}",
                 self.func,
                 self.add,
-                self.port.clone(),
-                self.aid.clone(),
+                self.port,
+                self.aid,
                 self.id,
                 self.path,
                 self.path,
@@ -425,7 +425,7 @@ impl Information {
                 self.add,
                 self.net,
                 self.id,
-                self.port.clone()
+                self.port
             )
         }
     }
