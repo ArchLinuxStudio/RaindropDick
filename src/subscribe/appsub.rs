@@ -5,6 +5,7 @@ use crate::spider;
 use crate::state::{MyBackend, IFEXIT};
 use std::io;
 use tokio::sync::mpsc::Receiver;
+use tui::style::Color;
 use tui::widgets::ListState;
 use tui::Terminal;
 pub(super) enum InputMode {
@@ -38,6 +39,7 @@ pub struct AppSub {
     pub subscription: Vec<String>,
     pub receiver: Option<Receiver<reqwest::Result<Vec<Vec<String>>>>>,
     pub popinfomation: String,
+    pub(super) popupcolor: Color,
 }
 impl AppSub {
     pub fn next(&mut self) {
@@ -143,6 +145,7 @@ impl Default for AppSub {
             subscription: Vec::new(),
             receiver: None,
             popinfomation: "Settings, e to edit, s to save".to_string(),
+            popupcolor: Color::LightBlue,
         }
     }
 }

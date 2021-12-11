@@ -149,8 +149,10 @@ pub(super) fn ui<B: Backend>(f: &mut Frame<B>, app: &mut AppSub) {
                 .as_ref(),
             )
             .split(area);
+        let block = Block::default().style(Style::default().bg(app.popupcolor).fg(Color::Black));
 
         f.render_widget(Clear, area); //this clears out the background
+        f.render_widget(block, area); //this clears out the background
         let (msg, style) = (vec![Span::raw(app.popinfomation.clone())], Style::default());
         let mut text = Text::from(Spans::from(msg));
         text.patch_style(style);
@@ -183,7 +185,7 @@ pub(super) fn ui<B: Backend>(f: &mut Frame<B>, app: &mut AppSub) {
             .block(Block::default().borders(Borders::ALL).title("List"))
             .highlight_style(
                 Style::default()
-                    .bg(Color::LightBlue)
+                    .bg(Color::LightGreen)
                     .add_modifier(Modifier::BOLD),
             )
             .highlight_symbol(">> ");

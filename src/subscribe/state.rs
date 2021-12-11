@@ -5,6 +5,7 @@ use super::{Page, IFEXIT};
 use crossterm::event::{self, Event, KeyCode};
 use serde_json::json;
 use std::{env, io, process::Command};
+use tui::style::Color;
 use tui::widgets::ListState;
 pub(super) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
     if app.receiver.is_some() {
@@ -50,6 +51,7 @@ pub(super) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
             app.receiver = None;
             app.popinfomation = "Settings, e to edit, s to save".to_string();
             app.input_mode = InputMode::Popup;
+            app.popupcolor = Color::LightBlue;
         }
     } else if let Event::Key(key) = event::read()? {
         match app.input_mode {
@@ -165,12 +167,16 @@ pub(super) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                     subscribe_json.push_str("\n]");
                     utils::create_json_file(utils::Save::Subscribes, subscribe_json)
                         .unwrap_or_else(|err| panic!("{}", err));
+                    app.popinfomation = "Have saved".to_string();
                     //    .collect();
+                }
+                KeyCode::Char('r') => {
                     let (sync_io_tx, sync_io_rx) =
                         tokio::sync::mpsc::channel::<reqwest::Result<Vec<Vec<String>>>>(100);
                     app.receiver = Some(sync_io_rx);
                     let input = app.subscription.clone();
                     app.popinfomation = "Waiting for a moment".to_string();
+                    app.popupcolor = Color::LightYellow;
                     tokio::spawn(async move {
                         let get_list = spider::get_the_key(input).await;
                         sync_io_tx.send(get_list).await.unwrap();
