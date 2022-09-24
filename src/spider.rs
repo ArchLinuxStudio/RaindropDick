@@ -1,4 +1,5 @@
 //extern crate base64;
+use v2raylinks::*;
 use reqwest::Result;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -422,10 +423,7 @@ impl Information {
     \"stats\": {{
     }}
 }}",
-                self.add,
-                self.net,
-                self.id,
-                self.port
+                self.add, self.net, self.id, self.port
             )
         }
     }
@@ -476,11 +474,13 @@ impl Information {
             self.typpe
         )
     }
+    // TODO use regex
     pub fn new(url: String) -> Self {
-        let aurl: Vec<char> = url.chars().collect();
         let url_type = {
-            if aurl[0] == 's' {
+            if SSLINK.is_match(&url) {
                 Tcp::Ss
+            } else if VMESSLINK.is_match(&url) {
+                Tcp::V2
             } else {
                 Tcp::V2
             }
@@ -488,7 +488,7 @@ impl Information {
         match url_type {
             Tcp::Ss => {
                 // 预处理，去除ss://
-                let newurl = (&url[5..]).to_string();
+                let newurl = SSLINK.captures(&url).unwrap().get(1).unwrap().as_str();
                 // 用@分割字符串
                 let first: Vec<&str> = newurl.split('@').collect();
                 // 传来的节点补全最后一位解析
@@ -525,7 +525,7 @@ impl Information {
                 }
             }
             Tcp::V2 => {
-                let newurl = &url[8..];
+                let newurl = VMESSLINK.captures(&url).unwrap().get(1).unwrap().as_str();
                 let json = ascii_to_string2(base64::decode(newurl.to_string().as_bytes()).unwrap());
                 let v: serde_json::Result<Value> = serde_json::from_str(json.as_str());
                 match v {
