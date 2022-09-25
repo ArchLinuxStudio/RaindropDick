@@ -10,10 +10,25 @@ pub trait V2rayRun {
     fn infomation(&self) -> Vec<String>;
 }
 
-#[derive(Deserialize, Debug, Serialize)]
+#[derive(Deserialize, Debug, Serialize,Clone)]
 pub enum Links {
     VMESS(Vmess),
     SS(SS),
+}
+
+impl Links {
+    pub fn infomation(&self) -> Vec<String> {
+        match self {
+            Links::SS(ss) => ss.infomation(),
+            Links::VMESS(vmess) => vmess.infomation(),
+        }
+    }
+    pub fn name(&self) -> String {
+        match self {
+            Links::SS(ss) => ss.linkname.clone(),
+            Links::VMESS(vmess) => vmess.ps.clone(),
+        }
+    }
 }
 
 impl PartialEq for Links {
@@ -66,7 +81,7 @@ impl Links {
     }
 }
 
-#[derive(Clone, Deserialize, Debug, PartialEq, Serialize)]
+#[derive(Clone,Deserialize, Debug, PartialEq, Serialize)]
 pub struct Vmess {
     pub v: String,
     pub ps: String,
@@ -139,4 +154,12 @@ impl V2rayRun for SS {
             format!("port:     {}", self.port),
         ]
     }
+}
+
+#[inline]
+pub fn get_links(origin: &str) -> Vec<Links> {
+    BASELINK
+        .captures_iter(origin)
+        .map(|unit| Links::new(unit.get(1).unwrap().as_str()))
+        .collect::<Vec<Links>>()
 }

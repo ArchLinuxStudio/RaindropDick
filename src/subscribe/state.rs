@@ -12,40 +12,21 @@ pub(super) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
     if app.receiver.is_some() {
         if let Ok(get_list) = app.receiver.as_mut().unwrap().try_recv() {
             if let Ok(list) = get_list {
-                let mut storge: String = "[\n\n".to_string();
                 let mut subs: Vec<Vec<String>> = Vec::new();
-                let mut information: Vec<Vec<spider::Information>> = Vec::new();
                 let mut state: Vec<ListState> = Vec::new();
-                for lista in list {
-                    let mut ainformation: Vec<spider::Information> = Vec::new();
+                for lista in list.iter() {
+                    subs.push(lista.iter().map(|link| link.name()).collect());
                     //let mut asub: Vec<String> = Vec::new();
-                    storge.push_str("[\n\n");
-                    if !lista.is_empty() {
-                        for alist in lista {
-                            let inform = spider::Information::new(alist.to_string());
-                            ainformation.push(inform.clone());
-                            storge.push_str(&inform.get_the_json_node());
-                        }
-                        storge.pop();
-                        storge.pop();
-                        storge.push_str("\n  ],");
-                    }
                     state.push(ListState::default());
-                    subs.push(
-                        ainformation
-                            .iter()
-                            .map(|ainfor| ainfor.ps.clone())
-                            .collect(),
-                    );
-                    information.push(ainformation);
                 }
                 app.state = state;
                 app.subs = subs;
-                app.informations = information;
-                storge.pop();
-                storge.push_str("\n]");
-                utils::create_json_file(utils::Save::Storage, storge)
-                    .unwrap_or_else(|err| panic!("err {}", err));
+                app.informations = list.clone();
+                utils::create_json_file(
+                    utils::Save::Storage,
+                    serde_json::to_string(&list).unwrap(),
+                )
+                .unwrap_or_else(|err| panic!("err {}", err));
                 app.subsindex = 0;
                 app.stateoflist = true;
             }
@@ -104,32 +85,7 @@ pub(super) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                             app.unselect();
                             app.input_mode = InputMode::Normal;
                         }
-                        //KeyCode::F(5) => {
-                        //    if let Some(index) = app.state[app.subsindex].selected() {
-                        //        let home = env::var("HOME").unwrap();
-                        //        utils::create_json_file(
-                        //            utils::Save::Running,
-                        //            app.informations[app.subsindex][index]
-                        //                .clone()
-                        //                .running_json(),
-                        //        )
-                        //        .unwrap_or_else(|err| panic!("err {}", err));
-                        //        Command::new("pkill")
-                        //            .arg("v2ray")
-                        //            .output()
-                        //            .unwrap_or_else(|e| panic!("failed to execute process: {}", e));
-                        //        Command::new("nohup")
-                        //            .arg(app.settings_input[0].clone())
-                        //            .arg("-config")
-                        //            .arg(home.clone() + "/.config/tv2ray/running.json")
-                        //            .arg(">")
-                        //            .arg(home + "/.config/tv2ray/test.log")
-                        //            .arg("2>&1")
-                        //            .arg("&")
-                        //            .spawn()
-                        //            .expect("failed");
-                        //    }
-                        //}
+
                         _ => {}
                     }
                 } else {
@@ -172,14 +128,15 @@ pub(super) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                     //    .collect();
                 }
                 KeyCode::Char('r') => {
-                    let (sync_io_tx, sync_io_rx) =
-                        tokio::sync::mpsc::channel::<reqwest::Result<Vec<Vec<String>>>>(100);
+                    let (sync_io_tx, sync_io_rx) = tokio::sync::mpsc::channel::<
+                        reqwest::Result<Vec<Vec<v2raylinks::Links>>>,
+                    >(100);
                     app.receiver = Some(sync_io_rx);
                     let input = app.subscription.clone();
                     app.popinfomation = "Waiting for a moment".to_string();
                     app.popupcolor = Color::LightYellow;
                     tokio::spawn(async move {
-                        let get_list = spider::get_the_key(input).await;
+                        let get_list = spider::get_the_links(input).await;
                         sync_io_tx.send(get_list).await.unwrap();
                     });
                 }

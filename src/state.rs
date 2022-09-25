@@ -31,7 +31,7 @@ pub async fn run_app(terminal: &mut Terminal<MyBackend>) -> io::Result<()> {
             .map(|ainformation| {
                 ainformation
                     .iter()
-                    .map(|message| message.ps.clone())
+                    .map(|message| message.name())
                     .collect()
             })
             .collect();

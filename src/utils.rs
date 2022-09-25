@@ -1,4 +1,3 @@
-use crate::spider::Information;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::{
@@ -18,6 +17,7 @@ fn create_storage_before() {
     let home = env::var("HOME").unwrap();
     fs::create_dir_all(home + "/.config/tv2ray").unwrap();
 }
+
 pub fn create_json_file(save: Save, input: String) -> Result<()> {
     let home = env::var("HOME").unwrap();
     let location = match save {
@@ -82,7 +82,7 @@ pub fn get_subs() -> Vec<String> {
         .map(|aurl| aurl.url.clone())
         .collect()
 }
-pub fn start() -> Vec<Vec<Information>> {
+pub fn start() -> Vec<Vec<v2raylinks::Links>> {
     create_storage_before();
     let messages = match get_json(Save::Storage) {
         Ok(output) => output,

@@ -1,7 +1,7 @@
 use super::app::*;
 use super::render::ui;
 use super::state::subscribe_state;
-use crate::spider;
+//use crate::spider;
 use crate::state::{MyBackend, IFEXIT};
 use std::io;
 use tokio::sync::mpsc::Receiver;
@@ -18,15 +18,9 @@ pub(super) enum InputMode {
 }
 /// App holds the state of the application
 pub struct AppSub {
-    /// Current value of the input box
-    // search bar
     pub input: String,
-    // settings , include coresetting and subscribe setting
     pub settings_input: Vec<String>,
-    /// Current input mode
     pub(super) input_mode: InputMode,
-    // History of recorded subs
-    // subs's names
     pub subs: Vec<Vec<String>>,
     pub subsindex: usize,
     pub state: Vec<ListState>,
@@ -35,9 +29,9 @@ pub struct AppSub {
     pub stateoflist: bool,
     pub show_popup: bool,
     // subscribes's information
-    pub informations: Vec<Vec<spider::Information>>,
+    pub informations: Vec<Vec<v2raylinks::Links>>,
     pub subscription: Vec<String>,
-    pub receiver: Option<Receiver<reqwest::Result<Vec<Vec<String>>>>>,
+    pub receiver: Option<Receiver<reqwest::Result<Vec<Vec<v2raylinks::Links>>>>>,
     pub popinfomation: String,
     pub(super) popupcolor: Color,
 }

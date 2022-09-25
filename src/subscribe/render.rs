@@ -110,7 +110,7 @@ pub(super) fn ui<B: Backend>(f: &mut Frame<B>, app: &mut AppSub) {
     f.render_stateful_widget(subs, bottom_chunks[0], &mut app.state[app.subsindex]);
     //let block : Box<dyn Widget> = {
     if let Some(a) = app.state[app.subsindex].selected() {
-        let list = app.informations[app.subsindex][a].information_to_list();
+        let list = app.informations[app.subsindex][a].infomation();
         let messages: Vec<ListItem> = list
             .iter()
             .map(|infom| {
@@ -131,9 +131,6 @@ pub(super) fn ui<B: Backend>(f: &mut Frame<B>, app: &mut AppSub) {
     //f.render_widget(*block, bottom_chunks[0]);
 
     if app.show_popup {
-        //let block = Block::default().title("About port").borders(Borders::ALL);
-
-        //f.render_widget(input, chunks[1]);
         let area = centered_rect(80, 50, f.size());
 
         let chunk = Layout::default()

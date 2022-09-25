@@ -16,3 +16,7 @@ pub static UTF8UNIT: Lazy<regex::Regex> =
     Lazy::new(|| regex::Regex::new(r"%([\da-fA-F]{2})").unwrap());
 #[allow(dead_code)]
 pub static SSTIP: Lazy<regex::Regex> = Lazy::new(|| regex::Regex::new(r"%[\da-zA-Z]{2}+").unwrap());
+
+pub static BASELINK : Lazy<regex::Regex> = 
+    Lazy::new(|| regex::Regex::new(r"([^\n^\r]+://[^\n^\r]+)").unwrap());
+

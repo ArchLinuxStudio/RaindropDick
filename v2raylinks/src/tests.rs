@@ -138,3 +138,12 @@ fn tst_decodevmess() {
     assert_eq!("Steingate", temp.ps);
     assert_eq!("13915", temp.port);
 }
+#[test]
+fn tst_baselink() {
+    assert!(BASELINK.is_match("ss://1234"));
+    let links = include_str!("../assert/decodekeys.txt");
+    let _links = BASELINK
+        .captures_iter(links)
+        .map(|unit| Links::new(unit.get(1).unwrap().as_str()))
+        .collect::<Vec<Links>>();
+}
