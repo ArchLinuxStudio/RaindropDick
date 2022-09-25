@@ -1,8 +1,7 @@
 //extern crate base64;
-use v2raylinks::*;
 use reqwest::Result;
 use serde::{Deserialize, Serialize};
-use serde_json::Value;
+use v2raylinks::*;
 pub fn ascii_to_char(code: u8) -> char {
     std::char::from_u32(code as u32).unwrap_or('_')
 }
@@ -26,13 +25,7 @@ fn ascii_to_string(code: Vec<u8>) -> Vec<String> {
     test
 }
 
-fn ascii_to_string2(code: Vec<u8>) -> String {
-    let mut test: String = String::new();
-    for cor in code.into_iter() {
-        test.push(ascii_to_char(cor));
-    }
-    test
-}
+
 pub async fn get_the_key(paths: Vec<String>) -> Result<Vec<Vec<String>>> {
     let mut output: Vec<Vec<String>> = vec![];
     for apath in paths {
@@ -53,10 +46,7 @@ pub fn remove_quotation(input: String) -> String {
     let length = input.len();
     (&input[1..length - 1]).to_string()
 }
-enum Tcp {
-    Ss,
-    V2,
-}
+
 #[derive(Clone, Serialize, Deserialize)]
 pub struct Information {
     pub func: String,
@@ -476,92 +466,35 @@ impl Information {
     }
     // TODO use regex
     pub fn new(url: String) -> Self {
-        let url_type = {
-            if SSLINK.is_match(&url) {
-                Tcp::Ss
-            } else if VMESSLINK.is_match(&url) {
-                Tcp::V2
-            } else {
-                Tcp::V2
-            }
-        };
-        match url_type {
-            Tcp::Ss => {
-                // 预处理，去除ss://
-                let newurl = SSLINK.captures(&url).unwrap().get(1).unwrap().as_str();
-                // 用@分割字符串
-                let first: Vec<&str> = newurl.split('@').collect();
-                // 传来的节点补全最后一位解析
-                let header = first[0].to_string() + "=";
-                // 解析，解析结果会返回一个function和密码，中间通过分号分割
-                let header2 = ascii_to_string2(base64::decode(header.as_bytes()).unwrap());
-                // 通过分号切开两个内容
-                let header3: Vec<&str> = header2.split(':').collect();
-                let net = header3[0].to_string();
-                let id = header3[1].to_string();
-
-                let first_temp = first[1].to_string();
-                let second: Vec<&str> = first_temp.split('#').collect();
-                let ps0 = urlencoding::decode(second[1]).unwrap();
-                let ps = format!("{}", ps0);
-
-                let second_temp = second[0].to_string();
-                let third: Vec<&str> = second_temp.split(':').collect();
-                let add = third[0].to_string();
-                let port = third[1].to_string();
-                Information {
-                    urls: url,
-                    func: "ss".to_string(),
-                    add,
-                    aid: "unknown".to_string(),
-                    host: "".to_string(),
-                    id,
-                    net,
-                    path: "unknown".to_string(),
-                    port,
-                    ps,
-                    tls: "unknown".to_string(),
-                    typpe: "unknown".to_string(),
-                }
-            }
-            Tcp::V2 => {
-                let newurl = VMESSLINK.captures(&url).unwrap().get(1).unwrap().as_str();
-                let json = ascii_to_string2(base64::decode(newurl.to_string().as_bytes()).unwrap());
-                let v: serde_json::Result<Value> = serde_json::from_str(json.as_str());
-                match v {
-                    Ok(input) => {
-                        Information {
-                            //company : input["add"].to_string(),
-                            urls: url,
-                            func: "vmess".to_string(),
-                            add: remove_quotation(input["add"].to_string()),
-                            aid: remove_quotation(input["aid"].to_string()),
-                            host: remove_quotation(input["host"].to_string()),
-                            id: remove_quotation(input["id"].to_string()),
-                            net: remove_quotation(input["net"].to_string()),
-                            path: remove_quotation(input["path"].to_string()),
-                            port: remove_quotation(input["port"].to_string()),
-                            ps: remove_quotation(input["ps"].to_string()),
-                            tls: remove_quotation(input["tls"].to_string()),
-                            typpe: remove_quotation(input["type"].to_string()),
-                        }
-                    }
-                    Err(_) => Information {
-                        urls: url,
-                        func: "vmess".to_string(),
-                        add: "unknown".to_string(),
-                        aid: "unknown".to_string(),
-                        host: "unknown".to_string(),
-                        id: "unknown".to_string(),
-                        net: "unknown".to_string(),
-                        path: "unknown".to_string(),
-                        port: "unknown".to_string(),
-                        ps: "unknown".to_string(),
-                        tls: "unknown".to_string(),
-                        typpe: "unknown".to_string(),
-                    },
-                }
-            }
+        match Links::new(&url) {
+            Links::SS(ss) => Information {
+                func: "ss".to_string(),
+                urls: url,
+                add: ss.method.clone(),
+                aid: "".to_string(),
+                host: ss.ip.clone(),
+                id: "".to_string(),
+                net: "".to_string(),
+                path: "".to_string(),
+                port: ss.port,
+                ps: ss.linkname,
+                tls: "".to_string(),
+                typpe: "".to_string(),
+            },
+            Links::VMESS(vmess) => Information {
+                func: "vmess".to_string(),
+                urls: url,
+                add: vmess.add,
+                aid: vmess.aid,
+                host: vmess.host,
+                id: vmess.id,
+                net: vmess.net,
+                path: vmess.path,
+                port: vmess.port,
+                ps: vmess.ps,
+                tls: vmess.tls,
+                typpe: vmess.vmtype,
+            },
         }
     }
 }
