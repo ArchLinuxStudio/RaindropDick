@@ -21,5 +21,5 @@ pub async fn get_the_links(paths: Vec<String>) -> Result<Vec<Vec<Links>>> {
 
 pub fn remove_quotation(input: String) -> String {
     let length = input.len();
-    (&input[1..length - 1]).to_string()
+    (input[1..length - 1]).to_string()
 }

@@ -10,7 +10,7 @@ pub trait V2rayRun {
     fn infomation(&self) -> Vec<String>;
 }
 
-#[derive(Deserialize, Debug, Serialize,Clone)]
+#[derive(Deserialize, Debug, Serialize, Clone)]
 pub enum Links {
     VMESS(Vmess),
     SS(SS),
@@ -81,7 +81,7 @@ impl Links {
     }
 }
 
-#[derive(Clone,Deserialize, Debug, PartialEq, Serialize)]
+#[derive(Clone, Deserialize, Debug, PartialEq, Eq, Serialize)]
 pub struct Vmess {
     pub v: String,
     pub ps: String,
@@ -97,7 +97,7 @@ pub struct Vmess {
     pub tls: String,
     pub sni: Option<String>,
 }
-#[derive(Clone, Deserialize, Debug, PartialEq, Serialize)]
+#[derive(Clone, Deserialize, Debug, PartialEq, Eq, Serialize)]
 pub struct SS {
     pub method: String,
     pub passward: String,
