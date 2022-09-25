@@ -4,7 +4,8 @@ use super::utils;
 use super::{Page, IFEXIT};
 use crossterm::event::{self, Event, KeyCode};
 use serde_json::json;
-use std::{env, io, process::Command};
+//use std::{env, io, process::Command};
+use std::io;
 use tui::style::Color;
 use tui::widgets::ListState;
 pub(super) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
@@ -103,32 +104,32 @@ pub(super) async fn subscribe_state(app: &mut AppSub) -> io::Result<IFEXIT> {
                             app.unselect();
                             app.input_mode = InputMode::Normal;
                         }
-                        KeyCode::F(5) => {
-                            if let Some(index) = app.state[app.subsindex].selected() {
-                                let home = env::var("HOME").unwrap();
-                                utils::create_json_file(
-                                    utils::Save::Running,
-                                    app.informations[app.subsindex][index]
-                                        .clone()
-                                        .running_json(),
-                                )
-                                .unwrap_or_else(|err| panic!("err {}", err));
-                                Command::new("pkill")
-                                    .arg("v2ray")
-                                    .output()
-                                    .unwrap_or_else(|e| panic!("failed to execute process: {}", e));
-                                Command::new("nohup")
-                                    .arg(app.settings_input[0].clone())
-                                    .arg("-config")
-                                    .arg(home.clone() + "/.config/tv2ray/running.json")
-                                    .arg(">")
-                                    .arg(home + "/.config/tv2ray/test.log")
-                                    .arg("2>&1")
-                                    .arg("&")
-                                    .spawn()
-                                    .expect("failed");
-                            }
-                        }
+                        //KeyCode::F(5) => {
+                        //    if let Some(index) = app.state[app.subsindex].selected() {
+                        //        let home = env::var("HOME").unwrap();
+                        //        utils::create_json_file(
+                        //            utils::Save::Running,
+                        //            app.informations[app.subsindex][index]
+                        //                .clone()
+                        //                .running_json(),
+                        //        )
+                        //        .unwrap_or_else(|err| panic!("err {}", err));
+                        //        Command::new("pkill")
+                        //            .arg("v2ray")
+                        //            .output()
+                        //            .unwrap_or_else(|e| panic!("failed to execute process: {}", e));
+                        //        Command::new("nohup")
+                        //            .arg(app.settings_input[0].clone())
+                        //            .arg("-config")
+                        //            .arg(home.clone() + "/.config/tv2ray/running.json")
+                        //            .arg(">")
+                        //            .arg(home + "/.config/tv2ray/test.log")
+                        //            .arg("2>&1")
+                        //            .arg("&")
+                        //            .spawn()
+                        //            .expect("failed");
+                        //    }
+                        //}
                         _ => {}
                     }
                 } else {

@@ -7,6 +7,7 @@ use std::{
     io::{prelude::*, Result},
     path::Path,
 };
+#[allow(dead_code)]
 pub enum Save {
     Storage,
     Running,

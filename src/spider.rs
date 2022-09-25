@@ -73,350 +73,350 @@ impl Information {
         output.push(format!("name: {}", self.ps));
         output
     }
-    pub fn running_json(&self) -> String {
-        if self.func == *"vmess" {
-            format!(
-                "{{
-    \"inbounds\":[{{
-        \"port\":8889,
-        \"listen\":\"127.0.0.1\",
-        \"protocol\":\"http\",
-        \"settings\":{{
-            \"udp\": true
-        }}
-    }}],
-    \"outbounds\":[{{
-        \"protocol\":\"{}\",
-        \"sendThrough\": \"0.0.0.0\",
-        \"settings\":{{
-            \"vnext\": [{{
-                \"address\": \"{}\",
-                \"port\":{},
-                \"users\":[{{
-                    \"alterId\": {},
-                    \"id\":\"{}\"
-                }}]
-            }}]
-        }},
-        \"streamSettings\":{{
-            \"dsSettings\": {{
-                \"path\": \"{}\"
-            }},
-            \"httpSettings\":{{
-                \"host\": [
-                ],
-                \"path\":\"{}\"
-            }},
-            \"kcpSettings\": {{
-                \"congestion\": false,
-                \"downlinkCapacity\":20,
-                \"header\": {{
-                    \"type\": \"none\"
-                }},
-                \"mtu\": 1350,
-                \"readBufferSize\": 1,
-                \"tti\": 20,
-                \"uplinkCapacity\": 5,
-                \"writeBufferSize\": 1
-            }},
-            \"network\": \"{}\",
-            \"quicSettings\":{{
-                \"header\": {{
-                    \"type\":\"none\"
-                }},
-                \"key\": \"\",
-                \"security\":\"\"
-            }},
-            \"security\":\"none\",
-            \"sockopt\":{{
-                \"mark\": 255,
-                \"tcpFastOpen\": false,
-                \"tproxy\": \"off\"
-            }},
-            \"tcpSettings\": {{
-                \"header\": {{
-                    \"request\" :{{
-                        \"headers\":{{
-                        }},
-                        \"method\": \"GET\",
-                        \"path\":[
-                        ],
-                        \"version\":\"1.1\"
-                    }},
-                    \"type\": \"none\"
-                }}
-            }},
-            \"tlsSettings\": {{
-                \"allowInsecure\": true,
-                \"allowInsecureCiphers\": true,
-                \"alpn\":[
-                ],
-                \"certificates\":[
-                ],
-                \"disableSessionResumption\":true,
-                \"disableSystemRoot\":true,
-                \"serveName\": \"\"
-            }},
-            \"wsSettings\" :{{
-                \"headers\" :{{
-                }},
-                \"path\":\"{}\"
-            }},
-            \"xtlsSettings\":{{
-                \"allowInsecure\":true,
-                \"allowInsecureCiphers\":true,
-                \"alpn\":[
-                ],
-                \"certificates\":[
-                ],
-                \"disableSessionResumption\": false,
-                \"disableSystemRoot\": true,
-                \"serveName\":\"\"
-            }},
-            \"tag\":\"outBound_PROXY\"
-        }}
-    }},
-    {{
-        \"protocol\":\"freedom\",
-        \"tag\": \"direct\",
-        \"settings\":{{}}
-    }}],
-    \"routing\": {{
-        \"domainStrategy\": \"IPOnDemand\",
-        \"rules\":[{{
-            \"type\":\"field\",
-            \"ip\":[\"geoip:private\"],
-            \"outboundTag\": \"direct\"
-        }}]
-    }}
-}}",
-                self.func,
-                self.add,
-                self.port,
-                self.aid,
-                self.id,
-                self.path,
-                self.path,
-                self.net,
-                self.path
-            )
-        } else {
-            format!(
-                "{{
-    \"api\":{{
-        \"service\":[
-            \"HandlerService\",
-            \"LoggerService\",
-            \"StatsService\"
-            ],
-        \"tag\": \"_QV2RAY_API_\"
-    }},
-    \"dns\":{{
-        \"service\":[
-            \"1.1.1.1\",
-            \"8.8.8.8\",
-            \"8.8.4.4\"
-        ]
-    }},
-    \"inbounds\":[
-        {{
-            \"listen\":\"127.0.0.1\",
-            \"protocol\": \"dokodemo-door\",
-            \"port\": 15490,
-            \"settings\":{{
-                \"address\":\"127.0.0.1\"
-            }},
-            \"sniffing\":{{
-            }}
-        }},
-        {{
-            \"listen\":\"127.0.0.1\",
-            \"port\": 8889,
-            \"protocol\":\"http\",
-            \"settings\":{{
-                \"allowTransparent\":true,
-                \"timeout\": 300,
-                \"userLevel\":0
-            }},
-            \"sniffing\":{{
-                \"enabled\":false
-            }},
-            \"tag\":\"http_IN\"
-        }},
-        {{
-            \"listen\": \"127.0.0.1\",
-            \"port\": 1089,
-            \"protocol\": \"socks\",
-            \"settings\" :{{
-                \"auth\": \"noauth\",
-                \"ip\": \"127.0.0.1\",
-                \"udp\": true,
-                \"userLevel\": 0
-            }},
-            \"sniffing\":{{
-                \"enabled\":false
-            }},
-            \"tag\": \"socks_IN\"
-        }},
-        {{
-            \"listen\": \"127.0.0.1\",
-            \"port\": 12345,
-            \"protocol\" : \"dokodemo-door\",
-            \"settings\":{{
-                \"address\":\"\",
-                \"followRediect\": true,
-                \"network\": \"tcp\",
-                \"port\":0,
-                \"timeout\":0,
-                \"userLevel\":0
-            }},
-            \"sniffing\":{{
-                \"destOverride\":[
-                    \"http\",
-                    \"tls\"
-                ],
-                \"enabled\": true
-            }},
-            \"streamSettings\":{{
-                \"sockopt\":{{
-                    \"tproxy\": \"tproxy\"
-                }}
-            }},
-            \"tag\": \"tproxy_IN\"
-        }},
-        {{
-            \"listen\": \"::1\",
-            \"port\": 12345,
-            \"protocol\": \"dokodemo-door\",
-            \"settings\": {{
-                \"address\": \"\",
-                \"followRediect\": true,
-                \"network\": \"tcp\",
-                \"port\": 0,
-                \"timeout\": 0,
-                \"userLevel\": 0
-            }},
-            \"sniffing\": {{
-                \"destOverride\": [
-                    \"http\",
-                    \"tls\"
-                ],
-                \"enabled\": true
-            }},
-            \"streamSettings\": {{
-                \"sockopt\": {{
-                    \"tproxy\": \"tproxy\"
-                }}
-            }},
-            \"tag\": \"tproxy_IN_V6\"
-        }}
-    ],
-    \"log\": {{
-        \"loglevel\": \"warning\"
-    }},
-    \"outbounds\":[
-        {{
-            \"protocol\": \"shadowsocks\",
-            \"sendThrough\": \"0.0.0.0\",
-            \"settings\": {{
-                \"servers\" :[
-                    {{
-                        \"address\":\"{}\",
-                        \"email\": \"\",
-                        \"level\": 0,
-                        \"method\": \"{}\",
-                        \"ota\":false,
-                        \"password\":\"{}\",
-                        \"port\":{}
-                    }}
-                ]
-            }},
-            \"streamSettings\": {{
-                \"sockopt\":{{
-                    \"mark\": 255
-                }}
-            }},
-            \"tag\": \"outBound_PROXY\"
-        }},
-        {{
-            \"protocol\": \"freedom\",
-            \"sendThrough\": \"0.0.0.0\",
-            \"settings\": {{
-                \"domainStrategy\": \"AsIs\",
-                \"redirect\": \":0\",
-                \"userLevel\": 0
-            }},
-            \"streamSettings\": {{
-                \"sockopt\": {{
-                    \"mark\": 255
-                }}
-            }},
-            \"tag\": \"outBound_DIRECT\"
-        }},
-        {{
-            \"protocol\": \"blackhole\",
-            \"sendThrough\": \"0.0.0.0\",
-            \"settings\": {{
-                \"response\": {{
-                    \"type\": \"none\"
-                }}
-            }},
-            \"streamSettings\": {{
-                \"sockopt\": {{
-                    \"mark\": 255
-                }}
-            }},
-            \"tag\": \"outBound_BLACKHOLE\"
-        }}
-    ],
-    \"policy\": {{
-        \"system\": {{
-            \"statsInboundDownlink\": true,
-            \"statsInboundUplink\": true,
-            \"statsOutboundDownlink\": true,
-            \"statsOutboundUplink\": true
-        }}
-    }},
-    \"routing\": {{
-        \"domainStrategy\": \"AsIs\",
-        \"rules\": [
-            {{
-                \"inboundTag\": [
-                    \"_QV2RAY_API_INBOUND_\"
-                ],
-                \"outboundTag\": \"_QV2RAY_API_\",
-                \"type\": \"field\"
-            }},
-            {{
-                \"ip\": [
-                    \"geoip:private\"
-                ],
-                \"outboundTag\": \"outBound_DIRECT\",
-                \"type\": \"field\"
-            }},
-            {{
-                \"ip\": [
-                    \"geoip:cn\"
-                ],
-                \"outboundTag\": \"outBound_DIRECT\",
-                \"type\": \"field\"
-            }},
-            {{
-                \"domain\": [
-                    \"geosite:cn\"
-                ],
-                \"outboundTag\": \"outBound_DIRECT\",
-                \"type\": \"field\"
-            }}
-        ]
-    }},
-    \"stats\": {{
-    }}
-}}",
-                self.add, self.net, self.id, self.port
-            )
-        }
-    }
+//    pub fn running_json(&self) -> String {
+//        if self.func == *"vmess" {
+//            format!(
+//                "{{
+//    \"inbounds\":[{{
+//        \"port\":8889,
+//        \"listen\":\"127.0.0.1\",
+//        \"protocol\":\"http\",
+//        \"settings\":{{
+//            \"udp\": true
+//        }}
+//    }}],
+//    \"outbounds\":[{{
+//        \"protocol\":\"{}\",
+//        \"sendThrough\": \"0.0.0.0\",
+//        \"settings\":{{
+//            \"vnext\": [{{
+//                \"address\": \"{}\",
+//                \"port\":{},
+//                \"users\":[{{
+//                    \"alterId\": {},
+//                    \"id\":\"{}\"
+//                }}]
+//            }}]
+//        }},
+//        \"streamSettings\":{{
+//            \"dsSettings\": {{
+//                \"path\": \"{}\"
+//            }},
+//            \"httpSettings\":{{
+//                \"host\": [
+//                ],
+//                \"path\":\"{}\"
+//            }},
+//            \"kcpSettings\": {{
+//                \"congestion\": false,
+//                \"downlinkCapacity\":20,
+//                \"header\": {{
+//                    \"type\": \"none\"
+//                }},
+//                \"mtu\": 1350,
+//                \"readBufferSize\": 1,
+//                \"tti\": 20,
+//                \"uplinkCapacity\": 5,
+//                \"writeBufferSize\": 1
+//            }},
+//            \"network\": \"{}\",
+//            \"quicSettings\":{{
+//                \"header\": {{
+//                    \"type\":\"none\"
+//                }},
+//                \"key\": \"\",
+//                \"security\":\"\"
+//            }},
+//            \"security\":\"none\",
+//            \"sockopt\":{{
+//                \"mark\": 255,
+//                \"tcpFastOpen\": false,
+//                \"tproxy\": \"off\"
+//            }},
+//            \"tcpSettings\": {{
+//                \"header\": {{
+//                    \"request\" :{{
+//                        \"headers\":{{
+//                        }},
+//                        \"method\": \"GET\",
+//                        \"path\":[
+//                        ],
+//                        \"version\":\"1.1\"
+//                    }},
+//                    \"type\": \"none\"
+//                }}
+//            }},
+//            \"tlsSettings\": {{
+//                \"allowInsecure\": true,
+//                \"allowInsecureCiphers\": true,
+//                \"alpn\":[
+//                ],
+//                \"certificates\":[
+//                ],
+//                \"disableSessionResumption\":true,
+//                \"disableSystemRoot\":true,
+//                \"serveName\": \"\"
+//            }},
+//            \"wsSettings\" :{{
+//                \"headers\" :{{
+//                }},
+//                \"path\":\"{}\"
+//            }},
+//            \"xtlsSettings\":{{
+//                \"allowInsecure\":true,
+//                \"allowInsecureCiphers\":true,
+//                \"alpn\":[
+//                ],
+//                \"certificates\":[
+//                ],
+//                \"disableSessionResumption\": false,
+//                \"disableSystemRoot\": true,
+//                \"serveName\":\"\"
+//            }},
+//            \"tag\":\"outBound_PROXY\"
+//        }}
+//    }},
+//    {{
+//        \"protocol\":\"freedom\",
+//        \"tag\": \"direct\",
+//        \"settings\":{{}}
+//    }}],
+//    \"routing\": {{
+//        \"domainStrategy\": \"IPOnDemand\",
+//        \"rules\":[{{
+//            \"type\":\"field\",
+//            \"ip\":[\"geoip:private\"],
+//            \"outboundTag\": \"direct\"
+//        }}]
+//    }}
+//}}",
+//                self.func,
+//                self.add,
+//                self.port,
+//                self.aid,
+//                self.id,
+//                self.path,
+//                self.path,
+//                self.net,
+//                self.path
+//            )
+//        } else {
+//            format!(
+//                "{{
+//    \"api\":{{
+//        \"service\":[
+//            \"HandlerService\",
+//            \"LoggerService\",
+//            \"StatsService\"
+//            ],
+//        \"tag\": \"_QV2RAY_API_\"
+//    }},
+//    \"dns\":{{
+//        \"service\":[
+//            \"1.1.1.1\",
+//            \"8.8.8.8\",
+//            \"8.8.4.4\"
+//        ]
+//    }},
+//    \"inbounds\":[
+//        {{
+//            \"listen\":\"127.0.0.1\",
+//            \"protocol\": \"dokodemo-door\",
+//            \"port\": 15490,
+//            \"settings\":{{
+//                \"address\":\"127.0.0.1\"
+//            }},
+//            \"sniffing\":{{
+//            }}
+//        }},
+//        {{
+//            \"listen\":\"127.0.0.1\",
+//            \"port\": 8889,
+//            \"protocol\":\"http\",
+//            \"settings\":{{
+//                \"allowTransparent\":true,
+//                \"timeout\": 300,
+//                \"userLevel\":0
+//            }},
+//            \"sniffing\":{{
+//                \"enabled\":false
+//            }},
+//            \"tag\":\"http_IN\"
+//        }},
+//        {{
+//            \"listen\": \"127.0.0.1\",
+//            \"port\": 1089,
+//            \"protocol\": \"socks\",
+//            \"settings\" :{{
+//                \"auth\": \"noauth\",
+//                \"ip\": \"127.0.0.1\",
+//                \"udp\": true,
+//                \"userLevel\": 0
+//            }},
+//            \"sniffing\":{{
+//                \"enabled\":false
+//            }},
+//            \"tag\": \"socks_IN\"
+//        }},
+//        {{
+//            \"listen\": \"127.0.0.1\",
+//            \"port\": 12345,
+//            \"protocol\" : \"dokodemo-door\",
+//            \"settings\":{{
+//                \"address\":\"\",
+//                \"followRediect\": true,
+//                \"network\": \"tcp\",
+//                \"port\":0,
+//                \"timeout\":0,
+//                \"userLevel\":0
+//            }},
+//            \"sniffing\":{{
+//                \"destOverride\":[
+//                    \"http\",
+//                    \"tls\"
+//                ],
+//                \"enabled\": true
+//            }},
+//            \"streamSettings\":{{
+//                \"sockopt\":{{
+//                    \"tproxy\": \"tproxy\"
+//                }}
+//            }},
+//            \"tag\": \"tproxy_IN\"
+//        }},
+//        {{
+//            \"listen\": \"::1\",
+//            \"port\": 12345,
+//            \"protocol\": \"dokodemo-door\",
+//            \"settings\": {{
+//                \"address\": \"\",
+//                \"followRediect\": true,
+//                \"network\": \"tcp\",
+//                \"port\": 0,
+//                \"timeout\": 0,
+//                \"userLevel\": 0
+//            }},
+//            \"sniffing\": {{
+//                \"destOverride\": [
+//                    \"http\",
+//                    \"tls\"
+//                ],
+//                \"enabled\": true
+//            }},
+//            \"streamSettings\": {{
+//                \"sockopt\": {{
+//                    \"tproxy\": \"tproxy\"
+//                }}
+//            }},
+//            \"tag\": \"tproxy_IN_V6\"
+//        }}
+//    ],
+//    \"log\": {{
+//        \"loglevel\": \"warning\"
+//    }},
+//    \"outbounds\":[
+//        {{
+//            \"protocol\": \"shadowsocks\",
+//            \"sendThrough\": \"0.0.0.0\",
+//            \"settings\": {{
+//                \"servers\" :[
+//                    {{
+//                        \"address\":\"{}\",
+//                        \"email\": \"\",
+//                        \"level\": 0,
+//                        \"method\": \"{}\",
+//                        \"ota\":false,
+//                        \"password\":\"{}\",
+//                        \"port\":{}
+//                    }}
+//                ]
+//            }},
+//            \"streamSettings\": {{
+//                \"sockopt\":{{
+//                    \"mark\": 255
+//                }}
+//            }},
+//            \"tag\": \"outBound_PROXY\"
+//        }},
+//        {{
+//            \"protocol\": \"freedom\",
+//            \"sendThrough\": \"0.0.0.0\",
+//            \"settings\": {{
+//                \"domainStrategy\": \"AsIs\",
+//                \"redirect\": \":0\",
+//                \"userLevel\": 0
+//            }},
+//            \"streamSettings\": {{
+//                \"sockopt\": {{
+//                    \"mark\": 255
+//                }}
+//            }},
+//            \"tag\": \"outBound_DIRECT\"
+//        }},
+//        {{
+//            \"protocol\": \"blackhole\",
+//            \"sendThrough\": \"0.0.0.0\",
+//            \"settings\": {{
+//                \"response\": {{
+//                    \"type\": \"none\"
+//                }}
+//            }},
+//            \"streamSettings\": {{
+//                \"sockopt\": {{
+//                    \"mark\": 255
+//                }}
+//            }},
+//            \"tag\": \"outBound_BLACKHOLE\"
+//        }}
+//    ],
+//    \"policy\": {{
+//        \"system\": {{
+//            \"statsInboundDownlink\": true,
+//            \"statsInboundUplink\": true,
+//            \"statsOutboundDownlink\": true,
+//            \"statsOutboundUplink\": true
+//        }}
+//    }},
+//    \"routing\": {{
+//        \"domainStrategy\": \"AsIs\",
+//        \"rules\": [
+//            {{
+//                \"inboundTag\": [
+//                    \"_QV2RAY_API_INBOUND_\"
+//                ],
+//                \"outboundTag\": \"_QV2RAY_API_\",
+//                \"type\": \"field\"
+//            }},
+//            {{
+//                \"ip\": [
+//                    \"geoip:private\"
+//                ],
+//                \"outboundTag\": \"outBound_DIRECT\",
+//                \"type\": \"field\"
+//            }},
+//            {{
+//                \"ip\": [
+//                    \"geoip:cn\"
+//                ],
+//                \"outboundTag\": \"outBound_DIRECT\",
+//                \"type\": \"field\"
+//            }},
+//            {{
+//                \"domain\": [
+//                    \"geosite:cn\"
+//                ],
+//                \"outboundTag\": \"outBound_DIRECT\",
+//                \"type\": \"field\"
+//            }}
+//        ]
+//    }},
+//    \"stats\": {{
+//    }}
+//}}",
+//                self.add, self.net, self.id, self.port
+//            )
+//        }
+//    }
     fn get_the_link(&self) -> String {
         let mut temp = String::new();
         if self.func == *"vmess" {
